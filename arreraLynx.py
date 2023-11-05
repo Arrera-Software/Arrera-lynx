@@ -8,6 +8,7 @@ class ArreraLynx :
         self.fichierLynx = fichierLynx
         self.fileNeuron = fichierNeuron
         #Variable 
+        self.windows = windows
         self.varGenre = StringVar(windows)
         color = self.fichierLynx.lectureJSON("color")
         textColor = self.fichierLynx.lectureJSON("textColor")
@@ -42,9 +43,9 @@ class ArreraLynx :
             Button(self.frameUserName,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passUserGenre),
             Button(self.frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passMeteo),
             Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passGPS),
-            Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
-            Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
-            Button(self.frameEnd,bg=color,fg=textColor,font=("arial","15"),text="Commencer à utiliser "+nomSoft)
+            Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passSoft),
+            Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passEnd),
+            Button(self.frameEnd,bg=color,fg=textColor,font=("arial","15"),text="Commencer à utiliser "+nomSoft,command=self._end)
         ]
         #frameUserName & frameUserGenre
         frameNameUser = Frame(self.frameUserName,bg=color)
@@ -68,7 +69,14 @@ class ArreraLynx :
         #frameGPS
         btnAdresseDomicile = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de domicile")
         btnAdresseTravail = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de Travail")
-
+        #frameSoft
+        btnWord = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Traitement de texte")
+        btnExel = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Tableau")
+        btnPresentation = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Presentation")
+        btnBrowser = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Navigateur")
+        btnNote = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Note")
+        btnMusic = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Musique")
+    
         #calcule affichage
         largeurFrame = self.frameAcceuil.winfo_reqwidth()
         hauteurFrame = self.frameAcceuil.winfo_reqheight()
@@ -103,6 +111,19 @@ class ArreraLynx :
         btnAdresseDomicile.place(x=15,y=((hauteurFrame-btnAdresseDomicile.winfo_reqheight())//2))
         btnAdresseTravail.place(x=(largeurFrame-btnAdresseTravail.winfo_reqwidth())-15,y=((hauteurFrame-btnAdresseTravail.winfo_reqheight())//2))
         btnSuivant[4].place(x=((largeurFrame-btnSuivant[4].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
+        #frameSoft
+        labelTitre[5].place(x=((largeurFrame-labelTitre[4].winfo_reqwidth())//2),y=0)
+        btnWord.place(x=15,y=100)
+        btnExel.place(x=(largeurFrame-btnExel.winfo_reqwidth()-15),y=100)
+        btnPresentation.place(x=15,y=200)
+        btnBrowser.place(x=(largeurFrame-btnBrowser.winfo_reqwidth()-15),y=200)
+        btnNote.place(x=15,y=300)
+        btnMusic.place(x=(largeurFrame-btnMusic.winfo_reqwidth()-15),y=300)
+        btnSuivant[5].place(x=((largeurFrame-btnSuivant[5].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
+        #frameEnd
+        labelTitre[6].place(x=((largeurFrame-labelTitre[6].winfo_reqwidth())//2),y=0)
+        btnSuivant[6].place(relx=0.5,rely=0.5,anchor="center")
+       
 
     def _clearView(self):
         self.frameAcceuil.pack_forget()
@@ -176,3 +197,14 @@ class ArreraLynx :
     def _passGPS(self):
         self._clearView()
         self.frameGPS.pack()
+
+    def _passSoft(self):
+        self._clearView()
+        self.frameSoft.pack()
+    
+    def _passEnd(self):
+        self._clearView()
+        self.frameEnd.pack()
+    
+    def _end(self):
+        self.windows.destroy()

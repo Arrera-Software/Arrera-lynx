@@ -23,6 +23,7 @@ class ArreraLynx :
         self.frameUserName = Frame(windows,width=700,height=500,bg=color)
         self.frameUserGenre = Frame(windows,width=700,height=500,bg=color)
         self.frameWeather = Frame(windows,width=700,height=500,bg=color)
+        self.frameAddWeather = Frame(windows,width=700,height=500,bg=color)
         self.frameGPS = Frame(windows,width=700,height=500,bg=color)
         self.frameSoft =  Frame(windows,width=700,height=500,bg=color)
         self.frameEnd =  Frame(windows,width=700,height=500,bg=color)
@@ -39,7 +40,7 @@ class ArreraLynx :
         btnSuivant = [
             Button(self.frameAcceuil,bg=color,fg=textColor,font=("arial","15"),text="Commencer",command=self._passUserName),
             Button(self.frameUserName,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passUserGenre),
-            Button(self.frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
+            Button(self.frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passMeteo),
             Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
             Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
             Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
@@ -54,9 +55,21 @@ class ArreraLynx :
             ]
         self.entryName = Entry(frameNameUser,font=("arial","15"),borderwidth=2,relief="solid")
         menuGenre = OptionMenu(frameGenreUser,self.varGenre,*listGenre)
+        #frameWeather
+        btnDomicile = Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Domicile",command=lambda : self._viewAddMeteo("domicile"))
+        btnTravail = Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Lien de travail",command=lambda : self._viewAddMeteo("travail"))
+        btnVille = Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter une ville",command=lambda : self._viewAddMeteo("ville"))
+        #frameAddWeather
+        self.labelTitreAdd = [Label(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Domicile"),
+                          Label(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ville"),
+                          Label(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Travail")]
+        self.entryVille = Entry(self.frameAddWeather,font=("arial","15"),borderwidth=2,relief="solid")
+        self.btnAdd = Button(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
+        
         #calcule affichage
         largeurFrame = self.frameAcceuil.winfo_reqwidth()
         hauteurFrame = self.frameAcceuil.winfo_reqheight()
+        
         #affichage
         #frameAcceuil
         labelTitre[0].place(x=((largeurFrame-labelTitre[0].winfo_reqwidth())//2),y=0)
@@ -73,12 +86,22 @@ class ArreraLynx :
         menuGenre.pack(side="left")
         btnSuivant[2].place(x=((largeurFrame-btnSuivant[2].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[1].winfo_reqheight()))
         frameGenreUser.place(relx=0.5,rely=0.5,anchor="center")
+        #frameWeather
+        labelTitre[3].place(x=((largeurFrame-labelTitre[3].winfo_reqwidth())//2),y=0)
+        btnDomicile.place(x=15,y=((hauteurFrame-btnDomicile.winfo_reqheight())//2))
+        btnVille.place(relx=0.5,rely=0.5,anchor="center")
+        btnTravail.place(x=((largeurFrame-btnTravail.winfo_reqwidth())-15),y=((hauteurFrame-btnTravail.winfo_reqheight())//2))
+        btnSuivant[3].place(x=((largeurFrame-btnSuivant[3].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[1].winfo_reqheight()))
+        #frameAddWeather
+        self.entryVille.place(relx=0.5,rely=0.5,anchor="center")
+        self.btnAdd.place(x=((largeurFrame-self.btnAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.btnAdd.winfo_reqheight()))
 
     def _clearView(self):
         self.frameAcceuil.pack_forget()
         self.frameUserName.pack_forget()
         self.frameUserGenre.pack_forget()
         self.frameWeather.pack_forget()
+        self.frameAddWeather.pack_forget()
         self.frameGPS.pack_forget()
         self.frameSoft.pack_forget()
         self.frameEnd.pack_forget()
@@ -98,3 +121,46 @@ class ArreraLynx :
         else :
             messagebox.showerror("Erreur","Veuillez entrer un nom d'utilisateur avant de continuer")
     
+    def _activeFrameWeather(self):
+        self._clearView()
+        self.frameWeather.pack()
+
+    def _passMeteo(self):
+        if self.varGenre.get():
+            self._activeFrameWeather()
+            self.fileNeuron.EcritureJSON("genre",self.varGenre.get())
+        else :
+           messagebox.showerror("Erreur","Veuillez entrer selectionner un genre avant de continuer") 
+    
+    def _viewAddMeteo(self,mode):
+        self._clearView()
+        self.entryVille.delete("0",END)
+        self.frameAddWeather.pack()
+        if mode == "domicile" :
+            self.labelTitreAdd[0].place(x=((self.frameAcceuil.winfo_reqwidth()-self.labelTitreAdd[0].winfo_reqwidth())//2),y=0)
+            self.btnAdd.configure(command=lambda : self._addMeteo(mode))
+        else :
+            if mode == "travail" :
+                self.labelTitreAdd[2].place(x=((self.frameAcceuil.winfo_reqwidth()-self.labelTitreAdd[2].winfo_reqwidth())//2),y=0)
+                self.btnAdd.configure(command=lambda : self._addMeteo(mode))
+            else :
+                if mode == "ville" :
+                    self.labelTitreAdd[1].place(x=((self.frameAcceuil.winfo_reqwidth()-self.labelTitreAdd[1].winfo_reqwidth())//2),y=0)
+                    self.btnAdd.configure(command=lambda : self._addMeteo(mode))
+        
+    
+    def _addMeteo(self,mode):
+        valeur = self.entryVille.get()
+        if valeur:
+            if mode == "domicile" :
+                self.fileNeuron.EcritureJSON("lieuDomicile",valeur)
+            else :
+                if mode == "travail" :
+                    self.fileNeuron.EcritureJSON("lieuTravail",valeur)  
+                else :
+                    if mode == "ville" :
+                        self.fileNeuron.EcritureJSONList("listVille",valeur) 
+            self._activeFrameWeather()
+        else :
+            self._activeFrameWeather()
+            messagebox.showerror("Erreur","Aucun ville n'a été marquer dans la zone de texte")

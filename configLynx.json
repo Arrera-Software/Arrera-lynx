@@ -1,1 +1,7 @@
-{}
+{
+    "color":"white",
+    "textColor":"black",
+    "nameSoft":"Six",
+    "iconSoft":"asset/Ryley.png",
+    "listGenre":["monsieur","madame","maitre","maitresse"]
+}

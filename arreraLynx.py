@@ -41,7 +41,7 @@ class ArreraLynx :
             Button(self.frameAcceuil,bg=color,fg=textColor,font=("arial","15"),text="Commencer",command=self._passUserName),
             Button(self.frameUserName,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passUserGenre),
             Button(self.frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passMeteo),
-            Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
+            Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passGPS),
             Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
             Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant"),
             Button(self.frameEnd,bg=color,fg=textColor,font=("arial","15"),text="Commencer à utiliser "+nomSoft)
@@ -65,7 +65,10 @@ class ArreraLynx :
                           Label(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Travail")]
         self.entryVille = Entry(self.frameAddWeather,font=("arial","15"),borderwidth=2,relief="solid")
         self.btnAdd = Button(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
-        
+        #frameGPS
+        btnAdresseDomicile = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de domicile")
+        btnAdresseTravail = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de Travail")
+
         #calcule affichage
         largeurFrame = self.frameAcceuil.winfo_reqwidth()
         hauteurFrame = self.frameAcceuil.winfo_reqheight()
@@ -84,17 +87,22 @@ class ArreraLynx :
         labelTitre[2].place(x=((largeurFrame-labelTitre[2].winfo_reqwidth())//2),y=0)
         labelIndicationUser[1].pack(side="left")
         menuGenre.pack(side="left")
-        btnSuivant[2].place(x=((largeurFrame-btnSuivant[2].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[1].winfo_reqheight()))
+        btnSuivant[2].place(x=((largeurFrame-btnSuivant[2].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[2].winfo_reqheight()))
         frameGenreUser.place(relx=0.5,rely=0.5,anchor="center")
         #frameWeather
         labelTitre[3].place(x=((largeurFrame-labelTitre[3].winfo_reqwidth())//2),y=0)
         btnDomicile.place(x=15,y=((hauteurFrame-btnDomicile.winfo_reqheight())//2))
         btnVille.place(relx=0.5,rely=0.5,anchor="center")
         btnTravail.place(x=((largeurFrame-btnTravail.winfo_reqwidth())-15),y=((hauteurFrame-btnTravail.winfo_reqheight())//2))
-        btnSuivant[3].place(x=((largeurFrame-btnSuivant[3].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[1].winfo_reqheight()))
+        btnSuivant[3].place(x=((largeurFrame-btnSuivant[3].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[3].winfo_reqheight()))
         #frameAddWeather
         self.entryVille.place(relx=0.5,rely=0.5,anchor="center")
         self.btnAdd.place(x=((largeurFrame-self.btnAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.btnAdd.winfo_reqheight()))
+        #frameGPS
+        labelTitre[4].place(x=((largeurFrame-labelTitre[4].winfo_reqwidth())//2),y=0)
+        btnAdresseDomicile.place(x=15,y=((hauteurFrame-btnAdresseDomicile.winfo_reqheight())//2))
+        btnAdresseTravail.place(x=(largeurFrame-btnAdresseTravail.winfo_reqwidth())-15,y=((hauteurFrame-btnAdresseTravail.winfo_reqheight())//2))
+        btnSuivant[4].place(x=((largeurFrame-btnSuivant[4].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
 
     def _clearView(self):
         self.frameAcceuil.pack_forget()
@@ -164,3 +172,7 @@ class ArreraLynx :
         else :
             self._activeFrameWeather()
             messagebox.showerror("Erreur","Aucun ville n'a été marquer dans la zone de texte")
+    
+    def _passGPS(self):
+        self._clearView()
+        self.frameGPS.pack()

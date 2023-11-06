@@ -26,6 +26,7 @@ class ArreraLynx :
         self.frameWeather = Frame(windows,width=700,height=500,bg=color)
         self.frameAddWeather = Frame(windows,width=700,height=500,bg=color)
         self.frameGPS = Frame(windows,width=700,height=500,bg=color)
+        self.frameAddGPS = Frame(windows,width=700,height=500,bg=color)
         self.frameSoft =  Frame(windows,width=700,height=500,bg=color)
         self.frameEnd =  Frame(windows,width=700,height=500,bg=color)
         #widget 
@@ -67,8 +68,15 @@ class ArreraLynx :
         self.entryVille = Entry(self.frameAddWeather,font=("arial","15"),borderwidth=2,relief="solid")
         self.btnAdd = Button(self.frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
         #frameGPS
-        btnAdresseDomicile = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de domicile")
-        btnAdresseTravail = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de Travail")
+        btnAdresseDomicile = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de domicile",command=lambda :self._viewAddGPS("domicile"))
+        btnAdresseTravail = Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de Travail",command=lambda :self._viewAddGPS("travail"))
+        #frameAddGPS
+        self.labelTitreGPSAdd = [
+            Label(self.frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de votre domicile"),
+            Label(self.frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de votre lieu de travail")
+        ]
+        self.entryAdresse = Entry(self.frameAddGPS,font=("arial","15"),borderwidth=2,relief="solid")
+        self.btnGPSAdd = Button(self.frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
         #frameSoft
         btnWord = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Traitement de texte")
         btnExel = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Tableau")
@@ -111,6 +119,9 @@ class ArreraLynx :
         btnAdresseDomicile.place(x=15,y=((hauteurFrame-btnAdresseDomicile.winfo_reqheight())//2))
         btnAdresseTravail.place(x=(largeurFrame-btnAdresseTravail.winfo_reqwidth())-15,y=((hauteurFrame-btnAdresseTravail.winfo_reqheight())//2))
         btnSuivant[4].place(x=((largeurFrame-btnSuivant[4].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
+        #frameAddGPS
+        self.entryAdresse.place(relx=0.5,rely=0.5,anchor="center")
+        self.btnGPSAdd.place(x=((largeurFrame-self.btnGPSAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.btnGPSAdd.winfo_reqheight()))
         #frameSoft
         labelTitre[5].place(x=((largeurFrame-labelTitre[4].winfo_reqwidth())//2),y=0)
         btnWord.place(x=15,y=100)
@@ -132,6 +143,7 @@ class ArreraLynx :
         self.frameWeather.pack_forget()
         self.frameAddWeather.pack_forget()
         self.frameGPS.pack_forget()
+        self.frameAddGPS.pack_forget()
         self.frameSoft.pack_forget()
         self.frameEnd.pack_forget()
 
@@ -165,6 +177,9 @@ class ArreraLynx :
         self._clearView()
         self.entryVille.delete("0",END)
         self.frameAddWeather.pack()
+        self.labelTitreAdd[0].place_forget()
+        self.labelTitreAdd[1].place_forget()
+        self.labelTitreAdd[2].place_forget()
         if mode == "domicile" :
             self.labelTitreAdd[0].place(x=((self.frameAcceuil.winfo_reqwidth()-self.labelTitreAdd[0].winfo_reqwidth())//2),y=0)
             self.btnAdd.configure(command=lambda : self._addMeteo(mode))
@@ -197,7 +212,35 @@ class ArreraLynx :
     def _passGPS(self):
         self._clearView()
         self.frameGPS.pack()
+    
+    def _viewAddGPS(self,mode:str):
+        self._clearView()
+        self.frameAddGPS.pack()
+        self.entryAdresse.delete("0",END)
+        self.labelTitreGPSAdd[0].place_forget()
+        self.labelTitreGPSAdd[1].place_forget()
+        if mode == "domicile":
+            self.labelTitreGPSAdd[0].place(x=((self.frameAcceuil.winfo_reqwidth()-self.labelTitreGPSAdd[0].winfo_reqwidth())//2),y=0)
+            self.btnGPSAdd.configure(command=lambda : self._addGPS(mode))
+        else :
+            if mode == "travail" :
+                self.labelTitreGPSAdd[1].place(x=((self.frameAcceuil.winfo_reqwidth()-self.labelTitreGPSAdd[0].winfo_reqwidth())//2),y=0)
+                self.btnGPSAdd.configure(command=lambda : self._addGPS(mode))
 
+    def _addGPS(self,mode:str):
+        valeur = self.entryAdresse.get()
+        if valeur : 
+            if mode == "domicile":
+                self.fileNeuron.EcritureJSON("adresseDomicile",valeur)
+                self._passGPS()
+            else :
+                if mode == "travail" :
+                    self.fileNeuron.EcritureJSON("adresseTravail",valeur)
+                    self._passGPS()
+        else :
+            self._passGPS()
+            messagebox.showerror("Erreur","Aucun adresse n'a été marquer dans la zone de texte")
+   
     def _passSoft(self):
         self._clearView()
         self.frameSoft.pack()

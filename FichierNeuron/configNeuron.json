@@ -1,0 +1,24 @@
+{
+  "name": "Six",
+  "lang": "fr",
+  "nombreVilleMeteo": "0",
+  "lieuDomicile": "0",
+  "lieuTravail": "0",
+  "iconAssistant": "asset/logo.png",
+  "emplacementAssetHorloge": "asset/Sound/bip.mp3",
+  "interfaceColor": "#3c0f14",
+  "interfaceTextColor": "white",
+  "utilisationVous": "1",
+  "bute": "aider a utiliser son ordinateur de facon la plus optimiser et le plus rapidement",
+  "createur": "Baptiste Pauchet",
+  "listFonction": [
+    "ouvrir une application",
+    "aider sur les recherches de internet",
+    "donner la meteo",
+    "faire un r\u00e9sumer des actualit\u00e9s",
+    "lancer vos application de votre ordinateur"
+  ],
+  "toucheCalculatrice": "asset/IMGcalculatrice",
+  "moteurRechercheDefault": "duckduckgo",
+  "emplacementSoftWindows": "D:/Developement/Arrera-lynx/Test"
+}

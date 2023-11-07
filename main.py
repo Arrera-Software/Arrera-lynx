@@ -4,8 +4,9 @@ from arreraLynx import*
 
 screen = Tk()
 lynxFile = jsonWork("configLynx.json")
-neuronFile = jsonWork("FichierNeuron/configUser.json")
-lynx = ArreraLynx(screen,lynxFile,neuronFile)
+userFile = jsonWork("FichierNeuron/configUser.json")
+neuronFile = jsonWork("FichierNeuron/configNeuron.json")
+lynx = ArreraLynx(screen,lynxFile,userFile,neuronFile)
 screen.configure(bg="red")
 btnActive = Button(screen,text="Active interface")
 def active():

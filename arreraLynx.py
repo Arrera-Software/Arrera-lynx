@@ -1,12 +1,18 @@
 from tkinter import *
 from tkinter import messagebox
 from librairy.travailJSON import*
+from librairy.dectectionOS import*
+from librairy.gestionSoftWindows import*
 
 class ArreraLynx :
-    def __init__(self,windows:Tk,fichierLynx:jsonWork,fichierNeuron:jsonWork):
-        #fichier JSON
+    def __init__(self,windows:Tk,fichierLynx:jsonWork,fichierUser:jsonWork,fichierNeuron:jsonWork):
+        #objet
         self.fichierLynx = fichierLynx
+        self.fileUser = fichierUser
         self.fileNeuron = fichierNeuron
+        self.dectOS = OS()
+        if self.dectOS.osWindows()==True:
+            self.softWin = gestionSoftWindows(self.fileNeuron.lectureJSON("emplacementSoftWindows"))
         #Variable 
         self.windows = windows
         self.varGenre = StringVar(windows)
@@ -27,7 +33,8 @@ class ArreraLynx :
         self.frameAddWeather = Frame(windows,width=700,height=500,bg=color)
         self.frameGPS = Frame(windows,width=700,height=500,bg=color)
         self.frameAddGPS = Frame(windows,width=700,height=500,bg=color)
-        self.frameSoft =  Frame(windows,width=700,height=500,bg=color)
+        self.frameSoft = Frame(windows,width=700,height=500,bg=color)
+        self.frameSoftLinux = Frame(windows,width=700,height=500,bg=color)
         self.frameEnd =  Frame(windows,width=700,height=500,bg=color)
         #widget 
         labelTitre = [
@@ -78,12 +85,23 @@ class ArreraLynx :
         self.entryAdresse = Entry(self.frameAddGPS,font=("arial","15"),borderwidth=2,relief="solid")
         self.btnGPSAdd = Button(self.frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
         #frameSoft
-        btnWord = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Traitement de texte")
-        btnExel = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Tableau")
-        btnPresentation = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Presentation")
-        btnBrowser = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Navigateur")
-        btnNote = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Note")
-        btnMusic = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Musique")
+        btnWord = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Traitement de texte",command=lambda:self._viewAddSoft("Ttexte"))
+        btnExel = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Tableur",command=lambda:self._viewAddSoft("tableur"))
+        btnPresentation = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Presentation",command=lambda:self._viewAddSoft("presentation"))
+        btnBrowser = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Navigateur",command=lambda:self._viewAddSoft("internet"))
+        btnNote = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Note",command=lambda:self._viewAddSoft("note"))
+        btnMusic = Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Musique",command=lambda:self._viewAddSoft("musique"))
+        #frameAddSoft
+        self.labelTitreSoft = [
+            Label(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de traitement de texte"),
+            Label(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un tableur"),
+            Label(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de presentation"),
+            Label(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un navigateur internet"),
+            Label(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de note"),
+            Label(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de musique"),
+        ]
+        self.entryCommandLinux = Entry(self.frameSoftLinux,font=("arial","15"),borderwidth=2,relief="solid")
+        self.btnAddSoft = Button(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
     
         #calcule affichage
         largeurFrame = self.frameAcceuil.winfo_reqwidth()
@@ -131,6 +149,10 @@ class ArreraLynx :
         btnNote.place(x=15,y=300)
         btnMusic.place(x=(largeurFrame-btnMusic.winfo_reqwidth()-15),y=300)
         btnSuivant[5].place(x=((largeurFrame-btnSuivant[5].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
+        #frameAddSoft
+        if (self.dectOS.osWindows() == False) and (self.dectOS.osLinux()==True):
+            self.entryCommandLinux.place(relx=0.5,rely=0.5,anchor="center")
+        self.btnAddSoft.place(x=((largeurFrame-self.btnAddSoft.winfo_reqwidth())//2),y=(hauteurFrame-self.btnAddSoft.winfo_reqheight()))
         #frameEnd
         labelTitre[6].place(x=((largeurFrame-labelTitre[6].winfo_reqwidth())//2),y=0)
         btnSuivant[6].place(relx=0.5,rely=0.5,anchor="center")
@@ -145,6 +167,7 @@ class ArreraLynx :
         self.frameGPS.pack_forget()
         self.frameAddGPS.pack_forget()
         self.frameSoft.pack_forget()
+        self.frameSoftLinux.pack_forget()
         self.frameEnd.pack_forget()
 
     def active(self):
@@ -158,7 +181,7 @@ class ArreraLynx :
         if self.entryName.get():
             self._clearView()
             self.frameUserGenre.pack()
-            self.fileNeuron.EcritureJSON("user",self.entryName.get())
+            self.fileUser.EcritureJSON("user",self.entryName.get())
         else :
             messagebox.showerror("Erreur","Veuillez entrer un nom d'utilisateur avant de continuer")
     
@@ -169,7 +192,7 @@ class ArreraLynx :
     def _passMeteo(self):
         if self.varGenre.get():
             self._activeFrameWeather()
-            self.fileNeuron.EcritureJSON("genre",self.varGenre.get())
+            self.fileUser.EcritureJSON("genre",self.varGenre.get())
         else :
            messagebox.showerror("Erreur","Veuillez entrer selectionner un genre avant de continuer") 
     
@@ -197,13 +220,13 @@ class ArreraLynx :
         valeur = self.entryVille.get()
         if valeur:
             if mode == "domicile" :
-                self.fileNeuron.EcritureJSON("lieuDomicile",valeur)
+                self.fileUser.EcritureJSON("lieuDomicile",valeur)
             else :
                 if mode == "travail" :
-                    self.fileNeuron.EcritureJSON("lieuTravail",valeur)  
+                    self.fileUser.EcritureJSON("lieuTravail",valeur)  
                 else :
                     if mode == "ville" :
-                        self.fileNeuron.EcritureJSONList("listVille",valeur) 
+                        self.fileUser.EcritureJSONList("listVille",valeur) 
             self._activeFrameWeather()
         else :
             self._activeFrameWeather()
@@ -231,20 +254,111 @@ class ArreraLynx :
         valeur = self.entryAdresse.get()
         if valeur : 
             if mode == "domicile":
-                self.fileNeuron.EcritureJSON("adresseDomicile",valeur)
+                self.fileUser.EcritureJSON("adresseDomicile",valeur)
                 self._passGPS()
             else :
                 if mode == "travail" :
-                    self.fileNeuron.EcritureJSON("adresseTravail",valeur)
+                    self.fileUser.EcritureJSON("adresseTravail",valeur)
                     self._passGPS()
         else :
             self._passGPS()
             messagebox.showerror("Erreur","Aucun adresse n'a été marquer dans la zone de texte")
    
     def _passSoft(self):
+        if (self.dectOS.osWindows() == True) :
+            sortie = ""
+            while not sortie :
+                sortie = self.softWin.setEmplacementSoft()
+                self.fileNeuron.EcritureJSON("emplacementSoftWindows",sortie)
         self._clearView()
         self.frameSoft.pack()
     
+    def _viewAddSoft(self,mode:str):
+        if (self.dectOS.osWindows() == True) :
+            if mode == "Ttexte":
+                self.softWin.setName("Ttexte")
+                self.softWin.saveSoftware()
+                self.fileUser.EcritureJSON("wordWindows",self.softWin.getName())
+            else :
+                if mode == "tableur":
+                    self.softWin.setName("tableur")
+                    self.softWin.saveSoftware()
+                    self.fileUser.EcritureJSON("exelWindows",self.softWin.getName())
+                else :
+                    if mode == "presentation" :
+                        self.softWin.setName("presentation")
+                        self.softWin.saveSoftware()
+                        self.fileUser.EcritureJSON("diapoWindows",self.softWin.getName())
+                    else :
+                        if mode == "internet" :
+                            self.softWin.setName("internet")
+                            self.softWin.saveSoftware()
+                            self.fileUser.EcritureJSON("browserWindows",self.softWin.getName())
+                        else :
+                            if mode == "note" :
+                                self.softWin.setName("note")
+                                self.softWin.saveSoftware()
+                                self.fileUser.EcritureJSON("noteWindows",self.softWin.getName())
+                            else :
+                                if mode == "musique" :
+                                    self.softWin.setName("musique")
+                                    self.softWin.saveSoftware()
+                                    self.fileUser.EcritureJSON("musicWindows",self.softWin.getName())
+        else :
+            if (self.dectOS.osLinux() == True) :
+                self.entryCommandLinux.delete("0",END)
+                self._clearView()
+                self.frameSoftLinux.pack()
+                largeur = self.frameAcceuil.winfo_reqwidth()
+                for i in range(0,5):
+                    self.labelTitreSoft[i].place_forget()
+                if mode == "Ttexte":
+                    self.labelTitreSoft[0].place(x=((largeur-self.labelTitreSoft[0].winfo_reqwidth())//2),y=0)
+                else :
+                    if mode == "tableur":
+                        self.labelTitreSoft[1].place(x=((largeur-self.labelTitreSoft[1].winfo_reqwidth())//2),y=0)
+                    else :
+                        if mode == "presentation" :
+                            self.labelTitreSoft[2].place(x=((largeur-self.labelTitreSoft[2].winfo_reqwidth())//2),y=0)
+                        else :
+                            if mode == "internet" :
+                                self.labelTitreSoft[3].place(x=((largeur-self.labelTitreSoft[3].winfo_reqwidth())//2),y=0)
+                            else :
+                                if mode == "note" :
+                                    self.labelTitreSoft[4].place(x=((largeur-self.labelTitreSoft[4].winfo_reqwidth())//2),y=0)
+                                else :
+                                    if mode == "musique" :
+                                        self.labelTitreSoft[5].place(x=((largeur-self.labelTitreSoft[5].winfo_reqwidth())//2),y=0)
+                self.btnAddSoft.configure(command=lambda : self._addSoft(mode))
+    
+    def _addSoft(self,mode:str):
+        command = self.entryCommandLinux.get()
+        if command :
+            if mode == "Ttexte":
+                self.fileUser.EcritureJSON("wordLinux",command)
+            else :
+                if mode == "tableur":
+                    self.fileUser.EcritureJSON("exelLinux",command)
+                else :
+                    if mode == "presentation" :
+                        self.fileUser.EcritureJSON("diapoLinux",command)
+                    else :
+                        if mode == "internet" :
+                            self.fileUser.EcritureJSON("browserLinux",command)
+                        else :
+                            if mode == "note" :
+                                self.fileUser.EcritureJSON("noteLinux",command)
+                            else :
+                                if mode == "musique" :
+                                    self.fileUser.EcritureJSON("musicLinux",command)
+            messagebox.showinfo("Enregistrement logiciel","Votre logiciel a ete enregister")
+        else :
+            messagebox.showerror("Erreur","Veuillez marquer une command pour l'enregistrer le logiciel")
+        self._clearView()
+        self._passSoft()
+                    
+
+
     def _passEnd(self):
         self._clearView()
         self.frameEnd.pack()

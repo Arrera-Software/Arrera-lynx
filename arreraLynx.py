@@ -35,6 +35,8 @@ class ArreraLynx :
         self.frameAddGPS = Frame(windows,width=700,height=500,bg=color)
         self.frameSoft = Frame(windows,width=700,height=500,bg=color)
         self.frameSoftLinux = Frame(windows,width=700,height=500,bg=color)
+        self.frameWeb = Frame(windows,width=700,height=500,bg=color)
+        self.frameAddWeb = Frame(windows,width=700,height=500,bg=color)
         self.frameEnd =  Frame(windows,width=700,height=500,bg=color)
         #widget 
         labelTitre = [
@@ -44,16 +46,18 @@ class ArreraLynx :
             Label(self.frameWeather,bg=color,fg=textColor,font=("arial","20"),text="Meteo"),
             Label(self.frameGPS,bg=color,fg=textColor,font=("arial","20"),text="GPS"),
             Label(self.frameSoft,bg=color,fg=textColor,font=("arial","20"),text="Logiciel"),
+            Label(self.frameWeb,bg=color,fg=textColor,font=("arial","20"),text="Site internet"),
             Label(self.frameEnd,bg=color,fg=textColor,font=("arial","20"),text="Configuration terminer")
         ]
         btnSuivant = [
-            Button(self.frameAcceuil,bg=color,fg=textColor,font=("arial","15"),text="Commencer",command=self._passUserName),
-            Button(self.frameUserName,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passUserGenre),
-            Button(self.frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passMeteo),
-            Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passGPS),
-            Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passSoft),
-            Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passEnd),
-            Button(self.frameEnd,bg=color,fg=textColor,font=("arial","15"),text="Commencer à utiliser "+nomSoft,command=self._end)
+            Button(self.frameAcceuil,bg=color,fg=textColor,font=("arial","15"),text="Commencer",command=self._passUserName),#0
+            Button(self.frameUserName,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passUserGenre),#1
+            Button(self.frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passMeteo),#2
+            Button(self.frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passGPS),#3
+            Button(self.frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passSoft),#4
+            Button(self.frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passWeb),#5
+            Button(self.frameWeb,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self._passEnd),#6
+            Button(self.frameEnd,bg=color,fg=textColor,font=("arial","15"),text="Commencer à utiliser "+nomSoft,command=self._end)#7
         ]
         #frameUserName & frameUserGenre
         frameNameUser = Frame(self.frameUserName,bg=color)
@@ -102,7 +106,16 @@ class ArreraLynx :
         ]
         self.entryCommandLinux = Entry(self.frameSoftLinux,font=("arial","15"),borderwidth=2,relief="solid")
         self.btnAddSoft = Button(self.frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
-    
+        #frameWeb
+        btnCloud = Button(self.frameWeb,bg=color,fg=textColor,font=("arial","15"),text="Stokage cloud ",command=lambda:self._viewAddWeb("cloud"))
+        btnSiteWeb= Button(self.frameWeb,bg=color,fg=textColor,font=("arial","15"),text="Racourcie site",command=lambda:self._viewAddWeb("site"))
+        #frameAddWeb
+        self.labelIndicationWeb = [Label(self.frameAddWeb,bg=color,fg=textColor,font=("arial","15"),text="Lien de votre stokage cloud"),
+                              Label(self.frameAddWeb,bg=color,fg=textColor,font=("arial","15"),text="Racourcie d'un site")]
+        self.entryNameSite = Entry(self.frameAddWeb,font=("arial","15"),borderwidth=2,relief="solid")
+        self.entryLienSite = Entry(self.frameAddWeb,font=("arial","15"),borderwidth=2,relief="solid")
+        self.btnAddSite = Button(self.frameAddWeb,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
+        
         #calcule affichage
         largeurFrame = self.frameAcceuil.winfo_reqwidth()
         hauteurFrame = self.frameAcceuil.winfo_reqheight()
@@ -153,9 +166,16 @@ class ArreraLynx :
         if (self.dectOS.osWindows() == False) and (self.dectOS.osLinux()==True):
             self.entryCommandLinux.place(relx=0.5,rely=0.5,anchor="center")
         self.btnAddSoft.place(x=((largeurFrame-self.btnAddSoft.winfo_reqwidth())//2),y=(hauteurFrame-self.btnAddSoft.winfo_reqheight()))
-        #frameEnd
+        #frameWeb
         labelTitre[6].place(x=((largeurFrame-labelTitre[6].winfo_reqwidth())//2),y=0)
-        btnSuivant[6].place(relx=0.5,rely=0.5,anchor="center")
+        btnCloud.place(x=15,y=((hauteurFrame-btnCloud.winfo_reqheight())//2))
+        btnSiteWeb.place(x=(largeurFrame-btnSiteWeb.winfo_reqwidth())-15,y=((hauteurFrame-btnSiteWeb.winfo_reqheight())//2))
+        btnSuivant[6].place(x=((largeurFrame-btnSuivant[6].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[6].winfo_reqheight()))
+        #frameAddWeb
+        self.btnAddSite.place(x=((largeurFrame-self.btnAddSite.winfo_reqwidth())//2),y=(hauteurFrame-self.btnAddSite.winfo_reqheight()))
+        #frameEnd
+        labelTitre[7].place(x=((largeurFrame-labelTitre[7].winfo_reqwidth())//2),y=0)
+        btnSuivant[7].place(relx=0.5,rely=0.5,anchor="center")
        
 
     def _clearView(self):
@@ -168,6 +188,8 @@ class ArreraLynx :
         self.frameAddGPS.pack_forget()
         self.frameSoft.pack_forget()
         self.frameSoftLinux.pack_forget()
+        self.frameWeb.pack_forget()
+        self.frameAddWeb.pack_forget()
         self.frameEnd.pack_forget()
 
     def active(self):
@@ -357,7 +379,52 @@ class ArreraLynx :
         self._clearView()
         self._passSoft()
                     
+    def _passWeb(self):
+        self._clearView()
+        self.frameWeb.pack()
 
+    def _viewAddWeb(self,mode:str):
+        self._clearView()
+        self.frameAddWeb.pack()
+        self.entryLienSite.delete("0",END)
+        self.entryNameSite.delete("0",END)
+        self.entryLienSite.place_forget()
+        self.entryNameSite.place_forget()
+        for i in range(0,1):
+            self.labelIndicationWeb[i].place_forget()
+        largeurFrame = self.frameAcceuil.winfo_reqwidth()
+        if mode == "cloud":
+            self.labelIndicationWeb[0].place(x=((largeurFrame-self.labelIndicationWeb[0].winfo_reqwidth())//2),y=0)
+            self.entryLienSite.place(rely=0.5,relx=0.5,anchor="center")
+            self.btnAddSite.configure(command=lambda:self._addWeb("cloud"))
+        else :
+            if mode == "site":
+                self.labelIndicationWeb[1].place(x=((largeurFrame-self.labelIndicationWeb[0].winfo_reqwidth())//2),y=0)
+                self.entryLienSite.place(x=((largeurFrame-self.entryLienSite.winfo_reqwidth())//2),y=200)
+                self.entryNameSite.place(x=((largeurFrame-self.entryNameSite.winfo_reqwidth())//2),y=100)
+                self.btnAddSite.configure(command=lambda:self._addWeb("site"))
+    
+    def _addWeb(self,mode:str):
+        self._passWeb()
+        if mode == "cloud":
+            lien = self.entryLienSite.get()
+            if lien :
+                self.fileUser.EcritureJSON("lienCloud",lien)
+                messagebox.showinfo("Lien","Votre lien a ete enregistrer")
+            else :
+                messagebox.showerror("Erreur","Aucun lien n'a ete marquer dans la zone de texte")
+        else :
+            if mode == "site":
+                name = self.entryNameSite.get()
+                lien = self.entryLienSite.get()
+                if lien and name :
+                    self.fileUser.EcritureJSONDictionnaire("dictSite",name,lien)
+                    nbSire = int(self.fileUser.lectureJSON("nbSite"))
+                    self.fileUser.EcritureJSON("nbSite",str(nbSire+1))
+                    messagebox.showinfo("Lien","Votre lien a ete enregistrer")
+                else :
+                    messagebox.showerror("Erreur","Aucun lien ou nom n'a ete marquer dans les zones de textes")
+        
 
     def _passEnd(self):
         self._clearView()

@@ -21,6 +21,8 @@ class ArreraLynx :
         nomSoft = self.fichierLynx.lectureJSON("nameSoft")
         iconLogiciel = PhotoImage(file=str(self.fichierLynx.lectureJSON("iconSoft")))
         listGenre = self.fichierLynx.lectureJSONList("listGenre")
+        self.__userIN = False
+        self.__genreIN = False
         #modification de la fenetre
         windows.title(nomSoft+": Premier demarage")
         windows.maxsize(700,500)
@@ -40,7 +42,7 @@ class ArreraLynx :
         self.frameEnd =  Frame(windows,width=700,height=500,bg=color)
         #widget 
         labelTitre = [
-            Label(self.frameAcceuil,bg=color,fg=textColor,font=("arial","20"),text="Programme de premier demarage de"+nomSoft),
+            Label(self.frameAcceuil,bg=color,fg=textColor,font=("arial","20"),text="Programme de premier demarage de "+nomSoft),
             Label(self.frameUserName,bg=color,fg=textColor,font=("arial","20"),text="Nom d'utilisateur"),
             Label(self.frameUserGenre,bg=color,fg=textColor,font=("arial","20"),text="Genre d'utilisateur"),
             Label(self.frameWeather,bg=color,fg=textColor,font=("arial","20"),text="Meteo"),
@@ -178,6 +180,13 @@ class ArreraLynx :
         btnSuivant[7].place(relx=0.5,rely=0.5,anchor="center")
        
 
+    def confiCreate(self):
+        if self.__userIN == True and self.__genreIN == True :
+            return True
+        else :
+            return False
+
+
     def _clearView(self):
         self.frameAcceuil.pack_forget()
         self.frameUserName.pack_forget()
@@ -204,8 +213,10 @@ class ArreraLynx :
             self._clearView()
             self.frameUserGenre.pack()
             self.fileUser.EcritureJSON("user",self.entryName.get())
+            self.__userIN = True
         else :
             messagebox.showerror("Erreur","Veuillez entrer un nom d'utilisateur avant de continuer")
+        
     
     def _activeFrameWeather(self):
         self._clearView()
@@ -215,6 +226,7 @@ class ArreraLynx :
         if self.varGenre.get():
             self._activeFrameWeather()
             self.fileUser.EcritureJSON("genre",self.varGenre.get())
+            self.__genreIN = True
         else :
            messagebox.showerror("Erreur","Veuillez entrer selectionner un genre avant de continuer") 
     

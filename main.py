@@ -15,3 +15,4 @@ def active():
 btnActive.configure(command=active)
 btnActive.pack()
 screen.mainloop()
+print(lynx.confiCreate())

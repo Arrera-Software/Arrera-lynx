@@ -91,13 +91,13 @@ class ArreraLynx :
         menuGenre = self.__arrTk.createOptionMenu(frameGenreUser,var=self.__varGenre,value=listGenre)
         #frameWeather
         btnDomicile = self.__arrTk.createButton(self.__frameWeather,police="Arial",
-                                                taille=15,text="Domicile",
+                                                taille=25,text="Domicile",
                                                 command=lambda : self.__viewAddMeteo("domicile"))
         btnTravail = self.__arrTk.createButton(self.__frameWeather,police="Arial",
-                                               taille=15,text="Lien de travail",
+                                               taille=25,text="Lien de travail",
                                                command=lambda : self.__viewAddMeteo("travail"))
         btnVille = self.__arrTk.createButton(self.__frameWeather,police="Arial",
-                                             taille=15,text="Ajouter une ville",
+                                             taille=25,text="Ajouter une ville",
                                              command=lambda : self.__viewAddMeteo("ville"))
         #frameAddWeather
         self.__labelTitreAdd = [self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Domicile"),
@@ -105,44 +105,60 @@ class ArreraLynx :
                           self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Travail")]
         self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather,police="Arial",taille=25,
                                                      placeholderText="Nom de la ville",width=300)
-        self.__btnAdd = Button(self.__frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
+        self.__btnAdd = self.__arrTk.createButton(self.__frameAddWeather,police="Arial",taille=25,text="Ajouter")
         #frameGPS
-        btnAdresseDomicile = Button(self.__frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de domicile",command=lambda :self.__viewAddGPS("domicile"))
-        btnAdresseTravail = Button(self.__frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de Travail",command=lambda :self.__viewAddGPS("travail"))
+        btnAdresseDomicile = self.__arrTk.createButton(self.__frameGPS,police="Arial",
+                                                       taille=25,text="Adresse de domicile"
+                                                       ,command=lambda :self.__viewAddGPS("domicile"))
+        btnAdresseTravail = self.__arrTk.createButton(self.__frameGPS,police="Arial",
+                                                      taille=25,text="Adresse de Travail"
+                                                      ,command=lambda :self.__viewAddGPS("travail"))
         #frameAddGPS
         self.__labelTitreGPSAdd = [
-            Label(self.__frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de votre domicile"),
-            Label(self.__frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de votre lieu de travail")
+            self.__arrTk.createLabel(self.__frameAddGPS,police="Arial",
+                                     taille=25,text="Adresse de votre domicile"),
+            self.__arrTk.createLabel(self.__frameAddGPS,police="Arial",
+                                     taille=25,text="Adresse de votre lieu de travail")
         ]
-        self.__entryAdresse = Entry(self.__frameAddGPS,font=("arial","15"),borderwidth=2,relief="solid")
-        self.__btnGPSAdd = Button(self.__frameAddGPS,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
+        self.__entryAdresse = self.__arrTk.createEntry(self.__frameAddGPS,width=300,placeholderText="Adresse",police="Arial",taille=25)
+        self.__btnGPSAdd = self.__arrTk.createButton(self.__frameAddGPS,bg=color,fg=textColor,taille=25,
+                                                     police="Arial",text="Ajouter")
         #frameSoft
-        btnWord = Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Traitement de texte",command=lambda:self.__viewAddSoft("Ttexte"))
-        btnExel = Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Tableur",command=lambda:self.__viewAddSoft("tableur"))
-        btnPresentation = Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Presentation",command=lambda:self.__viewAddSoft("presentation"))
-        btnBrowser = Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Navigateur",command=lambda:self.__viewAddSoft("internet"))
-        btnNote = Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Note",command=lambda:self.__viewAddSoft("note"))
-        btnMusic = Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Musique",command=lambda:self.__viewAddSoft("musique"))
+        btnWord = self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                            text="Traitement de texte",command=lambda:self.__viewAddSoft("Ttexte"))
+        btnExel = self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                            text="Tableur",command=lambda:self.__viewAddSoft("tableur"))
+        btnPresentation = self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                                    text="Presentation",command=lambda:self.__viewAddSoft("presentation"))
+        btnBrowser = self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                               text="Navigateur",command=lambda:self.__viewAddSoft("internet"))
+        btnNote = self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                            text="Note",command=lambda:self.__viewAddSoft("note"))
+        btnMusic = self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                             text="Musique",command=lambda:self.__viewAddSoft("musique"))
         #frameAddSoft
         self.__labelTitreSoft = [
-            Label(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de traitement de texte"),
-            Label(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un tableur"),
-            Label(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de presentation"),
-            Label(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un navigateur internet"),
-            Label(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de note"),
-            Label(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter un logiciel de musique"),
+            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de traitement de texte"),
+            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un tableur"),
+            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de presentation"),
+            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un navigateur internet"),
+            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de note"),
+            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de musique"),
         ]
-        self.__entryCommandLinux = Entry(self.__frameSoftLinux,font=("arial","15"),borderwidth=2,relief="solid")
-        self.__btnAddSoft = Button(self.__frameSoftLinux,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
+        self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameAddGPS,width=300,placeholderText="",police="Arial",taille=25)
+        self.__btnAddSoft = self.__arrTk.createButton(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter")
         #frameWeb
-        btnCloud = Button(self.__frameWeb,bg=color,fg=textColor,font=("arial","15"),text="Stokage cloud ",command=lambda:self.__viewAddWeb("cloud"))
-        btnSiteWeb= Button(self.__frameWeb,bg=color,fg=textColor,font=("arial","15"),text="Racourcie site",command=lambda:self.__viewAddWeb("site"))
+        btnCloud = self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
+                                             text="Stokage cloud ",command=lambda:self.__viewAddWeb("cloud"))
+        btnSiteWeb= self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
+                                              text="Racourcie site",command=lambda:self.__viewAddWeb("site"))
         #frameAddWeb
-        self.__labelIndicationWeb = [Label(self.__frameAddWeb,bg=color,fg=textColor,font=("arial","15"),text="Lien de votre stokage cloud"),
-                              Label(self.__frameAddWeb,bg=color,fg=textColor,font=("arial","15"),text="Racourcie d'un site")]
-        self.__entryNameSite = Entry(self.__frameAddWeb,font=("arial","15"),borderwidth=2,relief="solid")
-        self.__entryLienSite = Entry(self.__frameAddWeb,font=("arial","15"),borderwidth=2,relief="solid")
-        self.__btnAddSite = Button(self.__frameAddWeb,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
+        self.__labelIndicationWeb = [
+            self.__arrTk.createLabel(self.__frameAddWeb,police="Arial",taille=25,text="Lien de votre stokage cloud"),
+            self.__arrTk.createLabel(self.__frameAddWeb,police="Arial",taille=25,text="Racourcie d'un site")]
+        self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb,placeholderText="Nom du site",police="Arial",taille=25,width=300)
+        self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb,placeholderText="Lien du site",police="Arial",taille=25,width=300)
+        self.__btnAddSite = self.__arrTk.createButton(self.__frameAddWeb,police="Arial",taille=25,text="Ajouter")
         
         #calcule affichage
         largeurFrame = self.__frameAcceuil.winfo_reqwidth()
@@ -155,31 +171,31 @@ class ArreraLynx :
         #frameUserName
         self.__arrTk.placeTopCenter(labelTitre[1])
         self.__arrTk.placeBottomCenter(btnSuivant[1])
-        labelIndicationUser[0].pack(side="left")
-        self.entryName.pack(side="left")
-        frameNameUser.place(relx=0.5,rely=0.5,anchor="center")
+        self.__arrTk.packLeft(labelIndicationUser[0])
+        self.__arrTk.packLeft(self.entryName)
+        self.__arrTk.placeCenter(frameNameUser)
         #frameUserGenre
         self.__arrTk.placeTopCenter(labelTitre[2])
-        labelIndicationUser[1].pack(side="left")
-        menuGenre.pack(side="left")
+        self.__arrTk.packLeft(labelIndicationUser[1])
+        self.__arrTk.packLeft(menuGenre)
         self.__arrTk.placeBottomCenter(btnSuivant[2])
-        frameGenreUser.place(relx=0.5,rely=0.5,anchor="center")
+        self.__arrTk.placeCenter(frameGenreUser)
         #frameWeather
         self.__arrTk.placeTopCenter(labelTitre[3])
         btnDomicile.place(x=15,y=((hauteurFrame-btnDomicile.winfo_reqheight())//2))
-        btnVille.place(relx=0.5,rely=0.5,anchor="center")
+        self.__arrTk.placeCenter(btnVille)
         btnTravail.place(x=((largeurFrame-btnTravail.winfo_reqwidth())-15),y=((hauteurFrame-btnTravail.winfo_reqheight())//2))
         self.__arrTk.placeBottomCenter(btnSuivant[3])
         #frameAddWeather
-        self.__entryVille.place(relx=0.5,rely=0.5,anchor="center")
-        self.__btnAdd.place(x=((largeurFrame-self.__btnAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnAdd.winfo_reqheight()))
+        self.__arrTk.placeCenter(self.__entryVille)
+        self.__arrTk.placeBottomCenter(self.__btnAdd)
         #frameGPS
         self.__arrTk.placeTopCenter(labelTitre[4])
         btnAdresseDomicile.place(x=15,y=((hauteurFrame-btnAdresseDomicile.winfo_reqheight())//2))
         btnAdresseTravail.place(x=(largeurFrame-btnAdresseTravail.winfo_reqwidth())-15,y=((hauteurFrame-btnAdresseTravail.winfo_reqheight())//2))
         self.__arrTk.placeBottomCenter(btnSuivant[4])
         #frameAddGPS
-        self.__entryAdresse.place(relx=0.5,rely=0.5,anchor="center")
+        self.__arrTk.placeCenter(self.__entryAdresse)
         self.__btnGPSAdd.place(x=((largeurFrame-self.__btnGPSAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnGPSAdd.winfo_reqheight()))
         #frameSoft
         self.__arrTk.placeTopCenter(labelTitre[5])
@@ -200,7 +216,7 @@ class ArreraLynx :
         btnSiteWeb.place(x=(largeurFrame-btnSiteWeb.winfo_reqwidth())-15,y=((hauteurFrame-btnSiteWeb.winfo_reqheight())//2))
         self.__arrTk.placeBottomCenter(btnSuivant[6])
         #frameAddWeb
-        self.__btnAddSite.place(x=((largeurFrame-self.__btnAddSite.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnAddSite.winfo_reqheight()))
+        self.__arrTk.placeBottomCenter(self.__btnAddSite)
         #frameEnd
         self.__arrTk.placeTopCenter(labelTitre[7])
         self.__arrTk.placeCenter(btnSuivant[7])

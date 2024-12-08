@@ -137,7 +137,7 @@ class CArreraTK :
                 imageLight = PhotoImage(file=pathLight)
                 return imageLight
 
-    def createLabel(self, screen, text: str = "", image = None,bg : str = "", fg : str = ""):
+    def createLabel(self, screen, text: str = "", image = None, bg : str = "", fg : str = "",police : str = "Arial", taille : int = 12):
         if (self.__mode == 0):
             label = ctk.CTkLabel(screen)
             if (text != ""):
@@ -148,6 +148,8 @@ class CArreraTK :
                 label.configure(bg_color=bg)
             if (fg != ""):
                 label.configure(fg_color=fg)
+            if (police != "Arial" or taille != 12):
+                label.configure(font=(police,taille))
         else :
             label = Label(screen)
             if (text != ""):
@@ -158,9 +160,11 @@ class CArreraTK :
                 label.configure(bg=bg)
             if (fg != ""):
                 label.configure(fg=fg)
+            if (police != "Arial" or taille != 12):
+                label.configure(font=(police, taille))
         return label
 
-    def createButton(self, screen, text: str = "", image = None,bg : str = "", fg : str = "",command = None):
+    def createButton(self, screen, text: str = "", image = None, bg : str = "", fg : str = "", command = None,police : str = "Arial", taille : int = 12):
         if (self.__mode == 0):
             btn = (ctk.CTkButton(screen))
             if (text != ""):
@@ -173,6 +177,8 @@ class CArreraTK :
                 btn.configure(fg_color=fg)
             if (command != None):
                 btn.configure(command=command)
+            if (police != "Arial" or taille != 12):
+                btn.configure(font=(police,taille))
         else :
             btn = Button(screen)
             if (text != ""):
@@ -185,6 +191,8 @@ class CArreraTK :
                 btn.configure(fg=fg)
             if (command != None):
                 btn.configure(command=command)
+            if (police != "Arial" or taille != 12):
+                btn.configure(font=(police, taille))
         return btn
 
     def createEntry(self, screen, bg : str = "", fg : str = ""):

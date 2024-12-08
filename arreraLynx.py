@@ -30,18 +30,18 @@ class ArreraLynx :
         self.__userIN = False
         self.__genreIN = False
         #cadre tkinter
-        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameUserName = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameSoft = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
-        self.__frameEnd =  self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameUserName = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameSoft = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameEnd =  self.__arrTk.createFrame(self.__windows,width=700,height=500)
         #widget 
         labelTitre = [
             self.__arrTk.createLabel(self.__frameAcceuil,text="Bienvenu sur Arrera "+nomSoft,
@@ -80,15 +80,10 @@ class ArreraLynx :
                                       text="Commencer à utiliser "+nomSoft,command=self.__end)#7
         ]
         #frameUserName & frameUserGenre
-        frameNameUser = self.__arrTk.createFrame(self.__frameUserName)
-        frameGenreUser = self.__arrTk.createFrame(self.__frameUserGenre)
-        labelIndicationUser = [
-            self.__arrTk.createLabel(frameNameUser,police="Arial",taille=25,text="Nom :"),
-            self.__arrTk.createLabel(frameGenreUser,police="Arial",taille=25,text="Genre :")
-            ]
-        self.entryName = self.__arrTk.createEntry(frameNameUser,police="Arial",taille=25,
+
+        self.entryName = self.__arrTk.createEntry(self.__frameUserName,police="Arial",taille=25,
                                                   placeholderText="Nom d'utilisateur",width=300)
-        menuGenre = self.__arrTk.createOptionMenu(frameGenreUser,var=self.__varGenre,value=listGenre)
+        menuGenre = self.__arrTk.createOptionMenu(self.__frameUserGenre,var=self.__varGenre,value=listGenre)
         #frameWeather
         btnDomicile = self.__arrTk.createButton(self.__frameWeather,police="Arial",
                                                 taille=25,text="Domicile",
@@ -100,11 +95,13 @@ class ArreraLynx :
                                              taille=25,text="Ajouter une ville",
                                              command=lambda : self.__viewAddMeteo("ville"))
         #frameAddWeather
-        self.__labelTitreAdd = [self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Domicile"),
-                          self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Ville"),
-                          self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Travail")]
-        self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather,police="Arial",taille=25,
-                                                     placeholderText="Nom de la ville",width=300)
+        self.__labelTitreAdd = [
+            self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Domicile"),
+            self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Ville"),
+            self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Travail")]
+
+        self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather, police="Arial", taille=25
+                                                     , width=300)
         self.__btnAdd = self.__arrTk.createButton(self.__frameAddWeather,police="Arial",taille=25,text="Ajouter")
         #frameGPS
         btnAdresseDomicile = self.__arrTk.createButton(self.__frameGPS,police="Arial",
@@ -120,7 +117,7 @@ class ArreraLynx :
             self.__arrTk.createLabel(self.__frameAddGPS,police="Arial",
                                      taille=25,text="Adresse de votre lieu de travail")
         ]
-        self.__entryAdresse = self.__arrTk.createEntry(self.__frameAddGPS,width=300,placeholderText="Adresse",police="Arial",taille=25)
+        self.__entryAdresse = self.__arrTk.createEntry(self.__frameAddGPS,width=500,police="Arial",taille=25)
         self.__btnGPSAdd = self.__arrTk.createButton(self.__frameAddGPS,bg=color,fg=textColor,taille=25,
                                                      police="Arial",text="Ajouter")
         #frameSoft
@@ -145,7 +142,7 @@ class ArreraLynx :
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de note"),
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de musique"),
         ]
-        self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameAddGPS,width=300,placeholderText="",police="Arial",taille=25)
+        self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameSoftLinux,width=300,placeholderText="",police="Arial",taille=25)
         self.__btnAddSoft = self.__arrTk.createButton(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter")
         #frameWeb
         btnCloud = self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
@@ -156,8 +153,8 @@ class ArreraLynx :
         self.__labelIndicationWeb = [
             self.__arrTk.createLabel(self.__frameAddWeb,police="Arial",taille=25,text="Lien de votre stokage cloud"),
             self.__arrTk.createLabel(self.__frameAddWeb,police="Arial",taille=25,text="Racourcie d'un site")]
-        self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb,placeholderText="Nom du site",police="Arial",taille=25,width=300)
-        self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb,placeholderText="Lien du site",police="Arial",taille=25,width=300)
+        self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb,police="Arial",taille=25,width=300)
+        self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb,police="Arial",taille=25,width=300)
         self.__btnAddSite = self.__arrTk.createButton(self.__frameAddWeb,police="Arial",taille=25,text="Ajouter")
         
         #calcule affichage
@@ -170,16 +167,13 @@ class ArreraLynx :
         self.__arrTk.placeCenter(btnSuivant[0])
         #frameUserName
         self.__arrTk.placeTopCenter(labelTitre[1])
+        self.__arrTk.placeCenter(self.entryName)
         self.__arrTk.placeBottomCenter(btnSuivant[1])
-        self.__arrTk.packLeft(labelIndicationUser[0])
-        self.__arrTk.packLeft(self.entryName)
-        self.__arrTk.placeCenter(frameNameUser)
         #frameUserGenre
         self.__arrTk.placeTopCenter(labelTitre[2])
-        self.__arrTk.packLeft(labelIndicationUser[1])
-        self.__arrTk.packLeft(menuGenre)
+        self.__arrTk.placeCenter(menuGenre)
         self.__arrTk.placeBottomCenter(btnSuivant[2])
-        self.__arrTk.placeCenter(frameGenreUser)
+
         #frameWeather
         self.__arrTk.placeTopCenter(labelTitre[3])
         btnDomicile.place(x=15,y=((hauteurFrame-btnDomicile.winfo_reqheight())//2))
@@ -281,15 +275,18 @@ class ArreraLynx :
         self.__labelTitreAdd[1].place_forget()
         self.__labelTitreAdd[2].place_forget()
         if mode == "domicile" :
-            self.__labelTitreAdd[0].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreAdd[0].winfo_reqwidth())//2),y=0)
+            self.__arrTk.placeTopCenter(self.__labelTitreAdd[0])
+            self.__entryVille.configure(state=NORMAL, placeholder_text="Domicile")
             self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
         else :
             if mode == "travail" :
-                self.__labelTitreAdd[2].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreAdd[2].winfo_reqwidth())//2),y=0)
+                self.__arrTk.placeTopCenter(self.__labelTitreAdd[2])
+                self.__entryVille.configure(state=NORMAL, placeholder_text="Lieu de travail")
                 self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
             else :
                 if mode == "ville" :
-                    self.__labelTitreAdd[1].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreAdd[1].winfo_reqwidth())//2),y=0)
+                    self.__arrTk.placeTopCenter(self.__labelTitreAdd[1])
+                    self.__entryVille.configure(state=NORMAL, placeholder_text="Autre ville")
                     self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
         
     
@@ -321,10 +318,12 @@ class ArreraLynx :
         self.__labelTitreGPSAdd[1].place_forget()
         if mode == "domicile":
             self.__labelTitreGPSAdd[0].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreGPSAdd[0].winfo_reqwidth())//2),y=0)
+            self.__entryAdresse.configure(state=NORMAL,placeholder_text="Adresse de votre domicile")
             self.__btnGPSAdd.configure(command=lambda : self.__addGPS(mode))
         else :
             if mode == "travail" :
                 self.__labelTitreGPSAdd[1].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreGPSAdd[0].winfo_reqwidth())//2),y=0)
+                self.__entryAdresse.configure(state=NORMAL,placeholder_text="Adresse de votre lieu de travail")
                 self.__btnGPSAdd.configure(command=lambda : self.__addGPS(mode))
 
     def __addGPS(self,mode:str):
@@ -391,22 +390,22 @@ class ArreraLynx :
                 for i in range(0,5):
                     self.__labelTitreSoft[i].place_forget()
                 if mode == "Ttexte":
-                    self.__labelTitreSoft[0].place(x=((largeur-self.__labelTitreSoft[0].winfo_reqwidth())//2),y=0)
+                    self.__arrTk.placeTopCenter(self.__labelTitreSoft[0])
                 else :
                     if mode == "tableur":
-                        self.__labelTitreSoft[1].place(x=((largeur-self.__labelTitreSoft[1].winfo_reqwidth())//2),y=0)
+                        self.__arrTk.placeTopCenter(self.__labelTitreSoft[1])
                     else :
                         if mode == "presentation" :
-                            self.__labelTitreSoft[2].place(x=((largeur-self.__labelTitreSoft[2].winfo_reqwidth())//2),y=0)
+                            self.__arrTk.placeTopCenter(self.__labelTitreSoft[2])
                         else :
                             if mode == "internet" :
-                                self.__labelTitreSoft[3].place(x=((largeur-self.__labelTitreSoft[3].winfo_reqwidth())//2),y=0)
+                                self.__arrTk.placeTopCenter(self.__labelTitreSoft[3])
                             else :
                                 if mode == "note" :
-                                    self.__labelTitreSoft[4].place(x=((largeur-self.__labelTitreSoft[4].winfo_reqwidth())//2),y=0)
+                                    self.__arrTk.placeTopCenter(self.__labelTitreSoft[4])
                                 else :
                                     if mode == "musique" :
-                                        self.__labelTitreSoft[5].place(x=((largeur-self.__labelTitreSoft[5].winfo_reqwidth())//2),y=0)
+                                        self.__arrTk.placeTopCenter(self.__labelTitreSoft[5])
                 self.__btnAddSoft.configure(command=lambda : self.__addSoft(mode))
     
     def __addSoft(self,mode:str):
@@ -437,25 +436,27 @@ class ArreraLynx :
                     
     def __passWeb(self):
         self.__clearView()
-        self.__frameWeb.pack()
+        self.__arrTk.pack(self.__frameWeb)
 
     def __viewAddWeb(self,mode:str):
         self.__clearView()
-        self.__frameAddWeb.pack()
+        self.__arrTk.pack(self.__frameAddWeb)
         self.__entryLienSite.delete("0",END)
         self.__entryNameSite.delete("0",END)
+        self.__entryLienSite.configure(state=NORMAL,placeholder_text="Lien du site")
+        self.__entryNameSite.configure(state=NORMAL,placeholder_text="Nom du site")
         self.__entryLienSite.place_forget()
         self.__entryNameSite.place_forget()
         for i in range(0,1):
             self.__labelIndicationWeb[i].place_forget()
         largeurFrame = self.__frameAcceuil.winfo_reqwidth()
         if mode == "cloud":
-            self.__labelIndicationWeb[0].place(x=((largeurFrame-self.__labelIndicationWeb[0].winfo_reqwidth())//2),y=0)
-            self.__entryLienSite.place(rely=0.5,relx=0.5,anchor="center")
+            self.__arrTk.placeTopCenter(self.__labelIndicationWeb[0])
+            self.__arrTk.placeCenter(self.__entryLienSite)
             self.__btnAddSite.configure(command=lambda:self.__addWeb("cloud"))
         else :
             if mode == "site":
-                self.__labelIndicationWeb[1].place(x=((largeurFrame-self.__labelIndicationWeb[0].winfo_reqwidth())//2),y=0)
+                self.__arrTk.placeTopCenter(self.__labelIndicationWeb[1])
                 self.__entryLienSite.place(x=((largeurFrame-self.__entryLienSite.winfo_reqwidth())//2),y=200)
                 self.__entryNameSite.place(x=((largeurFrame-self.__entryNameSite.winfo_reqwidth())//2),y=100)
                 self.__btnAddSite.configure(command=lambda:self.__addWeb("site"))
@@ -484,7 +485,7 @@ class ArreraLynx :
 
     def __passEnd(self):
         self.__clearView()
-        self.__frameEnd.pack()
+        self.__arrTk.pack(self.__frameEnd)
     
     def __end(self):
         self.__windows.destroy()

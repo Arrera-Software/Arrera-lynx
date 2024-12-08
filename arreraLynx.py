@@ -1,84 +1,110 @@
-from tkinter import *
-from tkinter import messagebox
+from librairy.arreraTk import *
 from librairy.travailJSON import*
 from librairy.dectectionOS import*
 from librairy.gestionSoftWindows import*
 
 class ArreraLynx :
-    def __init__(self,windows:Tk,fichierLynx:jsonWork,fichierUser:jsonWork,fichierNeuron:jsonWork):
+    def __init__(self,fichierLynx:str,fichierUser:str,fichierNeuron:str):
         #objet
-        self.__fichierLynx = fichierLynx
-        self.__fileUser = fichierUser
-        self.__fileNeuron = fichierNeuron
+        self.__fichierLynx = jsonWork(fichierLynx)
+        self.__fileUser = jsonWork(fichierUser)
+        self.__fileNeuron = jsonWork(fichierNeuron)
         self.__dectOS = OS()
+        self.__arrTk = CArreraTK()
         if self.__dectOS.osWindows()==True:
             self.__softWin = gestionSoftWindows(self.__fileNeuron.lectureJSON("emplacementSoftWindows"))
-        #Variable 
-        self.__windows = windows
-        self.__varGenre = StringVar(windows)
+        #Variable
         color = self.__fichierLynx.lectureJSON("color")
         textColor = self.__fichierLynx.lectureJSON("textColor")
         nomSoft = self.__fichierLynx.lectureJSON("nameSoft")
-        iconLogiciel = PhotoImage(file=str(self.__fichierLynx.lectureJSON("iconSoft")))
+        iconLogiciel = os.path.abspath(self.__fichierLynx.lectureJSON("iconSoft"))
         listGenre = self.__fichierLynx.lectureJSONList("listGenre")
+
+        # Fenetre
+        self.__windows = self.__arrTk.aTK(width=700,
+                                          height=500,
+                                          title=nomSoft+": Premier demarage",
+                                          resizable=False)
+        self.__varGenre = StringVar(self.__windows)
+
         self.__userIN = False
         self.__genreIN = False
-        #modification de la fenetre
-        windows.title(nomSoft+": Premier demarage")
-        windows.maxsize(700,500)
-        windows.iconphoto(False,iconLogiciel)
         #cadre tkinter
-        self.__frameAcceuil = Frame(windows,width=700,height=500,bg=color)
-        self.__frameUserName = Frame(windows,width=700,height=500,bg=color)
-        self.__frameUserGenre = Frame(windows,width=700,height=500,bg=color)
-        self.__frameWeather = Frame(windows,width=700,height=500,bg=color)
-        self.__frameAddWeather = Frame(windows,width=700,height=500,bg=color)
-        self.__frameGPS = Frame(windows,width=700,height=500,bg=color)
-        self.__frameAddGPS = Frame(windows,width=700,height=500,bg=color)
-        self.__frameSoft = Frame(windows,width=700,height=500,bg=color)
-        self.__frameSoftLinux = Frame(windows,width=700,height=500,bg=color)
-        self.__frameWeb = Frame(windows,width=700,height=500,bg=color)
-        self.__frameAddWeb = Frame(windows,width=700,height=500,bg=color)
-        self.__frameEnd =  Frame(windows,width=700,height=500,bg=color)
+        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameUserName = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameSoft = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
+        self.__frameEnd =  self.__arrTk.createFrame(self.__windows,width=700,height=500,bg=color)
         #widget 
         labelTitre = [
-            Label(self.__frameAcceuil,bg=color,fg=textColor,font=("arial","20"),text="Programme de premier demarage de "+nomSoft),
-            Label(self.__frameUserName,bg=color,fg=textColor,font=("arial","20"),text="Nom d'utilisateur"),
-            Label(self.__frameUserGenre,bg=color,fg=textColor,font=("arial","20"),text="Genre d'utilisateur"),
-            Label(self.__frameWeather,bg=color,fg=textColor,font=("arial","20"),text="Meteo"),
-            Label(self.__frameGPS,bg=color,fg=textColor,font=("arial","20"),text="GPS"),
-            Label(self.__frameSoft,bg=color,fg=textColor,font=("arial","20"),text="Logiciel"),
-            Label(self.__frameWeb,bg=color,fg=textColor,font=("arial","20"),text="Site internet"),
-            Label(self.__frameEnd,bg=color,fg=textColor,font=("arial","20"),text="Configuration terminer")
+            self.__arrTk.createLabel(self.__frameAcceuil,text="Bienvenu sur Arrera "+nomSoft,
+                                     police="Arial",taille=35),#0
+            self.__arrTk.createLabel(self.__frameUserName,text="Nom d'utilisateur",
+                                     police="Arial",taille=35),
+            self.__arrTk.createLabel(self.__frameUserGenre,text="Genre d'utilisateur",
+                                     police="Arial",taille=35),
+            self.__arrTk.createLabel(self.__frameWeather,text="Meteo",
+                                     police="Arial",taille=35),
+            self.__arrTk.createLabel(self.__frameGPS,text="GPS",
+                                     police="Arial",taille=35),
+            self.__arrTk.createLabel(self.__frameSoft,text="Logiciel",
+                                     police="Arial",taille=35),
+            self.__arrTk.createLabel(self.__frameWeb,text="Site internet",
+                                     police="Arial",taille=35),
+            self.__arrTk.createLabel(self.__frameEnd,text="Configuration terminer",
+                                     police="Arial",taille=35)
         ]
         btnSuivant = [
-            Button(self.__frameAcceuil,bg=color,fg=textColor,font=("arial","15"),text="Commencer",command=self.__passUserName),#0
-            Button(self.__frameUserName,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self.__passUserGenre),#1
-            Button(self.__frameUserGenre,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self.__passMeteo),#2
-            Button(self.__frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self.__passGPS),#3
-            Button(self.__frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self.__passSoft),#4
-            Button(self.__frameSoft,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self.__passWeb),#5
-            Button(self.__frameWeb,bg=color,fg=textColor,font=("arial","15"),text="Suivant",command=self.__passEnd),#6
-            Button(self.__frameEnd,bg=color,fg=textColor,font=("arial","15"),text="Commencer à utiliser "+nomSoft,command=self.__end)#7
+            self.__arrTk.createButton(self.__frameAcceuil,police="Arial",taille=25,
+                                      text="Commencer",command=self.__passUserName),#0
+            self.__arrTk.createButton(self.__frameUserName,police="Arial",taille=25,
+                                      text="Suivant",command=self.__passUserGenre),#1
+            self.__arrTk.createButton(self.__frameUserGenre,police="Arial",taille=25,
+                                      text="Suivant",command=self.__passMeteo),#2
+            self.__arrTk.createButton(self.__frameWeather,police="Arial",taille=25,
+                                      text="Suivant",command=self.__passGPS),#3
+            self.__arrTk.createButton(self.__frameGPS,police="Arial",taille=25,
+                                      text="Suivant",command=self.__passSoft),#4
+            self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
+                                      text="Suivant",command=self.__passWeb),#5
+            self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
+                                      text="Suivant",command=self.__passEnd),#6
+            self.__arrTk.createButton(self.__frameEnd,police="Arial",taille=25,
+                                      text="Commencer à utiliser "+nomSoft,command=self.__end)#7
         ]
         #frameUserName & frameUserGenre
-        frameNameUser = Frame(self.__frameUserName,bg=color)
-        frameGenreUser = Frame(self.__frameUserGenre,bg=color)
+        frameNameUser = self.__arrTk.createFrame(self.__frameUserName)
+        frameGenreUser = self.__arrTk.createFrame(self.__frameUserGenre)
         labelIndicationUser = [
-            Label(frameNameUser,bg=color,fg=textColor,font=("arial","15"),text="Nom :"),
-            Label(frameGenreUser,bg=color,fg=textColor,font=("arial","15"),text="Genre :")
+            self.__arrTk.createLabel(frameNameUser,police="Arial",taille=25,text="Nom :"),
+            self.__arrTk.createLabel(frameGenreUser,police="Arial",taille=25,text="Genre :")
             ]
-        self.entryName = Entry(frameNameUser,font=("arial","15"),borderwidth=2,relief="solid")
-        menuGenre = OptionMenu(frameGenreUser,self.__varGenre,*listGenre)
+        self.entryName = self.__arrTk.createEntry(frameNameUser,police="Arial",taille=25,
+                                                  placeholderText="Nom d'utilisateur",width=300)
+        menuGenre = self.__arrTk.createOptionMenu(frameGenreUser,var=self.__varGenre,value=listGenre)
         #frameWeather
-        btnDomicile = Button(self.__frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Domicile",command=lambda : self.__viewAddMeteo("domicile"))
-        btnTravail = Button(self.__frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Lien de travail",command=lambda : self.__viewAddMeteo("travail"))
-        btnVille = Button(self.__frameWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter une ville",command=lambda : self.__viewAddMeteo("ville"))
+        btnDomicile = self.__arrTk.createButton(self.__frameWeather,police="Arial",
+                                                taille=15,text="Domicile",
+                                                command=lambda : self.__viewAddMeteo("domicile"))
+        btnTravail = self.__arrTk.createButton(self.__frameWeather,police="Arial",
+                                               taille=15,text="Lien de travail",
+                                               command=lambda : self.__viewAddMeteo("travail"))
+        btnVille = self.__arrTk.createButton(self.__frameWeather,police="Arial",
+                                             taille=15,text="Ajouter une ville",
+                                             command=lambda : self.__viewAddMeteo("ville"))
         #frameAddWeather
-        self.__labelTitreAdd = [Label(self.__frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Domicile"),
-                          Label(self.__frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ville"),
-                          Label(self.__frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Travail")]
-        self.__entryVille = Entry(self.__frameAddWeather,font=("arial","15"),borderwidth=2,relief="solid")
+        self.__labelTitreAdd = [self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Domicile"),
+                          self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Ville"),
+                          self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Travail")]
+        self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather,police="Arial",taille=25,
+                                                     placeholderText="Nom de la ville",width=300)
         self.__btnAdd = Button(self.__frameAddWeather,bg=color,fg=textColor,font=("arial","15"),text="Ajouter")
         #frameGPS
         btnAdresseDomicile = Button(self.__frameGPS,bg=color,fg=textColor,font=("arial","15"),text="Adresse de domicile",command=lambda :self.__viewAddGPS("domicile"))
@@ -124,60 +150,60 @@ class ArreraLynx :
         
         #affichage
         #frameAcceuil
-        labelTitre[0].place(x=((largeurFrame-labelTitre[0].winfo_reqwidth())//2),y=0)
-        btnSuivant[0].place(relx=0.5,rely=0.5,anchor="center")
+        self.__arrTk.placeTopCenter(labelTitre[0])
+        self.__arrTk.placeCenter(btnSuivant[0])
         #frameUserName
-        labelTitre[1].place(x=((largeurFrame-labelTitre[1].winfo_reqwidth())//2),y=0)
-        btnSuivant[1].place(x=((largeurFrame-btnSuivant[1].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[1].winfo_reqheight()))
+        self.__arrTk.placeTopCenter(labelTitre[1])
+        self.__arrTk.placeBottomCenter(btnSuivant[1])
         labelIndicationUser[0].pack(side="left")
         self.entryName.pack(side="left")
         frameNameUser.place(relx=0.5,rely=0.5,anchor="center")
         #frameUserGenre
-        labelTitre[2].place(x=((largeurFrame-labelTitre[2].winfo_reqwidth())//2),y=0)
+        self.__arrTk.placeTopCenter(labelTitre[2])
         labelIndicationUser[1].pack(side="left")
         menuGenre.pack(side="left")
-        btnSuivant[2].place(x=((largeurFrame-btnSuivant[2].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[2].winfo_reqheight()))
+        self.__arrTk.placeBottomCenter(btnSuivant[2])
         frameGenreUser.place(relx=0.5,rely=0.5,anchor="center")
         #frameWeather
-        labelTitre[3].place(x=((largeurFrame-labelTitre[3].winfo_reqwidth())//2),y=0)
+        self.__arrTk.placeTopCenter(labelTitre[3])
         btnDomicile.place(x=15,y=((hauteurFrame-btnDomicile.winfo_reqheight())//2))
         btnVille.place(relx=0.5,rely=0.5,anchor="center")
         btnTravail.place(x=((largeurFrame-btnTravail.winfo_reqwidth())-15),y=((hauteurFrame-btnTravail.winfo_reqheight())//2))
-        btnSuivant[3].place(x=((largeurFrame-btnSuivant[3].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[3].winfo_reqheight()))
+        self.__arrTk.placeBottomCenter(btnSuivant[3])
         #frameAddWeather
         self.__entryVille.place(relx=0.5,rely=0.5,anchor="center")
         self.__btnAdd.place(x=((largeurFrame-self.__btnAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnAdd.winfo_reqheight()))
         #frameGPS
-        labelTitre[4].place(x=((largeurFrame-labelTitre[4].winfo_reqwidth())//2),y=0)
+        self.__arrTk.placeTopCenter(labelTitre[4])
         btnAdresseDomicile.place(x=15,y=((hauteurFrame-btnAdresseDomicile.winfo_reqheight())//2))
         btnAdresseTravail.place(x=(largeurFrame-btnAdresseTravail.winfo_reqwidth())-15,y=((hauteurFrame-btnAdresseTravail.winfo_reqheight())//2))
-        btnSuivant[4].place(x=((largeurFrame-btnSuivant[4].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
+        self.__arrTk.placeBottomCenter(btnSuivant[4])
         #frameAddGPS
         self.__entryAdresse.place(relx=0.5,rely=0.5,anchor="center")
         self.__btnGPSAdd.place(x=((largeurFrame-self.__btnGPSAdd.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnGPSAdd.winfo_reqheight()))
         #frameSoft
-        labelTitre[5].place(x=((largeurFrame-labelTitre[4].winfo_reqwidth())//2),y=0)
+        self.__arrTk.placeTopCenter(labelTitre[5])
         btnWord.place(x=15,y=100)
         btnExel.place(x=(largeurFrame-btnExel.winfo_reqwidth()-15),y=100)
         btnPresentation.place(x=15,y=200)
         btnBrowser.place(x=(largeurFrame-btnBrowser.winfo_reqwidth()-15),y=200)
         btnNote.place(x=15,y=300)
         btnMusic.place(x=(largeurFrame-btnMusic.winfo_reqwidth()-15),y=300)
-        btnSuivant[5].place(x=((largeurFrame-btnSuivant[5].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[4].winfo_reqheight()))
+        self.__arrTk.placeBottomCenter(btnSuivant[5])
         #frameAddSoft
         if (self.__dectOS.osWindows() == False) and (self.__dectOS.osLinux()==True):
             self.__entryCommandLinux.place(relx=0.5,rely=0.5,anchor="center")
         self.__btnAddSoft.place(x=((largeurFrame-self.__btnAddSoft.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnAddSoft.winfo_reqheight()))
         #frameWeb
-        labelTitre[6].place(x=((largeurFrame-labelTitre[6].winfo_reqwidth())//2),y=0)
+        self.__arrTk.placeTopCenter(labelTitre[6])
         btnCloud.place(x=15,y=((hauteurFrame-btnCloud.winfo_reqheight())//2))
         btnSiteWeb.place(x=(largeurFrame-btnSiteWeb.winfo_reqwidth())-15,y=((hauteurFrame-btnSiteWeb.winfo_reqheight())//2))
-        btnSuivant[6].place(x=((largeurFrame-btnSuivant[6].winfo_reqwidth())//2),y=(hauteurFrame-btnSuivant[6].winfo_reqheight()))
+        self.__arrTk.placeBottomCenter(btnSuivant[6])
         #frameAddWeb
         self.__btnAddSite.place(x=((largeurFrame-self.__btnAddSite.winfo_reqwidth())//2),y=(hauteurFrame-self.__btnAddSite.winfo_reqheight()))
         #frameEnd
-        labelTitre[7].place(x=((largeurFrame-labelTitre[7].winfo_reqwidth())//2),y=0)
-        btnSuivant[7].place(relx=0.5,rely=0.5,anchor="center")
+        self.__arrTk.placeTopCenter(labelTitre[7])
+        self.__arrTk.placeCenter(btnSuivant[7])
        
 
     def confiCreate(self):
@@ -203,6 +229,7 @@ class ArreraLynx :
 
     def active(self):
         self.__frameAcceuil.pack()
+        self.__arrTk.view()
 
     def __passUserName(self):
         self.__clearView()

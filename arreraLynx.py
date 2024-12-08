@@ -42,7 +42,7 @@ class ArreraLynx :
         self.__frameWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
         self.__frameAddWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
         self.__frameEnd =  self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        #widget 
+        #widget
         labelTitre = [
             self.__arrTk.createLabel(self.__frameAcceuil,text="Bienvenu sur Arrera "+nomSoft,
                                      police="Arial",taille=35),#0
@@ -276,17 +276,14 @@ class ArreraLynx :
         self.__labelTitreAdd[2].place_forget()
         if mode == "domicile" :
             self.__arrTk.placeTopCenter(self.__labelTitreAdd[0])
-            self.__entryVille.configure(state=NORMAL, placeholder_text="Domicile")
             self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
         else :
             if mode == "travail" :
                 self.__arrTk.placeTopCenter(self.__labelTitreAdd[2])
-                self.__entryVille.configure(state=NORMAL, placeholder_text="Lieu de travail")
                 self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
             else :
                 if mode == "ville" :
                     self.__arrTk.placeTopCenter(self.__labelTitreAdd[1])
-                    self.__entryVille.configure(state=NORMAL, placeholder_text="Autre ville")
                     self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
         
     
@@ -317,13 +314,11 @@ class ArreraLynx :
         self.__labelTitreGPSAdd[0].place_forget()
         self.__labelTitreGPSAdd[1].place_forget()
         if mode == "domicile":
-            self.__labelTitreGPSAdd[0].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreGPSAdd[0].winfo_reqwidth())//2),y=0)
-            self.__entryAdresse.configure(state=NORMAL,placeholder_text="Adresse de votre domicile")
+            self.__arrTk.placeTopCenter(self.__labelTitreGPSAdd[0])
             self.__btnGPSAdd.configure(command=lambda : self.__addGPS(mode))
         else :
             if mode == "travail" :
-                self.__labelTitreGPSAdd[1].place(x=((self.__frameAcceuil.winfo_reqwidth()-self.__labelTitreGPSAdd[0].winfo_reqwidth())//2),y=0)
-                self.__entryAdresse.configure(state=NORMAL,placeholder_text="Adresse de votre lieu de travail")
+                self.__arrTk.placeTopCenter(self.__labelTitreGPSAdd[1])
                 self.__btnGPSAdd.configure(command=lambda : self.__addGPS(mode))
 
     def __addGPS(self,mode:str):
@@ -443,8 +438,6 @@ class ArreraLynx :
         self.__arrTk.pack(self.__frameAddWeb)
         self.__entryLienSite.delete("0",END)
         self.__entryNameSite.delete("0",END)
-        self.__entryLienSite.configure(state=NORMAL,placeholder_text="Lien du site")
-        self.__entryNameSite.configure(state=NORMAL,placeholder_text="Nom du site")
         self.__entryLienSite.place_forget()
         self.__entryNameSite.place_forget()
         for i in range(0,1):

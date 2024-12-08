@@ -149,7 +149,7 @@ class CArreraTK :
             if (fg != ""):
                 label.configure(fg_color=fg)
             if (police != "Arial" or taille != 12):
-                label.configure(font=(police,taille))
+                label.configure(font=(police,taille,"normal"))
         else :
             label = Label(screen)
             if (text != ""):
@@ -178,7 +178,7 @@ class CArreraTK :
             if (command != None):
                 btn.configure(command=command)
             if (police != "Arial" or taille != 12):
-                btn.configure(font=(police,taille))
+                btn.configure(font=(police,taille,"normal"))
         else :
             btn = Button(screen)
             if (text != ""):
@@ -195,19 +195,25 @@ class CArreraTK :
                 btn.configure(font=(police, taille))
         return btn
 
-    def createEntry(self, screen, bg : str = "", fg : str = ""):
+    def createEntry(self, screen, bg : str = "", fg : str = "",placeholderText :str = "",police : str = "Arial", taille : int = 12):
         if (self.__mode == 0):
             entry = ctk.CTkEntry(screen)
             if (bg != ""):
                 entry.configure(bg_color=bg)
             if (fg != ""):
                 entry.configure(fg_color=fg)
+            if (placeholderText != ""):
+                entry.configure(placeholder_text=placeholderText)
+            if (police != "Arial" or taille != 12):
+                entry.configure(font=(police, taille,"normal"))
         else :
             entry = Entry(screen)
             if (bg != ""):
                 entry.configure(bg=bg)
             if (fg != ""):
                 entry.configure(fg=fg)
+            if (police != "Arial" or taille != 12):
+                entry.configure(font=(police, taille))
         return entry
 
     def createText(self, screen, bg : str = "", fg : str = ""):

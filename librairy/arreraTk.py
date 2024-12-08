@@ -284,11 +284,13 @@ class CArreraTK :
                 frame.configure(bg=bg)
         return frame
 
-    def createOptionMenu(self,screen,value: list, var:StringVar):
+    def createOptionMenu(self,screen,value: list, var:StringVar,taille : int = 0, police :str = "" ):
         if (self.__mode == 0):
             option = ctk.CTkOptionMenu(screen,variable=var,values=value)
         else:
             option = OptionMenu(screen,var,*value)
+        if (police != "" and taille != 0):
+            option.configure(font=(police,taille,"normal"))
         var.set(value[0])
         return option
 

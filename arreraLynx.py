@@ -13,9 +13,8 @@ class ArreraLynx :
         self.__arrTk = CArreraTK()
         if self.__dectOS.osWindows()==True:
             self.__softWin = gestionSoftWindows(self.__fileNeuron.lectureJSON("emplacementSoftWindows"))
+
         #Variable
-        color = self.__fichierLynx.lectureJSON("color")
-        textColor = self.__fichierLynx.lectureJSON("textColor")
         nomSoft = self.__fichierLynx.lectureJSON("nameSoft")
         iconLogiciel = os.path.abspath(self.__fichierLynx.lectureJSON("iconSoft"))
         listGenre = self.__fichierLynx.lectureJSONList("listGenre")
@@ -83,7 +82,8 @@ class ArreraLynx :
 
         self.entryName = self.__arrTk.createEntry(self.__frameUserName,police="Arial",taille=25,
                                                   placeholderText="Nom d'utilisateur",width=300)
-        menuGenre = self.__arrTk.createOptionMenu(self.__frameUserGenre,var=self.__varGenre,value=listGenre)
+        menuGenre = self.__arrTk.createOptionMenu(self.__frameUserGenre,var=self.__varGenre,value=listGenre,
+                                                  police="Arial",taille=25)
         #frameWeather
         btnDomicile = self.__arrTk.createButton(self.__frameWeather,police="Arial",
                                                 taille=25,text="Domicile",
@@ -160,11 +160,7 @@ class ArreraLynx :
         self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb,police="Arial",taille=25,width=300)
         self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb,police="Arial",taille=25,width=300)
         self.__btnAddSite = self.__arrTk.createButton(self.__frameAddWeb,police="Arial",taille=25,text="Ajouter")
-        
-        #calcule affichage
-        largeurFrame = self.__frameAcceuil.winfo_reqwidth()
-        hauteurFrame = self.__frameAcceuil.winfo_reqheight()
-        
+
         #affichage
         #frameAcceuil
         self.__arrTk.placeTopCenter(labelTitre[0])

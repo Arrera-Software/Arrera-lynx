@@ -138,7 +138,7 @@ class ArreraLynx :
         btnMusic = self.__arrTk.createButton(frameRightSoft,police="Arial",taille=25,
                                              text="Musique",command=lambda:self.__viewAddSoft("musique"))
         #frameAddSoft
-        self.__labelTitreSoft = [
+        self.__labelTitreSoftLinux = [
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de traitement de texte"),
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un tableur"),
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de presentation"),
@@ -146,8 +146,8 @@ class ArreraLynx :
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de note"),
             self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de musique"),
         ]
-        self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameSoftLinux,width=300,placeholderText="",police="Arial",taille=25)
-        self.__btnAddSoft = self.__arrTk.createButton(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter")
+        #self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameSoftLinux,width=300,placeholderText="",police="Arial",taille=25)
+        self.__btnAddSoftLinux = self.__arrTk.createButton(self.__frameSoftLinux, police="Arial", taille=25, text="Choisir le programme")
         #frameWeb
         btnCloud = self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
                                              text="Stokage cloud ",command=lambda:self.__viewAddWeb("cloud"))
@@ -206,9 +206,11 @@ class ArreraLynx :
         self.__arrTk.placeBottomCenter(btnMusic)
         self.__arrTk.placeBottomCenter(btnSuivant[5])
         #frameAddSoft
+        """
         if (self.__dectOS.osWindows() == False) and (self.__dectOS.osLinux()==True):
             self.__arrTk.placeCenter(self.__entryCommandLinux)
-        self.__arrTk.placeBottomCenter(self.__btnAddSoft)
+        """
+        self.__arrTk.placeCenter(self.__btnAddSoftLinux)
         #frameWeb
         self.__arrTk.placeTopCenter(labelTitre[6])
         self.__arrTk.placeLeftCenter(btnCloud)
@@ -383,33 +385,47 @@ class ArreraLynx :
                                     self.__fileUser.EcritureJSON("musicWindows",self.__softWin.getName())
         else :
             if (self.__dectOS.osLinux() == True) :
-                self.__entryCommandLinux.delete("0",END)
+                #self.__entryCommandLinux.delete("0",END)
                 self.__clearView()
-                self.__frameSoftLinux.pack()
-                largeur = self.__frameAcceuil.winfo_reqwidth()
+                self.__arrTk.pack(self.__frameSoftLinux)
                 for i in range(0,5):
-                    self.__labelTitreSoft[i].place_forget()
+                    self.__labelTitreSoftLinux[i].place_forget()
                 if mode == "Ttexte":
-                    self.__arrTk.placeTopCenter(self.__labelTitreSoft[0])
+                    self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[0])
                 else :
                     if mode == "tableur":
-                        self.__arrTk.placeTopCenter(self.__labelTitreSoft[1])
+                        self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[1])
                     else :
                         if mode == "presentation" :
-                            self.__arrTk.placeTopCenter(self.__labelTitreSoft[2])
+                            self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[2])
                         else :
                             if mode == "internet" :
-                                self.__arrTk.placeTopCenter(self.__labelTitreSoft[3])
+                                self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[3])
                             else :
                                 if mode == "note" :
-                                    self.__arrTk.placeTopCenter(self.__labelTitreSoft[4])
+                                    self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[4])
                                 else :
                                     if mode == "musique" :
-                                        self.__arrTk.placeTopCenter(self.__labelTitreSoft[5])
-                self.__btnAddSoft.configure(command=lambda : self.__addSoft(mode))
+                                        self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[5])
+                self.__btnAddSoftLinux.configure(command=lambda : self.__addSoftLinux(mode))
     
-    def __addSoft(self,mode:str):
-        command = self.__entryCommandLinux.get()
+    def __addSoftLinux(self, mode:str):
+        reponse = messagebox.askquestion(
+            "Choix repertoire",
+            "Le programme se trouve-t-il dans votre répertoire /home ?",
+            icon="question"
+        )
+        if reponse == "yes":
+            command = filedialog.askopenfilename(
+                title="Sélectionner un programme",
+                initialdir=os.path.expanduser("~"),  # Définit le répertoire initial sur le home de l'utilisateur
+                filetypes=[("Tous les fichiers", "*")]
+            )
+        else :
+            command = filedialog.askopenfilename(
+                            title="Selectionner un programme",
+                            initialdir="/bin",
+                            filetypes=[("Tous les fichiers", "*")])
         if command :
             if mode == "Ttexte":
                 self.__fileUser.EcritureJSON("wordLinux",command)

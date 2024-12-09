@@ -2,6 +2,8 @@ import customtkinter as ctk
 from tkinter import *
 from PIL import Image, ImageTk
 import webbrowser as wb
+import platform
+import os
 
 VERSIONARRERATK = "1.0.0"
 
@@ -40,7 +42,13 @@ class CArreraTK :
         else:
             self.__root = Tk()
         if icon != "":
-            self.__root.iconbitmap(icon)
+            if platform.system() == "Windows":
+                if os.path.splitext(icon)[1].lower() == '.ico' :
+                    self.__root.iconbitmap(icon)
+            else:
+                if os.path.splitext(icon)[1].lower() == '.png' :
+                    print("bite")
+                    self.__root.iconphoto(True, PhotoImage(file=icon))
         self.__root.geometry(f"{width}x{height}")
         self.__root.title(title)
         self.__root.resizable(resizable, resizable)

@@ -23,7 +23,9 @@ class ArreraLynx :
         self.__windows = self.__arrTk.aTK(width=700,
                                           height=500,
                                           title=nomSoft+": Premier demarage",
-                                          resizable=False)
+                                          resizable=False
+                                          ,icon=iconLogiciel
+                                          )
         self.__varGenre = StringVar(self.__windows)
 
         self.__userIN = False

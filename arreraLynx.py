@@ -1,3 +1,5 @@
+from tkinter.messagebox import showinfo, showerror
+
 from librairy.arreraTk import *
 from librairy.travailJSON import*
 from librairy.dectectionOS import*
@@ -47,25 +49,31 @@ class ArreraLynx :
         self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows,width=700,height=500)
         self.__frameWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
         self.__frameAddWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__frameWorkFolder = self.__arrTk.createFrame(self.__windows,width=700,height=500)
+        self.__framevideoDownloadFolder = self.__arrTk.createFrame(self.__windows,width=700,height=500)
         self.__frameEnd =  self.__arrTk.createFrame(self.__windows,width=700,height=500)
         #widget
         labelTitre = [
             self.__arrTk.createLabel(self.__frameAcceuil,text="Bienvenu sur Arrera "+nomSoft,
                                      police="Arial",taille=35),#0
             self.__arrTk.createLabel(self.__frameUserName,text="Nom d'utilisateur",
-                                     police="Arial",taille=35),
+                                     police="Arial",taille=35),#1
             self.__arrTk.createLabel(self.__frameUserGenre,text="Genre d'utilisateur",
-                                     police="Arial",taille=35),
+                                     police="Arial",taille=35),#2
             self.__arrTk.createLabel(self.__frameWeather,text="Meteo",
-                                     police="Arial",taille=35),
+                                     police="Arial",taille=35),#3
             self.__arrTk.createLabel(self.__frameGPS,text="GPS",
-                                     police="Arial",taille=35),
+                                     police="Arial",taille=35),#4
             self.__arrTk.createLabel(self.__frameSoft,text="Logiciel",
-                                     police="Arial",taille=35),
+                                     police="Arial",taille=35),#5
             self.__arrTk.createLabel(self.__frameWeb,text="Site internet",
-                                     police="Arial",taille=35),
+                                     police="Arial",taille=35),#6
+            self.__arrTk.createLabel(self.__frameWorkFolder, text="Sélectionner le dossier de travail Arrera",
+                                     police="Arial", taille=35),#7
+            self.__arrTk.createLabel(self.__framevideoDownloadFolder, text="Sélectionner le dossier de téléchargement\nde vidéos et de musique",
+                                     police="Arial", taille=35),#8
             self.__arrTk.createLabel(self.__frameEnd,text="Configuration terminer",
-                                     police="Arial",taille=35)
+                                     police="Arial",taille=35)#9
         ]
         btnSuivant = [
             self.__arrTk.createButton(self.__frameAcceuil,police="Arial",taille=25,
@@ -81,9 +89,13 @@ class ArreraLynx :
             self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
                                       text="Suivant",command=self.__passWeb),#5
             self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passEnd),#6
+                                      text="Suivant",command=self.__passWorkFolder),#6
+            self.__arrTk.createButton(self.__frameWorkFolder, police="Arial", taille=25,
+                                      text="Choisir le dossier",command=self.__addFolderWork),  #7
+            self.__arrTk.createButton(self.__framevideoDownloadFolder, police="Arial", taille=25,
+                                      text="Choissir le dossier",command=self.__addFolderVideo), #8
             self.__arrTk.createButton(self.__frameEnd,police="Arial",taille=25,
-                                      text="Commencer à utiliser "+nomSoft,command=self.__end)#7
+                                      text="Commencer à utiliser "+nomSoft,command=self.__end)#9
         ]
         #frameUserName & frameUserGenre
 
@@ -225,9 +237,15 @@ class ArreraLynx :
         self.__arrTk.placeBottomCenter(btnSuivant[6])
         #frameAddWeb
         self.__arrTk.placeBottomCenter(self.__btnAddSite)
-        #frameEnd
+        #FrameFolderWork
         self.__arrTk.placeTopCenter(labelTitre[7])
         self.__arrTk.placeCenter(btnSuivant[7])
+        #FrameVideoDownloadFolder
+        self.__arrTk.placeTopCenter(labelTitre[8])
+        self.__arrTk.placeCenter(btnSuivant[8])
+        #frameEnd
+        self.__arrTk.placeTopCenter(labelTitre[9])
+        self.__arrTk.placeCenter(btnSuivant[9])
        
 
     def confiCreate(self):
@@ -249,6 +267,8 @@ class ArreraLynx :
         self.__frameSoftLinux.pack_forget()
         self.__frameWeb.pack_forget()
         self.__frameAddWeb.pack_forget()
+        self.__framevideoDownloadFolder.pack_forget()
+        self.__frameWorkFolder.pack_forget()
         self.__frameEnd.pack_forget()
 
     def active(self):
@@ -510,3 +530,35 @@ class ArreraLynx :
     
     def __end(self):
         self.__windows.destroy()
+
+
+    def __passWorkFolder(self):
+        self.__clearView()
+        self.__arrTk.pack(self.__frameWorkFolder)
+
+    def __passVideoDownloadFolder(self):
+        self.__clearView()
+        self.__arrTk.pack(self.__framevideoDownloadFolder)
+
+    def __addFolderWork(self):
+        folder = filedialog.askdirectory(title="Choisir le dossier de travail")
+
+        if folder :
+            self.__fileUser.EcritureJSON("wordFolder",folder)
+            showinfo("Dossier de travail","Dossier de travail enregistrer")
+        else :
+            showerror("Dossier de travail", "Dossier de travail n'est enregistrer")
+
+        self.__passVideoDownloadFolder()
+
+
+    def __addFolderVideo(self):
+        folder = filedialog.askdirectory(title="Choisir le dossier pour les video et les musiques")
+
+        if folder:
+            self.__fileUser.EcritureJSON("videoDownloadFolder", folder)
+            showinfo("Dossier video et musique", "Dossier video et musique enregistrer")
+        else:
+            showerror("Dossier video et musique", "Dossier video et musique n'est enregistrer")
+
+        self.__passEnd()

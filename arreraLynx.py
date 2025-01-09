@@ -1,27 +1,27 @@
 from tkinter.messagebox import showinfo, showerror
+from librairy.arrera_tk import *
+from librairy.travailJSON import *
+from librairy.dectectionOS import *
+from librairy.gestionSoftWindows import *
 
-from librairy.arreraTk import *
-from librairy.travailJSON import*
-from librairy.dectectionOS import*
-from librairy.gestionSoftWindows import*
 
-class ArreraLynx :
-    def __init__(self,fichierLynx:str,fichierUser:str,fichierNeuron:str):
-        #objet
+class ArreraLynx:
+    def __init__(self, fichierLynx: str, fichierUser: str, fichierNeuron: str):
+        # objet
         self.__fichierLynx = jsonWork(fichierLynx)
         self.__fileUser = jsonWork(fichierUser)
         self.__fileNeuron = jsonWork(fichierNeuron)
         self.__dectOS = OS()
         self.__arrTk = CArreraTK()
-        if self.__dectOS.osWindows()==True:
+        if self.__dectOS.osWindows() == True:
             self.__softWin = gestionSoftWindows(self.__fileNeuron.lectureJSON("emplacementSoftWindows"))
 
-        #Variable
+        # Variable
         nomSoft = self.__fichierLynx.lectureJSON("nameSoft")
 
         if self.__dectOS.osWindows() == True:
             iconLogiciel = os.path.abspath(self.__fichierLynx.lectureJSON("iconSoftWin"))
-        else :
+        else:
             iconLogiciel = os.path.abspath(self.__fichierLynx.lectureJSON("iconSoftLinux"))
 
         listGenre = self.__fichierLynx.lectureJSONList("listGenre")
@@ -29,188 +29,196 @@ class ArreraLynx :
         # Fenetre
         self.__windows = self.__arrTk.aTK(width=700,
                                           height=500,
-                                          title=nomSoft+": Premier demarage",
+                                          title=nomSoft + ": Premier demarage",
                                           resizable=False
-                                          ,icon=iconLogiciel
+                                          , icon=iconLogiciel
                                           )
         self.__varGenre = StringVar(self.__windows)
 
         self.__userIN = False
         self.__genreIN = False
-        #cadre tkinter
-        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameUserName = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameSoft = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameWorkFolder = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__framevideoDownloadFolder = self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        self.__frameEnd =  self.__arrTk.createFrame(self.__windows,width=700,height=500)
-        #widget
+        # cadre tkinter
+        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameUserName = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameWeather = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameGPS = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameSoft = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameWeb = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameWorkFolder = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__framevideoDownloadFolder = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameEnd = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        # widget
         labelTitre = [
-            self.__arrTk.createLabel(self.__frameAcceuil,text="Bienvenu sur Arrera "+nomSoft,
-                                     police="Arial",taille=35),#0
-            self.__arrTk.createLabel(self.__frameUserName,text="Nom d'utilisateur",
-                                     police="Arial",taille=35),#1
-            self.__arrTk.createLabel(self.__frameUserGenre,text="Genre d'utilisateur",
-                                     police="Arial",taille=35),#2
-            self.__arrTk.createLabel(self.__frameWeather,text="Meteo",
-                                     police="Arial",taille=35),#3
-            self.__arrTk.createLabel(self.__frameGPS,text="GPS",
-                                     police="Arial",taille=35),#4
-            self.__arrTk.createLabel(self.__frameSoft,text="Logiciel",
-                                     police="Arial",taille=35),#5
-            self.__arrTk.createLabel(self.__frameWeb,text="Site internet",
-                                     police="Arial",taille=35),#6
+            self.__arrTk.createLabel(self.__frameAcceuil, text="Bienvenu sur Arrera " + nomSoft,
+                                     ppolice="Arial", ptaille=35),  # 0
+            self.__arrTk.createLabel(self.__frameUserName, text="Nom d'utilisateur",
+                                     ppolice="Arial", ptaille=35),  # 1
+            self.__arrTk.createLabel(self.__frameUserGenre, text="Genre d'utilisateur",
+                                     ppolice="Arial", ptaille=35),  # 2
+            self.__arrTk.createLabel(self.__frameWeather, text="Meteo",
+                                     ppolice="Arial", ptaille=35),  # 3
+            self.__arrTk.createLabel(self.__frameGPS, text="GPS",
+                                     ppolice="Arial", ptaille=35),  # 4
+            self.__arrTk.createLabel(self.__frameSoft, text="Logiciel",
+                                     ppolice="Arial", ptaille=35),  # 5
+            self.__arrTk.createLabel(self.__frameWeb, text="Site internet",
+                                     ppolice="Arial", ptaille=35),  # 6
             self.__arrTk.createLabel(self.__frameWorkFolder, text="Sélectionner le dossier de travail Arrera",
-                                     police="Arial", taille=35),#7
-            self.__arrTk.createLabel(self.__framevideoDownloadFolder, text="Sélectionner le dossier de téléchargement\nde vidéos et de musique",
-                                     police="Arial", taille=35),#8
-            self.__arrTk.createLabel(self.__frameEnd,text="Configuration terminer",
-                                     police="Arial",taille=35)#9
+                                     ppolice="Arial", ptaille=35),  # 7
+            self.__arrTk.createLabel(self.__framevideoDownloadFolder,
+                                     text="Sélectionner le dossier de téléchargement\nde vidéos et de musique",
+                                     ppolice="Arial", ptaille=35),  # 8
+            self.__arrTk.createLabel(self.__frameEnd, text="Configuration terminer",
+                                     ppolice="Arial", ptaille=35)  # 9
         ]
         btnSuivant = [
-            self.__arrTk.createButton(self.__frameAcceuil,police="Arial",taille=25,
-                                      text="Commencer",command=self.__passUserName),#0
-            self.__arrTk.createButton(self.__frameUserName,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passUserGenre),#1
-            self.__arrTk.createButton(self.__frameUserGenre,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passMeteo),#2
-            self.__arrTk.createButton(self.__frameWeather,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passGPS),#3
-            self.__arrTk.createButton(self.__frameGPS,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passSoft),#4
-            self.__arrTk.createButton(self.__frameSoft,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passWeb),#5
-            self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
-                                      text="Suivant",command=self.__passWorkFolder),#6
-            self.__arrTk.createButton(self.__frameWorkFolder, police="Arial", taille=25,
-                                      text="Choisir le dossier",command=self.__addFolderWork),  #7
-            self.__arrTk.createButton(self.__framevideoDownloadFolder, police="Arial", taille=25,
-                                      text="Choissir le dossier",command=self.__addFolderVideo), #8
-            self.__arrTk.createButton(self.__frameEnd,police="Arial",taille=25,
-                                      text="Commencer à utiliser "+nomSoft,command=self.__end)#9
+            self.__arrTk.createButton(self.__frameAcceuil, ppolice="Arial", ptaille=25,
+                                      text="Commencer", command=self.__passUserName),  # 0
+            self.__arrTk.createButton(self.__frameUserName, ppolice="Arial", ptaille=25,
+                                      text="Suivant", command=self.__passUserGenre),  # 1
+            self.__arrTk.createButton(self.__frameUserGenre, ppolice="Arial", ptaille=25,
+                                      text="Suivant", command=self.__passMeteo),  # 2
+            self.__arrTk.createButton(self.__frameWeather, ppolice="Arial", ptaille=25,
+                                      text="Suivant", command=self.__passGPS),  # 3
+            self.__arrTk.createButton(self.__frameGPS, ppolice="Arial", ptaille=25,
+                                      text="Suivant", command=self.__passSoft),  # 4
+            self.__arrTk.createButton(self.__frameSoft, ppolice="Arial", ptaille=25,
+                                      text="Suivant", command=self.__passWeb),  # 5
+            self.__arrTk.createButton(self.__frameWeb, ppolice="Arial", ptaille=25,
+                                      text="Suivant", command=self.__passWorkFolder),  # 6
+            self.__arrTk.createButton(self.__frameWorkFolder, ppolice="Arial", ptaille=25,
+                                      text="Choisir le dossier", command=self.__addFolderWork),  # 7
+            self.__arrTk.createButton(self.__framevideoDownloadFolder, ppolice="Arial", ptaille=25,
+                                      text="Choissir le dossier", command=self.__addFolderVideo),  # 8
+            self.__arrTk.createButton(self.__frameEnd, ppolice="Arial", ptaille=25,
+                                      text="Commencer à utiliser " + nomSoft, command=self.__end)  # 9
         ]
-        #frameUserName & frameUserGenre
+        # frameUserName & frameUserGenre
 
-        self.entryName = self.__arrTk.createEntry(self.__frameUserName,police="Arial",taille=25,
-                                                  placeholderText="Nom d'utilisateur",width=300)
-        menuGenre = self.__arrTk.createOptionMenu(self.__frameUserGenre,var=self.__varGenre,value=listGenre,
-                                                  police="Arial",taille=25)
-        #frameWeather
-        btnDomicile = self.__arrTk.createButton(self.__frameWeather,police="Arial",
-                                                taille=25,text="Domicile",
-                                                command=lambda : self.__viewAddMeteo("domicile"))
-        btnTravail = self.__arrTk.createButton(self.__frameWeather,police="Arial",
-                                               taille=25,text="Lien de travail",
-                                               command=lambda : self.__viewAddMeteo("travail"))
-        btnVille = self.__arrTk.createButton(self.__frameWeather,police="Arial",
-                                             taille=25,text="Ajouter une ville",
-                                             command=lambda : self.__viewAddMeteo("ville"))
-        #frameAddWeather
+        self.entryName = self.__arrTk.createEntry(self.__frameUserName, ppolice="Arial", ptaille=25,
+                                                  placeholderText="Nom d'utilisateur", width=300)
+        menuGenre = self.__arrTk.createOptionMenu(self.__frameUserGenre, var=self.__varGenre, value=listGenre,
+                                                  police="Arial", taille=25)
+        # frameWeather
+        btnDomicile = self.__arrTk.createButton(self.__frameWeather, ppolice="Arial", ptaille=25
+                                                , text="Domicile",
+                                                command=lambda: self.__viewAddMeteo("domicile"))
+        btnTravail = self.__arrTk.createButton(self.__frameWeather, ppolice="Arial", ptaille=25
+                                               , text="Lien de travail",
+                                               command=lambda: self.__viewAddMeteo("travail"))
+        btnVille = self.__arrTk.createButton(self.__frameWeather, ppolice="Arial", ptaille=25
+                                             , text="Ajouter une ville",
+                                             command=lambda: self.__viewAddMeteo("ville"))
+        # frameAddWeather
         self.__labelTitreAdd = [
-            self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Domicile"),
-            self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Ville"),
-            self.__arrTk.createLabel(self.__frameAddWeather,police="Arial",taille=25,text="Travail")]
+            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Domicile"),
+            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Ville"),
+            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Travail")]
 
-        self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather, police="Arial", taille=25
+        self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather, ppolice="Arial", ptaille=25
                                                      , width=300)
-        self.__btnAdd = self.__arrTk.createButton(self.__frameAddWeather,police="Arial",taille=25,text="Ajouter")
-        #frameGPS
-        btnAdresseDomicile = self.__arrTk.createButton(self.__frameGPS,police="Arial",
-                                                       taille=25,text="Adresse de domicile"
-                                                       ,command=lambda :self.__viewAddGPS("domicile"))
-        btnAdresseTravail = self.__arrTk.createButton(self.__frameGPS,police="Arial",
-                                                      taille=25,text="Adresse de Travail"
-                                                      ,command=lambda :self.__viewAddGPS("travail"))
-        #frameAddGPS
+        self.__btnAdd = self.__arrTk.createButton(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Ajouter")
+        # frameGPS
+        btnAdresseDomicile = self.__arrTk.createButton(self.__frameGPS, ppolice="Arial", ptaille=25
+                                                       , text="Adresse de domicile"
+                                                       , command=lambda: self.__viewAddGPS("domicile"))
+        btnAdresseTravail = self.__arrTk.createButton(self.__frameGPS, ppolice="Arial", ptaille=25
+                                                      , text="Adresse de Travail"
+                                                      , command=lambda: self.__viewAddGPS("travail"))
+        # frameAddGPS
         self.__labelTitreGPSAdd = [
-            self.__arrTk.createLabel(self.__frameAddGPS,police="Arial",
-                                     taille=25,text="Adresse de votre domicile"),
-            self.__arrTk.createLabel(self.__frameAddGPS,police="Arial",
-                                     taille=25,text="Adresse de votre lieu de travail")
+            self.__arrTk.createLabel(self.__frameAddGPS, ppolice="Arial", ptaille=25
+                                     , text="Adresse de votre domicile"),
+            self.__arrTk.createLabel(self.__frameAddGPS, ppolice="Arial", ptaille=25
+                                     , text="Adresse de votre lieu de travail")
         ]
-        self.__entryAdresse = self.__arrTk.createEntry(self.__frameAddGPS,width=500,police="Arial",taille=25)
-        self.__btnGPSAdd = self.__arrTk.createButton(self.__frameAddGPS,taille=25,
-                                                     police="Arial",text="Ajouter")
-        #frameSoft
+        self.__entryAdresse = self.__arrTk.createEntry(self.__frameAddGPS, width=500, ppolice="Arial", ptaille=25)
+        self.__btnGPSAdd = self.__arrTk.createButton(self.__frameAddGPS, ppolice="Arial", ptaille=25, text="Ajouter")
+        # frameSoft
         # Frame pour mieux placer le bouton
-        frameLeftSoft = ctk.CTkFrame(self.__frameSoft,width=300,height=350)
+        frameLeftSoft = ctk.CTkFrame(self.__frameSoft, width=300, height=350)
         frameRightSoft = ctk.CTkFrame(self.__frameSoft, width=300, height=350)
 
-        btnWord = self.__arrTk.createButton(frameLeftSoft,police="Arial",taille=25,
-                                            text="Traitement de texte",command=lambda:self.__viewAddSoft("Ttexte"))
-        btnExel = self.__arrTk.createButton(frameLeftSoft,police="Arial",taille=25,
-                                            text="Tableur",command=lambda:self.__viewAddSoft("tableur"))
-        btnPresentation = self.__arrTk.createButton(frameLeftSoft,police="Arial",taille=25,
-                                                    text="Presentation",command=lambda:self.__viewAddSoft("presentation"))
-        btnBrowser = self.__arrTk.createButton(frameRightSoft,police="Arial",taille=25,
-                                               text="Navigateur",command=lambda:self.__viewAddSoft("internet"))
-        btnNote = self.__arrTk.createButton(frameRightSoft,police="Arial",taille=25,
-                                            text="Note",command=lambda:self.__viewAddSoft("note"))
-        btnMusic = self.__arrTk.createButton(frameRightSoft,police="Arial",taille=25,
-                                             text="Musique",command=lambda:self.__viewAddSoft("musique"))
-        #frameAddSoft
+        btnWord = self.__arrTk.createButton(frameLeftSoft, ppolice="Arial", ptaille=25,
+                                            text="Traitement de texte", command=lambda: self.__viewAddSoft("Ttexte"))
+        btnExel = self.__arrTk.createButton(frameLeftSoft, ppolice="Arial", ptaille=25,
+                                            text="Tableur", command=lambda: self.__viewAddSoft("tableur"))
+        btnPresentation = self.__arrTk.createButton(frameLeftSoft, ppolice="Arial", ptaille=25,
+                                                    text="Presentation",
+                                                    command=lambda: self.__viewAddSoft("presentation"))
+        btnBrowser = self.__arrTk.createButton(frameRightSoft, ppolice="Arial", ptaille=25,
+                                               text="Navigateur", command=lambda: self.__viewAddSoft("internet"))
+        btnNote = self.__arrTk.createButton(frameRightSoft, ppolice="Arial", ptaille=25,
+                                            text="Note", command=lambda: self.__viewAddSoft("note"))
+        btnMusic = self.__arrTk.createButton(frameRightSoft, ppolice="Arial", ptaille=25,
+                                             text="Musique", command=lambda: self.__viewAddSoft("musique"))
+        # frameAddSoft
         self.__labelTitreSoftLinux = [
-            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de traitement de texte"),
-            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un tableur"),
-            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de presentation"),
-            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un navigateur internet"),
-            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de note"),
-            self.__arrTk.createLabel(self.__frameSoftLinux,police="Arial",taille=25,text="Ajouter un logiciel de musique"),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                     text="Ajouter un logiciel de traitement de texte"),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25, text="Ajouter un tableur"),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                     text="Ajouter un logiciel de presentation"),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                     text="Ajouter un navigateur internet"),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                     text="Ajouter un logiciel de note"),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                     text="Ajouter un logiciel de musique"),
         ]
-        #self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameSoftLinux,width=300,placeholderText="",police="Arial",taille=25)
-        self.__btnAddSoftLinux = self.__arrTk.createButton(self.__frameSoftLinux, police="Arial", taille=25, text="Choisir le programme")
-        #frameWeb
-        btnCloud = self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
-                                             text="Stokage cloud ",command=lambda:self.__viewAddWeb("cloud"))
-        btnSiteWeb= self.__arrTk.createButton(self.__frameWeb,police="Arial",taille=25,
-                                              text="Racourcie site",command=lambda:self.__viewAddWeb("site"))
-        #frameAddWeb
+        # self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameSoftLinux,width=300,placeholderText="",ppolice="Arial",ptaille=25)
+        self.__btnAddSoftLinux = self.__arrTk.createButton(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                                           text="Choisir le programme")
+        # frameWeb
+        btnCloud = self.__arrTk.createButton(self.__frameWeb, ppolice="Arial", ptaille=25,
+                                             text="Stokage cloud ", command=lambda: self.__viewAddWeb("cloud"))
+        btnSiteWeb = self.__arrTk.createButton(self.__frameWeb, ppolice="Arial", ptaille=25,
+                                               text="Racourcie site", command=lambda: self.__viewAddWeb("site"))
+        # frameAddWeb
         self.__labelIndicationWeb = [
-            self.__arrTk.createLabel(self.__frameAddWeb,police="Arial",taille=25,text="Lien de votre stokage cloud"),
-            self.__arrTk.createLabel(self.__frameAddWeb,police="Arial",taille=25,text="Racourcie d'un site")]
-        self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb,police="Arial",taille=25,width=300)
-        self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb,police="Arial",taille=25,width=300)
-        self.__btnAddSite = self.__arrTk.createButton(self.__frameAddWeb,police="Arial",taille=25,text="Ajouter")
+            self.__arrTk.createLabel(self.__frameAddWeb, ppolice="Arial", ptaille=25,
+                                     text="Lien de votre stokage cloud"),
+            self.__arrTk.createLabel(self.__frameAddWeb, ppolice="Arial", ptaille=25, text="Racourcie d'un site")]
+        self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb, ppolice="Arial", ptaille=25, width=300)
+        self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb, ppolice="Arial", ptaille=25, width=300)
+        self.__btnAddSite = self.__arrTk.createButton(self.__frameAddWeb, ppolice="Arial", ptaille=25, text="Ajouter")
 
-        #affichage
-        #frameAcceuil
+        # affichage
+        # frameAcceuil
         self.__arrTk.placeTopCenter(labelTitre[0])
         self.__arrTk.placeCenter(btnSuivant[0])
-        #frameUserName
+        # frameUserName
         self.__arrTk.placeTopCenter(labelTitre[1])
         self.__arrTk.placeCenter(self.entryName)
         self.__arrTk.placeBottomCenter(btnSuivant[1])
-        #frameUserGenre
+        # frameUserGenre
         self.__arrTk.placeTopCenter(labelTitre[2])
         self.__arrTk.placeCenter(menuGenre)
         self.__arrTk.placeBottomCenter(btnSuivant[2])
 
-        #frameWeather
+        # frameWeather
         self.__arrTk.placeTopCenter(labelTitre[3])
         self.__arrTk.placeLeftCenter(btnDomicile)
         self.__arrTk.placeCenter(btnVille)
         self.__arrTk.placeRightCenter(btnTravail)
         self.__arrTk.placeBottomCenter(btnSuivant[3])
-        #frameAddWeather
+        # frameAddWeather
         self.__arrTk.placeCenter(self.__entryVille)
         self.__arrTk.placeBottomCenter(self.__btnAdd)
-        #frameGPS
+        # frameGPS
         self.__arrTk.placeTopCenter(labelTitre[4])
         self.__arrTk.placeLeftCenter(btnAdresseDomicile)
         self.__arrTk.placeRightCenter(btnAdresseTravail)
         self.__arrTk.placeBottomCenter(btnSuivant[4])
-        #frameAddGPS
+        # frameAddGPS
         self.__arrTk.placeCenter(self.__entryAdresse)
         self.__arrTk.placeBottomCenter(self.__btnGPSAdd)
-        #frameSoft
+        # frameSoft
         self.__arrTk.placeTopCenter(labelTitre[5])
 
         self.__arrTk.placeLeftCenter(frameLeftSoft)
@@ -224,36 +232,34 @@ class ArreraLynx :
         self.__arrTk.placeCenter(btnNote)
         self.__arrTk.placeBottomCenter(btnMusic)
         self.__arrTk.placeBottomCenter(btnSuivant[5])
-        #frameAddSoft
+        # frameAddSoft
         """
         if (self.__dectOS.osWindows() == False) and (self.__dectOS.osLinux()==True):
             self.__arrTk.placeCenter(self.__entryCommandLinux)
         """
         self.__arrTk.placeCenter(self.__btnAddSoftLinux)
-        #frameWeb
+        # frameWeb
         self.__arrTk.placeTopCenter(labelTitre[6])
         self.__arrTk.placeLeftCenter(btnCloud)
         self.__arrTk.placeRightCenter(btnSiteWeb)
         self.__arrTk.placeBottomCenter(btnSuivant[6])
-        #frameAddWeb
+        # frameAddWeb
         self.__arrTk.placeBottomCenter(self.__btnAddSite)
-        #FrameFolderWork
+        # FrameFolderWork
         self.__arrTk.placeTopCenter(labelTitre[7])
         self.__arrTk.placeCenter(btnSuivant[7])
-        #FrameVideoDownloadFolder
+        # FrameVideoDownloadFolder
         self.__arrTk.placeTopCenter(labelTitre[8])
         self.__arrTk.placeCenter(btnSuivant[8])
-        #frameEnd
+        # frameEnd
         self.__arrTk.placeTopCenter(labelTitre[9])
         self.__arrTk.placeCenter(btnSuivant[9])
-       
 
     def confiCreate(self):
-        if self.__userIN == True and self.__genreIN == True :
+        if self.__userIN == True and self.__genreIN == True:
             return True
-        else :
+        else:
             return False
-
 
     def __clearView(self):
         self.__frameAcceuil.pack_forget()
@@ -278,17 +284,16 @@ class ArreraLynx :
     def __passUserName(self):
         self.__clearView()
         self.__frameUserName.pack()
-        
+
     def __passUserGenre(self):
         if self.entryName.get():
             self.__clearView()
             self.__arrTk.pack(self.__frameUserGenre)
-            self.__fileUser.EcritureJSON("user",self.entryName.get())
+            self.__fileUser.EcritureJSON("user", self.entryName.get())
             self.__userIN = True
-        else :
-            messagebox.showerror("Erreur","Veuillez entrer un nom d'utilisateur avant de continuer")
-        
-    
+        else:
+            messagebox.showerror("Erreur", "Veuillez entrer un nom d'utilisateur avant de continuer")
+
     def __activeFrameWeather(self):
         self.__clearView()
         self.__frameWeather.pack()
@@ -296,147 +301,146 @@ class ArreraLynx :
     def __passMeteo(self):
         if self.__varGenre.get():
             self.__activeFrameWeather()
-            self.__fileUser.EcritureJSON("genre",self.__varGenre.get())
+            self.__fileUser.EcritureJSON("genre", self.__varGenre.get())
             self.__genreIN = True
-        else :
-           messagebox.showerror("Erreur","Veuillez entrer selectionner un genre avant de continuer") 
-    
-    def __viewAddMeteo(self,mode):
+        else:
+            messagebox.showerror("Erreur", "Veuillez entrer selectionner un genre avant de continuer")
+
+    def __viewAddMeteo(self, mode):
         self.__clearView()
-        self.__entryVille.delete("0",END)
+        self.__entryVille.delete("0", END)
         self.__arrTk.pack(self.__frameAddWeather)
         self.__labelTitreAdd[0].place_forget()
         self.__labelTitreAdd[1].place_forget()
         self.__labelTitreAdd[2].place_forget()
-        if mode == "domicile" :
+        if mode == "domicile":
             self.__arrTk.placeTopCenter(self.__labelTitreAdd[0])
-            self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
-        else :
-            if mode == "travail" :
+            self.__btnAdd.configure(command=lambda: self.__addMeteo(mode))
+        else:
+            if mode == "travail":
                 self.__arrTk.placeTopCenter(self.__labelTitreAdd[2])
-                self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
-            else :
-                if mode == "ville" :
+                self.__btnAdd.configure(command=lambda: self.__addMeteo(mode))
+            else:
+                if mode == "ville":
                     self.__arrTk.placeTopCenter(self.__labelTitreAdd[1])
-                    self.__btnAdd.configure(command=lambda : self.__addMeteo(mode))
-        
-    
-    def __addMeteo(self,mode):
+                    self.__btnAdd.configure(command=lambda: self.__addMeteo(mode))
+
+    def __addMeteo(self, mode):
         valeur = self.__entryVille.get()
         if valeur:
-            if mode == "domicile" :
-                self.__fileUser.EcritureJSON("lieuDomicile",valeur)
-            else :
-                if mode == "travail" :
-                    self.__fileUser.EcritureJSON("lieuTravail",valeur)  
-                else :
-                    if mode == "ville" :
-                        self.__fileUser.EcritureJSONList("listVille",valeur) 
+            if mode == "domicile":
+                self.__fileUser.EcritureJSON("lieuDomicile", valeur)
+            else:
+                if mode == "travail":
+                    self.__fileUser.EcritureJSON("lieuTravail", valeur)
+                else:
+                    if mode == "ville":
+                        self.__fileUser.EcritureJSONList("listVille", valeur)
             self.__activeFrameWeather()
-        else :
+        else:
             self.__activeFrameWeather()
-            messagebox.showerror("Erreur","Aucun ville n'a été marquer dans la zone de texte")
-    
+            messagebox.showerror("Erreur", "Aucun ville n'a été marquer dans la zone de texte")
+
     def __passGPS(self):
         self.__clearView()
         self.__arrTk.pack(self.__frameGPS)
-    
-    def __viewAddGPS(self,mode:str):
+
+    def __viewAddGPS(self, mode: str):
         self.__clearView()
         self.__arrTk.pack(self.__frameAddGPS)
-        self.__entryAdresse.delete("0",END)
+        self.__entryAdresse.delete("0", END)
         self.__labelTitreGPSAdd[0].place_forget()
         self.__labelTitreGPSAdd[1].place_forget()
         if mode == "domicile":
             self.__arrTk.placeTopCenter(self.__labelTitreGPSAdd[0])
-            self.__btnGPSAdd.configure(command=lambda : self.__addGPS(mode))
-        else :
-            if mode == "travail" :
+            self.__btnGPSAdd.configure(command=lambda: self.__addGPS(mode))
+        else:
+            if mode == "travail":
                 self.__arrTk.placeTopCenter(self.__labelTitreGPSAdd[1])
-                self.__btnGPSAdd.configure(command=lambda : self.__addGPS(mode))
+                self.__btnGPSAdd.configure(command=lambda: self.__addGPS(mode))
 
-    def __addGPS(self,mode:str):
+    def __addGPS(self, mode: str):
         valeur = self.__entryAdresse.get()
-        if valeur : 
+        if valeur:
             if mode == "domicile":
-                self.__fileUser.EcritureJSON("adresseDomicile",valeur)
+                self.__fileUser.EcritureJSON("adresseDomicile", valeur)
                 self.__passGPS()
-            else :
-                if mode == "travail" :
-                    self.__fileUser.EcritureJSON("adresseTravail",valeur)
+            else:
+                if mode == "travail":
+                    self.__fileUser.EcritureJSON("adresseTravail", valeur)
                     self.__passGPS()
-        else :
+        else:
             self.__passGPS()
-            messagebox.showerror("Erreur","Aucun adresse n'a été marquer dans la zone de texte")
-   
+            messagebox.showerror("Erreur", "Aucun adresse n'a été marquer dans la zone de texte")
+
     def __passSoft(self):
-        if (self.__dectOS.osWindows() == True) :
+        if (self.__dectOS.osWindows() == True):
             sortie = ""
-            while not sortie :
-                messagebox.showinfo("Infomation","Vous devait selectionner un dossier deja crée")
+            while not sortie:
+                messagebox.showinfo("Infomation", "Vous devait selectionner un dossier deja crée")
                 sortie = self.__softWin.setEmplacementSoft()
-                self.__fileNeuron.EcritureJSON("emplacementSoftWindows",sortie)
+                self.__fileNeuron.EcritureJSON("emplacementSoftWindows", sortie)
         self.__clearView()
         self.__frameSoft.pack()
-    
-    def __viewAddSoft(self,mode:str):
-        if (self.__dectOS.osWindows() == True) :
+
+    def __viewAddSoft(self, mode: str):
+        if (self.__dectOS.osWindows() == True):
             if mode == "Ttexte":
                 self.__softWin.setName("Ttexte")
                 self.__softWin.saveSoftware()
-                self.__fileUser.EcritureJSON("wordWindows",self.__softWin.getName())
-            else :
+                self.__fileUser.EcritureJSON("wordWindows", self.__softWin.getName())
+            else:
                 if mode == "tableur":
                     self.__softWin.setName("tableur")
                     self.__softWin.saveSoftware()
-                    self.__fileUser.EcritureJSON("exelWindows",self.__softWin.getName())
-                else :
-                    if mode == "presentation" :
+                    self.__fileUser.EcritureJSON("exelWindows", self.__softWin.getName())
+                else:
+                    if mode == "presentation":
                         self.__softWin.setName("presentation")
                         self.__softWin.saveSoftware()
-                        self.__fileUser.EcritureJSON("diapoWindows",self.__softWin.getName())
-                    else :
-                        if mode == "internet" :
+                        self.__fileUser.EcritureJSON("diapoWindows", self.__softWin.getName())
+                    else:
+                        if mode == "internet":
                             self.__softWin.setName("internet")
                             self.__softWin.saveSoftware()
-                            self.__fileUser.EcritureJSON("browserWindows",self.__softWin.getName())
-                        else :
-                            if mode == "note" :
+                            self.__fileUser.EcritureJSON("browserWindows", self.__softWin.getName())
+                        else:
+                            if mode == "note":
                                 self.__softWin.setName("note")
                                 self.__softWin.saveSoftware()
-                                self.__fileUser.EcritureJSON("noteWindows",self.__softWin.getName())
-                            else :
-                                if mode == "musique" :
+                                self.__fileUser.EcritureJSON("noteWindows", self.__softWin.getName())
+                            else:
+                                if mode == "musique":
                                     self.__softWin.setName("musique")
                                     self.__softWin.saveSoftware()
-                                    self.__fileUser.EcritureJSON("musicWindows",self.__softWin.getName())
-        else :
-            if (self.__dectOS.osLinux() == True) :
-                #self.__entryCommandLinux.delete("0",END)
+                                    self.__fileUser.EcritureJSON("musicWindows", self.__softWin.getName())
+        else:
+            if (self.__dectOS.osLinux() == True):
+                # self.__entryCommandLinux.delete("0",END)
                 self.__clearView()
                 self.__arrTk.pack(self.__frameSoftLinux)
-                for i in range(0,5):
+                for i in range(0, 5):
                     self.__labelTitreSoftLinux[i].place_forget()
                 if mode == "Ttexte":
                     self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[0])
-                else :
+                else:
                     if mode == "tableur":
                         self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[1])
-                    else :
-                        if mode == "presentation" :
+                    else:
+                        if mode == "presentation":
                             self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[2])
-                        else :
-                            if mode == "internet" :
+                        else:
+                            if mode == "internet":
                                 self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[3])
-                            else :
-                                if mode == "note" :
+                            else:
+                                if mode == "note":
                                     self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[4])
-                                else :
-                                    if mode == "musique" :
+                                else:
+                                    if mode == "musique":
                                         self.__arrTk.placeTopCenter(self.__labelTitreSoftLinux[5])
-                self.__btnAddSoftLinux.configure(command=lambda : self.__addSoftLinux(mode))
-    
-    def __addSoftLinux(self, mode:str):
+                self.__btnAddSoftLinux.configure(command=lambda: self.__addSoftLinux(mode))
+
+    def __addSoftLinux(self, mode: str):
         reponse = messagebox.askquestion(
             "Choix repertoire",
             "Le programme se trouve-t-il dans votre répertoire /home ?",
@@ -448,89 +452,87 @@ class ArreraLynx :
                 initialdir=os.path.expanduser("~"),  # Définit le répertoire initial sur le home de l'utilisateur
                 filetypes=[("Tous les fichiers", "*")]
             )
-        else :
+        else:
             command = filedialog.askopenfilename(
-                            title="Selectionner un programme",
-                            initialdir="/bin",
-                            filetypes=[("Tous les fichiers", "*")])
-        if command :
+                title="Selectionner un programme",
+                initialdir="/bin",
+                filetypes=[("Tous les fichiers", "*")])
+        if command:
             if mode == "Ttexte":
-                self.__fileUser.EcritureJSON("wordLinux",command)
-            else :
+                self.__fileUser.EcritureJSON("wordLinux", command)
+            else:
                 if mode == "tableur":
-                    self.__fileUser.EcritureJSON("exelLinux",command)
-                else :
-                    if mode == "presentation" :
-                        self.__fileUser.EcritureJSON("diapoLinux",command)
-                    else :
-                        if mode == "internet" :
-                            self.__fileUser.EcritureJSON("browserLinux",command)
-                        else :
-                            if mode == "note" :
-                                self.__fileUser.EcritureJSON("noteLinux",command)
-                            else :
-                                if mode == "musique" :
-                                    self.__fileUser.EcritureJSON("musicLinux",command)
-            messagebox.showinfo("Enregistrement logiciel","Votre logiciel a ete enregister")
-        else :
-            messagebox.showerror("Erreur","Veuillez marquer une command pour l'enregistrer le logiciel")
+                    self.__fileUser.EcritureJSON("exelLinux", command)
+                else:
+                    if mode == "presentation":
+                        self.__fileUser.EcritureJSON("diapoLinux", command)
+                    else:
+                        if mode == "internet":
+                            self.__fileUser.EcritureJSON("browserLinux", command)
+                        else:
+                            if mode == "note":
+                                self.__fileUser.EcritureJSON("noteLinux", command)
+                            else:
+                                if mode == "musique":
+                                    self.__fileUser.EcritureJSON("musicLinux", command)
+            messagebox.showinfo("Enregistrement logiciel", "Votre logiciel a ete enregister")
+        else:
+            messagebox.showerror("Erreur", "Veuillez marquer une command pour l'enregistrer le logiciel")
         self.__clearView()
         self.__passSoft()
-                    
+
     def __passWeb(self):
         self.__clearView()
         self.__arrTk.pack(self.__frameWeb)
 
-    def __viewAddWeb(self,mode:str):
+    def __viewAddWeb(self, mode: str):
         self.__clearView()
         self.__arrTk.pack(self.__frameAddWeb)
-        self.__entryLienSite.delete("0",END)
-        self.__entryNameSite.delete("0",END)
+        self.__entryLienSite.delete("0", END)
+        self.__entryNameSite.delete("0", END)
         self.__entryLienSite.place_forget()
         self.__entryNameSite.place_forget()
-        for i in range(0,1):
+        for i in range(0, 1):
             self.__labelIndicationWeb[i].place_forget()
         largeurFrame = self.__frameAcceuil.winfo_reqwidth()
         if mode == "cloud":
             self.__arrTk.placeTopCenter(self.__labelIndicationWeb[0])
             self.__arrTk.placeCenter(self.__entryLienSite)
-            self.__btnAddSite.configure(command=lambda:self.__addWeb("cloud"))
-        else :
+            self.__btnAddSite.configure(command=lambda: self.__addWeb("cloud"))
+        else:
             if mode == "site":
                 self.__arrTk.placeTopCenter(self.__labelIndicationWeb[1])
-                self.__entryLienSite.place(x=((largeurFrame-self.__entryLienSite.winfo_reqwidth())//2),y=200)
-                self.__entryNameSite.place(x=((largeurFrame-self.__entryNameSite.winfo_reqwidth())//2),y=100)
-                self.__btnAddSite.configure(command=lambda:self.__addWeb("site"))
-    
-    def __addWeb(self,mode:str):
+                self.__entryLienSite.place(x=((largeurFrame - self.__entryLienSite.winfo_reqwidth()) // 2), y=200)
+                self.__entryNameSite.place(x=((largeurFrame - self.__entryNameSite.winfo_reqwidth()) // 2), y=100)
+                self.__btnAddSite.configure(command=lambda: self.__addWeb("site"))
+
+    def __addWeb(self, mode: str):
         self.__passWeb()
         if mode == "cloud":
             lien = self.__entryLienSite.get()
-            if lien :
-                self.__fileUser.EcritureJSON("lienCloud",lien)
-                messagebox.showinfo("Lien","Votre lien a ete enregistrer")
-            else :
-                messagebox.showerror("Erreur","Aucun lien n'a ete marquer dans la zone de texte")
-        else :
+            if lien:
+                self.__fileUser.EcritureJSON("lienCloud", lien)
+                messagebox.showinfo("Lien", "Votre lien a ete enregistrer")
+            else:
+                messagebox.showerror("Erreur", "Aucun lien n'a ete marquer dans la zone de texte")
+        else:
             if mode == "site":
                 name = self.__entryNameSite.get()
                 lien = self.__entryLienSite.get()
-                if lien and name :
-                    self.__fileUser.EcritureJSONDictionnaire("dictSite",name,lien)
+                if lien and name:
+                    self.__fileUser.EcritureJSONDictionnaire("dictSite", name, lien)
                     nbSire = int(self.__fileUser.lectureJSON("nbSite"))
-                    self.__fileUser.EcritureJSON("nbSite",str(nbSire+1))
-                    messagebox.showinfo("Lien","Votre lien a ete enregistrer")
-                else :
-                    messagebox.showerror("Erreur","Aucun lien ou nom n'a ete marquer dans les zones de textes")
-        
+                    self.__fileUser.EcritureJSON("nbSite", str(nbSire + 1))
+                    messagebox.showinfo("Lien", "Votre lien a ete enregistrer")
+                else:
+                    messagebox.showerror("Erreur", "Aucun lien ou nom n'a ete marquer dans les zones de textes")
 
     def __passEnd(self):
         self.__clearView()
         self.__arrTk.pack(self.__frameEnd)
-    
+
     def __end(self):
         self.__windows.destroy()
-
 
     def __passWorkFolder(self):
         self.__clearView()
@@ -543,14 +545,13 @@ class ArreraLynx :
     def __addFolderWork(self):
         folder = filedialog.askdirectory(title="Choisir le dossier de travail")
 
-        if folder :
-            self.__fileUser.EcritureJSON("wordFolder",folder)
-            showinfo("Dossier de travail","Dossier de travail enregistrer")
-        else :
+        if folder:
+            self.__fileUser.EcritureJSON("wordFolder", folder)
+            showinfo("Dossier de travail", "Dossier de travail enregistrer")
+        else:
             showerror("Dossier de travail", "Dossier de travail n'est enregistrer")
 
         self.__passVideoDownloadFolder()
-
 
     def __addFolderVideo(self):
         folder = filedialog.askdirectory(title="Choisir le dossier pour les video et les musiques")

@@ -26,55 +26,63 @@ class ArreraLynx:
 
         listGenre = self.__fichierLynx.lectureJSONList("listGenre")
 
+        # Gestion du theme
+        if self.__arrTk.getTheme() == "Light" :
+            windowsColor = "#f0f0f0"
+            textColor = "#000000"
+        else :
+            windowsColor = "#000000"
+            textColor = "#FFFFFF"
+
         # Fenetre
         self.__windows = self.__arrTk.aTK(width=700,
                                           height=500,
                                           title=nomSoft + ": Premier demarage",
                                           resizable=False
-                                          , icon=iconLogiciel
-                                          )
+                                          ,icon=iconLogiciel,
+                                          bg=windowsColor,fg=textColor)
         self.__varGenre = StringVar(self.__windows)
 
         self.__userIN = False
         self.__genreIN = False
         # cadre tkinter
-        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameUserName = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameWeather = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameGPS = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameSoft = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameWeb = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameWorkFolder = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__framevideoDownloadFolder = self.__arrTk.createFrame(self.__windows, width=700, height=500)
-        self.__frameEnd = self.__arrTk.createFrame(self.__windows, width=700, height=500)
+        self.__frameAcceuil = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameUserName = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameUserGenre = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameWeather = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameAddWeather = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameGPS = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameAddGPS = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameSoft = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameSoftLinux = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameWeb = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameAddWeb = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameWorkFolder = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__framevideoDownloadFolder = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
+        self.__frameEnd = self.__arrTk.createFrame(self.__windows, width=700, height=500,bg=windowsColor)
         # widget
         labelTitre = [
             self.__arrTk.createLabel(self.__frameAcceuil, text="Bienvenu sur Arrera " + nomSoft,
-                                     ppolice="Arial", ptaille=35),  # 0
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 0
             self.__arrTk.createLabel(self.__frameUserName, text="Nom d'utilisateur",
-                                     ppolice="Arial", ptaille=35),  # 1
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 1
             self.__arrTk.createLabel(self.__frameUserGenre, text="Genre d'utilisateur",
-                                     ppolice="Arial", ptaille=35),  # 2
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 2
             self.__arrTk.createLabel(self.__frameWeather, text="Meteo",
-                                     ppolice="Arial", ptaille=35),  # 3
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 3
             self.__arrTk.createLabel(self.__frameGPS, text="GPS",
-                                     ppolice="Arial", ptaille=35),  # 4
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 4
             self.__arrTk.createLabel(self.__frameSoft, text="Logiciel",
-                                     ppolice="Arial", ptaille=35),  # 5
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 5
             self.__arrTk.createLabel(self.__frameWeb, text="Site internet",
-                                     ppolice="Arial", ptaille=35),  # 6
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 6
             self.__arrTk.createLabel(self.__frameWorkFolder, text="Sélectionner le dossier de travail Arrera",
-                                     ppolice="Arial", ptaille=35),  # 7
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 7
             self.__arrTk.createLabel(self.__framevideoDownloadFolder,
                                      text="Sélectionner le dossier de téléchargement\nde vidéos et de musique",
-                                     ppolice="Arial", ptaille=35),  # 8
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor),  # 8
             self.__arrTk.createLabel(self.__frameEnd, text="Configuration terminer",
-                                     ppolice="Arial", ptaille=35)  # 9
+                                     ppolice="Arial", ptaille=35,bg=windowsColor,fg=textColor)  # 9
         ]
         btnSuivant = [
             self.__arrTk.createButton(self.__frameAcceuil, ppolice="Arial", ptaille=25,
@@ -116,9 +124,12 @@ class ArreraLynx:
                                              command=lambda: self.__viewAddMeteo("ville"))
         # frameAddWeather
         self.__labelTitreAdd = [
-            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Domicile"),
-            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Ville"),
-            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Travail")]
+            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Domicile"
+                                     ,bg=windowsColor,fg=textColor),
+            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Ville"
+                                     ,bg=windowsColor,fg=textColor),
+            self.__arrTk.createLabel(self.__frameAddWeather, ppolice="Arial", ptaille=25, text="Travail"
+                                     ,bg=windowsColor,fg=textColor)]
 
         self.__entryVille = self.__arrTk.createEntry(self.__frameAddWeather, ppolice="Arial", ptaille=25
                                                      , width=300)
@@ -133,16 +144,18 @@ class ArreraLynx:
         # frameAddGPS
         self.__labelTitreGPSAdd = [
             self.__arrTk.createLabel(self.__frameAddGPS, ppolice="Arial", ptaille=25
-                                     , text="Adresse de votre domicile"),
+                                     , text="Adresse de votre domicile",bg=windowsColor,fg=textColor),
             self.__arrTk.createLabel(self.__frameAddGPS, ppolice="Arial", ptaille=25
-                                     , text="Adresse de votre lieu de travail")
+                                     , text="Adresse de votre lieu de travail",bg=windowsColor,fg=textColor)
         ]
         self.__entryAdresse = self.__arrTk.createEntry(self.__frameAddGPS, width=500, ppolice="Arial", ptaille=25)
         self.__btnGPSAdd = self.__arrTk.createButton(self.__frameAddGPS, ppolice="Arial", ptaille=25, text="Ajouter")
         # frameSoft
         # Frame pour mieux placer le bouton
-        frameLeftSoft = ctk.CTkFrame(self.__frameSoft, width=300, height=350)
-        frameRightSoft = ctk.CTkFrame(self.__frameSoft, width=300, height=350)
+        frameLeftSoft = self.__arrTk.createFrame(self.__frameSoft, width=300, height=350,
+                                     bg=windowsColor)
+        frameRightSoft = self.__arrTk.createFrame(self.__frameSoft, width=300, height=350,
+                                      bg=windowsColor)
 
         btnWord = self.__arrTk.createButton(frameLeftSoft, ppolice="Arial", ptaille=25,
                                             text="Traitement de texte", command=lambda: self.__viewAddSoft("Ttexte"))
@@ -160,16 +173,22 @@ class ArreraLynx:
         # frameAddSoft
         self.__labelTitreSoftLinux = [
             self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
-                                     text="Ajouter un logiciel de traitement de texte"),
-            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25, text="Ajouter un tableur"),
+                                     text="Ajouter un logiciel de traitement de texte",
+                                     bg=windowsColor,fg=textColor),
             self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
-                                     text="Ajouter un logiciel de presentation"),
+                                     text="Ajouter un tableur",bg=windowsColor,fg=textColor),
             self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
-                                     text="Ajouter un navigateur internet"),
+                                     text="Ajouter un logiciel de presentation",
+                                     bg=windowsColor,fg=textColor),
             self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
-                                     text="Ajouter un logiciel de note"),
+                                     text="Ajouter un navigateur internet",
+                                     bg=windowsColor,fg=textColor),
             self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
-                                     text="Ajouter un logiciel de musique"),
+                                     text="Ajouter un logiciel de note",
+                                     bg=windowsColor,fg=textColor),
+            self.__arrTk.createLabel(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
+                                     text="Ajouter un logiciel de musique",
+                                     bg=windowsColor,fg=textColor),
         ]
         # self.__entryCommandLinux = self.__arrTk.createEntry(self.__frameSoftLinux,width=300,placeholderText="",ppolice="Arial",ptaille=25)
         self.__btnAddSoftLinux = self.__arrTk.createButton(self.__frameSoftLinux, ppolice="Arial", ptaille=25,
@@ -182,7 +201,8 @@ class ArreraLynx:
         # frameAddWeb
         self.__labelIndicationWeb = [
             self.__arrTk.createLabel(self.__frameAddWeb, ppolice="Arial", ptaille=25,
-                                     text="Lien de votre stokage cloud"),
+                                     text="Lien de votre stokage cloud",
+                                     bg=windowsColor,fg=textColor),
             self.__arrTk.createLabel(self.__frameAddWeb, ppolice="Arial", ptaille=25, text="Racourcie d'un site")]
         self.__entryNameSite = self.__arrTk.createEntry(self.__frameAddWeb, ppolice="Arial", ptaille=25, width=300)
         self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb, ppolice="Arial", ptaille=25, width=300)

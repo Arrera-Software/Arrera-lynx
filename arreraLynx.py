@@ -92,9 +92,9 @@ class ArreraLynx:
             self.__arrTk.createButton(self.__frameWeb, ppolice="Arial", ptaille=25,
                                       text="Suivant", command=self.__passWorkFolder),  # 6
             self.__arrTk.createButton(self.__frameWorkFolder, ppolice="Arial", ptaille=25,
-                                      text="Choisir le dossier", command=self.__addFolderWork),  # 7
+                                      text="Passer", command= lambda : self.__passVideoDownloadFolder()),  # 7
             self.__arrTk.createButton(self.__framevideoDownloadFolder, ppolice="Arial", ptaille=25,
-                                      text="Choissir le dossier", command=self.__addFolderVideo),  # 8
+                                      text="Passer", command= lambda  : self.__passEnd()),  # 8
             self.__arrTk.createButton(self.__frameEnd, ppolice="Arial", ptaille=25,
                                       text="Commencer à utiliser " + nomSoft, command=self.__end)  # 9
         ]
@@ -188,6 +188,16 @@ class ArreraLynx:
         self.__entryLienSite = self.__arrTk.createEntry(self.__frameAddWeb, ppolice="Arial", ptaille=25, width=300)
         self.__btnAddSite = self.__arrTk.createButton(self.__frameAddWeb, ppolice="Arial", ptaille=25, text="Ajouter")
 
+        # FrameFolderWork
+
+        btnChooseWorkFolder = self.__arrTk.createButton(self.__frameWorkFolder, ppolice="Arial", ptaille=25,
+                                      text="Choisir le dossier de travail", command=self.__addFolderWork)
+
+        # FrameVideoDownloadFolder
+
+        btnChosseVideoFolder = self.__arrTk.createButton(self.__framevideoDownloadFolder, ppolice="Arial", ptaille=25,
+                                      text="Choisir le dossier de téléchargement", command= lambda  : self.__addFolderVideo())
+
         # affichage
         # frameAcceuil
         self.__arrTk.placeTopCenter(labelTitre[0])
@@ -232,11 +242,7 @@ class ArreraLynx:
         self.__arrTk.placeCenter(btnNote)
         self.__arrTk.placeBottomCenter(btnMusic)
         self.__arrTk.placeBottomCenter(btnSuivant[5])
-        # frameAddSoft
-        """
-        if (self.__dectOS.osWindows() == False) and (self.__dectOS.osLinux()==True):
-            self.__arrTk.placeCenter(self.__entryCommandLinux)
-        """
+        # frameAddSof
         self.__arrTk.placeCenter(self.__btnAddSoftLinux)
         # frameWeb
         self.__arrTk.placeTopCenter(labelTitre[6])
@@ -247,10 +253,12 @@ class ArreraLynx:
         self.__arrTk.placeBottomCenter(self.__btnAddSite)
         # FrameFolderWork
         self.__arrTk.placeTopCenter(labelTitre[7])
-        self.__arrTk.placeCenter(btnSuivant[7])
+        self.__arrTk.placeCenter(btnChooseWorkFolder)
+        self.__arrTk.placeBottomCenter(btnSuivant[7])
         # FrameVideoDownloadFolder
         self.__arrTk.placeTopCenter(labelTitre[8])
-        self.__arrTk.placeCenter(btnSuivant[8])
+        self.__arrTk.placeCenter(btnChosseVideoFolder)
+        self.__arrTk.placeBottomCenter(btnSuivant[8])
         # frameEnd
         self.__arrTk.placeTopCenter(labelTitre[9])
         self.__arrTk.placeCenter(btnSuivant[9])

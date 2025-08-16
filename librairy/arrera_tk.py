@@ -200,7 +200,7 @@ class CArreraTK :
                 label.configure(font=(ppolice, ptaille))
         return label
 
-    def createButton(self, screen, text: str = "", image = None, bg : str = "", fg : str = "", command = None,ppolice : str = "Arial", ptaille : int = 12,pstyle :str = "normal",width : int = 0,height : int = 0,hoverbg:str=""):
+    def createButton(self, screen, text: str = "", image = None, bg : str = "", fg : str = "", command = None,ppolice : str = "Arial", ptaille : int = 12,pstyle :str = "normal",width : int = 0,height : int = 0,hoverbg:str="",conerRadus:int = 0):
         if (self.__mode == 0):
             btn = (ctk.CTkButton(screen))
             if (text != ""):
@@ -222,6 +222,8 @@ class CArreraTK :
                 btn.configure(width=width)
             if (height != 0):
                 btn.configure(height=height)
+            if conerRadus != 0:
+                btn.configure(corner_radius=conerRadus)
             police = "Arial"
             style = "normal"
             taille = 12
@@ -323,7 +325,7 @@ class CArreraTK :
             canvas.create_image(0, 0, image=photo, anchor="nw")
         return canvas
 
-    def createFrame(self, screen,width : int = 0 ,height : int = 0,  bg : str = "",wightBoder : int = 0):
+    def createFrame(self, screen,width : int = 0 ,height : int = 0,  bg : str = "",wightBoder : int = 0,corner_radius : int = 1024):
         if (self.__mode == 0):
             frame = ctk.CTkFrame(screen)
             if (width != 0):
@@ -336,6 +338,8 @@ class CArreraTK :
                 frame.configure(fg_color=self.__windowsColor)
             if (wightBoder != 0):
                 frame.configure(border_width=wightBoder)
+            if (corner_radius != 1024):
+                frame.configure(corner_radius=corner_radius)
             frame.update()
         else :
             frame = Frame(screen)
@@ -358,6 +362,14 @@ class CArreraTK :
             option.configure(font=(police,taille,"normal"))
         var.set(value[0])
         return option
+
+    def createEntryLegend(self,screen, bg : str = "", fg : str = "",text :str = "", ppolice : str = "Arial", ptaille : int = 12, width : int = 20):
+        widget = self.createFrame(screen)
+        label = self.createLabel(widget, text=text, bg=bg, fg=fg, ppolice=ppolice, ptaille=ptaille, width=width)
+        entry = self.createEntry(widget, bg=bg, fg=fg, ppolice=ppolice, ptaille=ptaille, width=width)
+        label.pack(side="left")
+        entry.pack(side="right")
+        return widget,entry
 
     def placeLeftTop(self, widget):
         widget.place(relx=0, rely=0, anchor='nw')
@@ -388,9 +400,12 @@ class CArreraTK :
 
     def placeCenterOnWidth(self,widget,y :int = 0 ):
         if (y==0):
-            return False
+            return
         else :
             widget.place(relx=0.5, y=y, anchor='n')
+
+    def placeWidgetCenteredAtBottom(self, widget, x_offset=1):
+        widget.place(relx=0.5, rely=1, x=-x_offset, anchor="s")
 
     def placeBottomRight(self,widget):
         widget.place(relx=1, rely=1, anchor='se')
@@ -409,6 +424,15 @@ class CArreraTK :
 
     def placeCenterLeft(self,widget):
         widget.place(relx=0, rely=0.5, anchor='w')
+
+    def placeLeftBottomNoStick(self, widget):
+        widget.place(relx=0, rely=1, anchor='sw', x=10, y=-10)
+
+    def placeRightBottomNoStick(self, widget):
+        widget.place(relx=1, rely=1, anchor='se', x=-10, y=-10)
+
+    def placeBottomCenterNoStick(self, widget):
+        widget.place(relx=0.5, rely=1, anchor='s', x=0, y=-10)
 
     def pack(self, widget,xExpand : bool = False , yExpand : bool = False):
         if (xExpand and yExpand):
@@ -478,14 +502,14 @@ class CArreraTK :
             apropos.maxsize(400,300)
             apropos.minsize(400,300)
             icon = ctk.CTkImage(light_image=Image.open(iconFile),size=(100,100))
-            mainFrame = ctk.CTkFrame(apropos,width=400,height=250,border_width=0)
-            frameBTN = ctk.CTkFrame(apropos,width=400,height=50,border_width=0)
-            frameLabel = ctk.CTkFrame(apropos,border_width=0)
+            mainFrame = ctk.CTkFrame(apropos,width=400,height=250,border_width=0,fg_color=self.__windowsColor)
+            frameBTN = ctk.CTkFrame(apropos,width=400,height=50,border_width=0,fg_color=self.__windowsColor)
+            frameLabel = ctk.CTkFrame(apropos,border_width=0,fg_color=self.__windowsColor)
 
-            labelIcon = ctk.CTkLabel(mainFrame,image=icon,text="")
-            labelSoft = ctk.CTkLabel(frameLabel,text=nameSoft+" version "+version,font=("Arial",20))
-            labelVersion = ctk.CTkLabel(frameLabel,text="Arrera TK version "+VERSIONARRERATK,font=("Arial",13))
-            labelCopy = ctk.CTkLabel(mainFrame,text=copyright,font=("Arial",13))
+            labelIcon = ctk.CTkLabel(mainFrame,image=icon,text="",fg_color=self.__windowsColor)
+            labelSoft = ctk.CTkLabel(frameLabel,text=nameSoft+" version "+version,font=("Arial",20),fg_color=self.__windowsColor)
+            labelVersion = ctk.CTkLabel(frameLabel,text="Arrera TK version "+VERSIONARRERATK,font=("Arial",13),fg_color=self.__windowsColor)
+            labelCopy = ctk.CTkLabel(mainFrame,text=copyright,font=("Arial",13),fg_color=self.__windowsColor)
 
             btnLinkSource = ctk.CTkButton(frameBTN,text="Source code",command= lambda :  wb.open(linkSource))
             btnLinkWeb = ctk.CTkButton(frameBTN,text="Web site",command= lambda :  wb.open(linkWeb))

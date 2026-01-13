@@ -1,5 +1,6 @@
 {
     "name_assistant": "Arrera Ryley",
     "icon_unix": "asset/Ryley.png",
-    "icon_win": "asset/Ryley.ico"
+    "icon_win": "asset/Ryley.ico",
+    "text_presentation": "Bienvenu sur Arrera Ryley, l'assistant d'Arrera qui permetera de vous aidez dans vos taches de tout les jour. Et dans vos projet de developpement informatique grace Codehelp"
 }

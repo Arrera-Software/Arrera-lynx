@@ -21,15 +21,35 @@ class arrera_lynx(aTk):
         else :
             icon = self.__json_file.getContentJsonFlag("icon_win")
 
-        super().__init__(title=f"{self.__json_file.getContentJsonFlag("name_assistant")} : Configuration",
+        self.__assistant_name = self.__json_file.getContentJsonFlag("name_assistant")
+
+        super().__init__(title=f"{self.__assistant_name} : Configuration",
                          width=800,height=500,resizable=False,
                          theme_file=theme_file,
                          icon=icon)
 
+        self.__welcome = self.__welcome_frame()
+
+        self.__welcome.placeCenter()
+
         self.mainloop()
 
     def __welcome_frame(self):
-        pass
+        m = aFrame(self,width=775,height=475)
+
+        icon = aImage(250,250,self.__json_file.getContentJsonFlag("icon_unix"))
+        licon = aLabel(m,text="",image=icon)
+
+        lText = aLabel(m,text=self.__json_file.getContentJsonFlag("text_presentation"),police_size=25,
+                       wraplength=400,justify="left")
+
+        btn = aButton(m,text=f"Configurer {self.__assistant_name}",size=20)
+
+        licon.placeTopLeft()
+        lText.placeTopRight()
+        btn.placeBottomRight()
+
+        return m
 
     def __user_frame(self):
         pass

@@ -27,3 +27,24 @@ class arrera_lynx(aTk):
                          icon=icon)
 
         self.mainloop()
+
+    def __welcome_frame(self):
+        pass
+
+    def __user_frame(self):
+        pass
+
+    def __mobility_frame(self):
+        pass
+
+    def __environment_frame(self):
+        pass
+
+    def __system_frame(self):
+        pass
+
+    def __work_frame(self):
+        pass
+
+    def __ia_frame(self):
+        pass

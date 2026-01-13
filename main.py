@@ -2,8 +2,8 @@ from arreraLynx import*
 
 def main():
     lynx = ArreraLynx("configLynx.json",
-                      "FichierNeuron/configUser.json",
-                      "FichierNeuron/configNeuron.json")
+                      "json_file/configUser.json",
+                      "json_file/configNeuron.json")
     lynx.active()
 
 if __name__ == '__main__':

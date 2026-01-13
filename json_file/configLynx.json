@@ -1,8 +1,5 @@
 {
-    "color":"white",
-    "textColor":"black",
-    "nameSoft":"Six",
-    "iconSoftWin":"asset/Ryley.ico",
-    "iconSoftLinux":"asset/Ryley.png",
-    "listGenre":["monsieur","madame","maitre","maitresse"]
+    "name_assistant": "Arrera Ryley",
+    "icon_unix": "asset/Ryley.png",
+    "icon_win": "asset/Ryley.ico"
 }

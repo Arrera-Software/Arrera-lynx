@@ -1,10 +1,7 @@
-from arreraLynx import*
+from lynx_gui.arrera_lynx import*
 
 def main():
-    lynx = ArreraLynx("configLynx.json",
-                      "json_file/configUser.json",
-                      "json_file/configNeuron.json")
-    lynx.active()
+   pass
 
 if __name__ == '__main__':
     main()

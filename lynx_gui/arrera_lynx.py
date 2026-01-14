@@ -29,8 +29,10 @@ class arrera_lynx(aTk):
                          icon=icon)
 
         self.__welcome = self.__welcome_frame()
+        self.__user = self.__user_frame()
 
-        self.__welcome.placeCenter()
+        #self.__welcome.placeCenter()
+        self.__user.placeCenter()
 
         self.mainloop()
 
@@ -52,7 +54,30 @@ class arrera_lynx(aTk):
         return m
 
     def __user_frame(self):
-        pass
+
+        listGenre = self.__json_file.getFlagListJson("list_genre")
+
+        m = aFrame(self,width=775,height=475)
+        info = aFrame(m,width=350,height=200)
+        lTitle = aLabel(m,text="Information de l'utilisateur",police_size=25)
+        lDesc = aLabel(m,police_size=20,
+                       text="Pour apprendre a vous connectre l'assistant a besoin de savoir votre nom, prenom et le pronom que vous voulez qui vous appelle",wraplength=250,justify="left")
+
+        self.__eFirstName = aEntryLengend(info,text="Prénom",police_size=15)
+        self.__eLastName = aEntryLengend(info,text="Nom",police_size=15)
+        self.__mGenre = aOptionMenuLengend(info,text="Genre",values=listGenre,police_size=15)
+
+        btn = aButton(m,text="Continuer",size=20)
+
+        lTitle.placeTopCenter()
+        info.placeRightCenter()
+        lDesc.placeCenterLeft()
+        self.__eFirstName.placeTopLeft()
+        self.__eLastName.placeCenterLeft()
+        self.__mGenre.placeBottomLeft()
+        btn.placeBottomRight()
+
+        return m
 
     def __mobility_frame(self):
         pass

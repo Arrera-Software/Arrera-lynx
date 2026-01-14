@@ -228,7 +228,7 @@ class aTextScrollable(ctk.CTkFrame, placement_Tool_Kit_internet):
 
 class aEntryLengend(ctk.CTkFrame, placement_Tool_Kit_internet):
     def __init__(self,master,text:str="Arrera Entry Legend",bg:str="",fg:str="",police_size:int=15,width:int=200,gridUsed:bool=False):
-        super().__init__(master)
+        super().__init__(master,fg_color=master.cget("fg_color"))
         text = text + ":  "
         self.__label = aLabel(self,text=text,font=("Roboto",police_size,"bold"))
 
@@ -297,7 +297,7 @@ class aOptionMenu(ctk.CTkOptionMenu, placement_Tool_Kit_internet):
 
 class aOptionMenuLengend(ctk.CTkFrame, placement_Tool_Kit_internet):
     def __init__(self,master,values:list,text:str="Arrera OptionMenu Legend",bg:str="",fg:str="",police_size:int=15,gridUsed:bool=False):
-        super().__init__(master)
+        super().__init__(master,fg_color=master.cget("fg_color"))
         text = text + ":  "
         self.__label = aLabel(self,text=text,font=("Roboto",police_size,"bold"))
 

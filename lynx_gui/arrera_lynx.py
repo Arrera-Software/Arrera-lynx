@@ -61,7 +61,8 @@ class arrera_lynx(aTk):
         info = aFrame(m,width=350,height=200)
         lTitle = aLabel(m,text="Information de l'utilisateur",police_size=25)
         lDesc = aLabel(m,police_size=20,
-                       text="Pour apprendre a vous connectre l'assistant a besoin de savoir votre nom, prenom et le pronom que vous voulez qui vous appelle",wraplength=250,justify="left")
+                       text="Pour apprendre a vous connectre l'assistant a besoin de savoir votre nom, prenom et le pronom que vous voulez qui vous appelle",
+                       wraplength=250,justify="left")
 
         self.__eFirstName = aEntryLengend(info,text="Prénom",police_size=15)
         self.__eLastName = aEntryLengend(info,text="Nom",police_size=15)

@@ -32,10 +32,11 @@ class arrera_lynx(aTk):
         self.__user = self.__user_frame()
         self.__mobility = self.__mobility_frame()
         self.__environement = self.__environment_frame()
+        self.__system = self.__system_frame()
 
 
         #self.__welcome.placeCenter()
-        self.__environement.placeCenter()
+        self.__system.placeCenter()
 
         self.mainloop()
 
@@ -164,7 +165,36 @@ class arrera_lynx(aTk):
         return m
 
     def __system_frame(self):
-        pass
+        m = aFrame(self,width=775,height=475)
+
+        lTitle = aLabel(m,text="Parametre general de l'assistant",police_size=25)
+
+        fMicro = aFrame(m,width=350,height=200)
+        lTMicro = aLabel(fMicro,police_size=20,text="Microphone")
+        self.__enableSound = aSwicht(fMicro,text="Sons au demarage de l'ecoute",default_value=True)
+        btnTriger = aButton(fMicro,text="Ajouter un mots declencheur",size=20)
+
+        fSystem = aFrame(m,width=350,height=200)
+        lTSysteme = aLabel(fSystem,police_size=20,text="Parametrage de l'assistant")
+        self.__enableHist = aSwicht(fSystem,text="Activer l'historique",default_value=True)
+
+        btn = aButton(m,text="Continuer",size=20)
+
+        lTitle.placeTopCenter()
+
+        fMicro.placeLeftCenter()
+        fSystem.placeRightCenter()
+
+        lTMicro.placeTopCenter()
+        self.__enableSound.placeCenterOnWidth(y=75)
+        btnTriger.placeCenterOnWidth(y=125)
+
+        lTSysteme.placeTopCenter()
+        self.__enableHist.placeCenter()
+
+        btn.placeBottomRight()
+
+        return m
 
     def __work_frame(self):
         pass

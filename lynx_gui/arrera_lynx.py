@@ -30,9 +30,11 @@ class arrera_lynx(aTk):
 
         self.__welcome = self.__welcome_frame()
         self.__user = self.__user_frame()
+        self.__mobility = self.__mobility_frame()
+
 
         #self.__welcome.placeCenter()
-        self.__user.placeCenter()
+        self.__mobility.placeCenter()
 
         self.mainloop()
 
@@ -81,7 +83,42 @@ class arrera_lynx(aTk):
         return m
 
     def __mobility_frame(self):
-        pass
+        m = aFrame(self,width=775,height=475)
+
+        lTitle = aLabel(m,text="Parametre de mobiliter",police_size=25)
+        btn = aButton(m,text="Continuer",size=20)
+
+        fMeteo = aFrame(m,width=350,height=300)
+        ltMeteo = aLabel(fMeteo,text="Meteo",police_size=20)
+        self.__eMDomicile = aEntryLengend(fMeteo,text="Ville de domicile",
+                                          police_size=15)
+        self.__eMWork = aEntryLengend(fMeteo, text="Ville de travail",
+                                      police_size=15)
+        btnATown = aButton(fMeteo, text="Ajouter une ville", size=20)
+
+        fGPS = aFrame(m,width=350,height=300)
+        ltGPS = aLabel(fGPS, text="GPS", police_size=20)
+        self.__eGDomicile = aEntryLengend(fGPS, text="Adressse de domicile",
+                                          police_size=15,width=175)
+        self.__eGWork = aEntryLengend(fGPS, text="Adresse de travail",
+                                      police_size=15)
+
+        lTitle.placeTopCenter()
+
+        fMeteo.placeRightCenter()
+        fGPS.placeLeftCenter()
+        btn.placeBottomRight()
+
+        ltMeteo.placeTopCenter()
+        self.__eMDomicile.placeCenterOnWidth(y=75)
+        self.__eMWork.placeCenterOnWidth(y=125)
+        btnATown.placeCenterOnWidth(y=175)
+
+        ltGPS.placeTopCenter()
+        self.__eGDomicile.placeCenterOnWidth(y=75)
+        self.__eGWork.placeCenterOnWidth(y=125)
+
+        return  m
 
     def __environment_frame(self):
         pass

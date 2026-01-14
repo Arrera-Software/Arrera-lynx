@@ -88,7 +88,7 @@ class arrera_lynx(aTk):
         lTitle = aLabel(m,text="Parametre de mobiliter",police_size=25)
         btn = aButton(m,text="Continuer",size=20)
 
-        fMeteo = aFrame(m,width=350,height=300)
+        fMeteo = aFrame(m,width=365 ,height=300)
         ltMeteo = aLabel(fMeteo,text="Meteo",police_size=20)
         self.__eMDomicile = aEntryLengend(fMeteo,text="Ville de domicile",
                                           police_size=15)
@@ -96,7 +96,7 @@ class arrera_lynx(aTk):
                                       police_size=15)
         btnATown = aButton(fMeteo, text="Ajouter une ville", size=20)
 
-        fGPS = aFrame(m,width=350,height=300)
+        fGPS = aFrame(m,width=365,height=300)
         ltGPS = aLabel(fGPS, text="GPS", police_size=20)
         self.__eGDomicile = aEntryLengend(fGPS, text="Adressse de domicile",
                                           police_size=15,width=175)

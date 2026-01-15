@@ -32,13 +32,14 @@ class arrera_lynx(aTk):
         self.__user = self.__user_frame()
         self.__mobility = self.__mobility_frame()
         self.__environement = self.__environment_frame()
+        self.__search = self.__search_frame()
         self.__system = self.__system_frame()
         self.__work = self.__work_frame()
         self.__token = self.__token_frame()
 
 
         #self.__welcome.placeCenter()
-        self.__token.placeCenter()
+        self.__environement.placeCenter()
 
         self.mainloop()
 
@@ -129,17 +130,12 @@ class arrera_lynx(aTk):
 
         lTitle = aLabel(m,text="Parametre d'environnement numerique",police_size=25)
 
-        fWeb = aFrame(m,width=258,height=200)
-        lTWeb = aLabel(fWeb,police_size=20,text="Racourcie interface")
+        fWeb = aFrame(m,width=350,height=200)
+        lTWeb = aLabel(fWeb,police_size=20,text="Racourcie internet")
         self.__eWebName = aEntryLengend(fWeb,text="Nom",police_size=15)
         self.__eWebLink = aEntryLengend(fWeb,text="Lien",police_size=15)
 
-        listEngine = self.__json_file.getFlagListJson("list_engine_search")
-        fSearch = aFrame(m,width=258,height=200)
-        lTSearch = aLabel(fSearch,police_size=20,text="Moteur de recherche\npar default")
-        self.__mSearchEngine = aOptionMenu(fSearch,value=listEngine)
-
-        fSoft = aFrame(m,width=258,height=200)
+        fSoft = aFrame(m,width=350,height=200)
         lTSoft = aLabel(fSoft,police_size=20,text="Logiciel externe")
         self.__eSoftName = aEntryLengend(fSoft,text="Nom",police_size=15)
         btnSoft = aButton(fSoft,text="Ajouter",size=20)
@@ -147,21 +143,41 @@ class arrera_lynx(aTk):
         btn = aButton(m,text="Continuer",size=20)
 
         fWeb.placeLeftCenter()
-        fSearch.placeCenter()
         fSoft.placeRightCenter()
 
         lTWeb.placeTopCenter()
         self.__eWebName.placeCenterOnWidth(y=75)
         self.__eWebLink.placeCenterOnWidth(y=125)
 
-        lTSearch.placeTopCenter()
-        self.__mSearchEngine.placeCenterOnWidth(y=75)
-
         lTSoft.placeTopCenter()
         self.__eSoftName.placeCenterOnWidth(y=75)
         btnSoft.placeCenterOnWidth(y=125)
 
         lTitle.placeTopCenter()
+
+        btn.placeBottomRight()
+        return m
+
+    def __search_frame(self):
+        m = aFrame(self,width=775,height=475)
+
+        lTitle = aLabel(m,text="Parametre de recherche",police_size=25)
+
+        lDesc = aLabel(m,text=f"L'assistant {self.__assistant_name} vous permet de faire des recherches sur internet. Choississez le moteur de recherche par default que vous voulez utiliser"
+                       ,wraplength=300,justify="left",police_size=20)
+
+        listEngine = self.__json_file.getFlagListJson("list_engine_search")
+        fSearch = aFrame(m,width=258,height=200)
+        lTSearch = aLabel(fSearch,police_size=20,text="Moteur de recherche\npar default")
+        self.__mSearchEngine = aOptionMenu(fSearch,value=listEngine)
+
+        lTitle.placeTopCenter()
+        lDesc.placeLeftCenter()
+        fSearch.placeRightCenter()
+
+        lTSearch.placeTopCenter()
+        self.__mSearchEngine.placeCenterOnWidth(y=75)
+        btn = aButton(m,text="Continuer",size=20)
 
         btn.placeBottomRight()
         return m

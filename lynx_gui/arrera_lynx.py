@@ -28,10 +28,11 @@ class arrera_lynx(aTk):
         self.__work = self.__work_frame()
         self.__token = self.__token_frame()
         self.__ia = self.__ia_frame()
+        self.__end = self.__end_frame()
 
 
         #self.__welcome.placeCenter()
-        self.__ia.placeCenter()
+        self.__end.placeCenter()
 
         self.mainloop()
 
@@ -293,4 +294,20 @@ class arrera_lynx(aTk):
         lDesc.placeTopLeft()
         self.__bEnableIA.placeBottomLeft()
 
+        return m
+
+    def __end_frame(self):
+        m = aFrame(self,width=775,height=475)
+
+        icon = aImage(250,250,self.__json_file.getContentJsonFlag("icon_unix"))
+        licon = aLabel(m,text="",image=icon)
+
+        lEnd = aLabel(m,text=self.__json_file.getContentJsonFlag("text_end"),
+                      police_size=20,wraplength=300,justify="left")
+
+        btn = aButton(m,text=f"Utiliser {self.__assistant_name}",size=20,command=lambda : self.destroy())
+
+        licon.placeTopLeft()
+        lEnd.placeRightCenter()
+        btn.placeBottomRight()
         return m

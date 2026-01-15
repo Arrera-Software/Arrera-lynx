@@ -85,7 +85,7 @@ class arrera_lynx(aTk):
         m = aFrame(self,width=775,height=475)
 
         lTitle = aLabel(m,text="Paramètres de mobilité",police_size=25)
-        btn = aButton(m,text="Continuer",size=20)
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_mobility)
 
         fMeteo = aFrame(m,width=365 ,height=300)
         ltMeteo = aLabel(fMeteo,text="Météo",police_size=20)
@@ -93,7 +93,8 @@ class arrera_lynx(aTk):
                                           police_size=15)
         self.__eMWork = aEntryLengend(fMeteo, text="Ville de travail",
                                       police_size=15)
-        btnATown = aButton(fMeteo, text="Ajouter une ville", size=20)
+        btnATown = aButton(fMeteo, text="Ajouter une ville", size=20,
+                           command=self.__action_view_add_town)
 
         fGPS = aFrame(m,width=365,height=300)
         ltGPS = aLabel(fGPS, text="GPS", police_size=20)
@@ -337,3 +338,74 @@ class arrera_lynx(aTk):
                 showerror("Configurateur","Une erreur c'est produite")
         else :
             showerror("Configurateur","Vous avec pas remplis tout les champs")
+
+
+    def __after_mobility(self):
+
+        mDomicile = self.__eMDomicile.getEntry().get()
+        mWork = self.__eMWork.getEntry().get()
+
+        gDomicile = self.__eGDomicile.getEntry().get()
+        gWork = self.__eGWork.getEntry().get()
+
+        if mDomicile == "" or mWork == "" or gDomicile == "" or gWork == "" :
+            r = askyesno("Configurateur","Vous n'avez remplis tout les champs. Voulez vous continuer ?")
+            if not r:
+                self.__mobility.placeCenter()
+                return
+
+        if mDomicile == "":
+            okMDomicile = True
+        else :
+            okMDomicile = self.__gestUser.setLieuDomicile(mDomicile)
+
+        if mWork == "":
+            okMWork = True
+        else :
+            okMWork = self.__gestUser.setLieuTravail(mWork)
+
+        if gDomicile == "":
+            okGDomicile = True
+        else :
+            okGDomicile = self.__gestUser.setAdresseDomicile(gDomicile)
+
+        if gWork == "":
+            okGWork = True
+        else :
+            okGWork = self.__gestUser.setAdresseTravail(gWork)
+
+        self.__mobility.place_forget()
+        self.__environement.placeCenter()
+
+        if not okMDomicile and not okMWork and not okGDomicile and not okGWork:
+            showerror("Configurateur",
+                      "Une erreur c'est produite sur l'enregistrement des parametre de mobiliter")
+
+    # Action
+
+    # BTN btnATown
+
+    def __action_view_add_town(self):
+        w = aTopLevel(title="Ajout de villes",width=300,height=150)
+
+        lTitle = aLabel(w,text="Ajout d'une ville",police_size=20)
+        nameVille = aEntryLengend(w,text="Ville",police_size=15)
+        btn = aButton(w,text="Ajouter",size=20,
+                      command= lambda : self.__action_add_orther_town(w,nameVille))
+
+        lTitle.placeTopCenter()
+        nameVille.placeCenter()
+        btn.placeBottomCenter()
+
+    def __action_add_orther_town(self,w:aTopLevel,entry:aEntryLengend):
+
+        town = entry.getEntry().get()
+        if town == "":
+            showerror("Configurateur","Aucun ville sera enregistrer")
+        else :
+            if not self.__gestUser.addTown(town):
+                showerror("Configurateur","Une erreur c'est produite")
+
+        for widget in w.winfo_children():
+            widget.destroy()
+        w.destroy()

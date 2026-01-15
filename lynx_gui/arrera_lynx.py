@@ -26,13 +26,13 @@ class arrera_lynx(aTk):
         self.__search = self.__search_frame()
         self.__system = self.__system_frame()
         self.__work = self.__work_frame()
-        self.__token = self.__token_frame()
+        if self.__json_file.getContentJsonFlag("github_integration") == "1":
+            self.__token = self.__token_frame()
         self.__ia = self.__ia_frame()
         self.__end = self.__end_frame()
 
 
-        #self.__welcome.placeCenter()
-        self.__end.placeCenter()
+        self.__welcome.placeCenter()
 
         self.mainloop()
 
@@ -180,25 +180,27 @@ class arrera_lynx(aTk):
 
         lTitle = aLabel(m,text="Parametre general de l'assistant",police_size=25)
 
-        fMicro = aFrame(m,width=350,height=200)
-        lTMicro = aLabel(fMicro,police_size=20,text="Microphone")
-        self.__enableSound = aSwicht(fMicro,text="Sons au demarage de l'ecoute",default_value=True)
-        btnTriger = aButton(fMicro,text="Ajouter un mots declencheur",size=20)
-
         fSystem = aFrame(m,width=350,height=200)
         lTSysteme = aLabel(fSystem,police_size=20,text="Parametrage de l'assistant")
         self.__enableHist = aSwicht(fSystem,text="Activer l'historique",default_value=True)
 
+        if self.__json_file.getContentJsonFlag("micro_use") == "1":
+            fMicro = aFrame(m,width=350,height=200)
+            lTMicro = aLabel(fMicro,police_size=20,text="Microphone")
+            self.__enableSound = aSwicht(fMicro,text="Sons au demarage de l'ecoute",default_value=True)
+            btnTriger = aButton(fMicro,text="Ajouter un mots declencheur",size=20)
+
+            fMicro.placeLeftCenter()
+            fSystem.placeRightCenter()
+            lTMicro.placeTopCenter()
+            self.__enableSound.placeCenterOnWidth(y=75)
+            btnTriger.placeCenterOnWidth(y=125)
+        else :
+            fSystem.placeCenter()
+
         btn = aButton(m,text="Continuer",size=20)
 
         lTitle.placeTopCenter()
-
-        fMicro.placeLeftCenter()
-        fSystem.placeRightCenter()
-
-        lTMicro.placeTopCenter()
-        self.__enableSound.placeCenterOnWidth(y=75)
-        btnTriger.placeCenterOnWidth(y=125)
 
         lTSysteme.placeTopCenter()
         self.__enableHist.placeCenter()

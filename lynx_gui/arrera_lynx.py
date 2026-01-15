@@ -22,6 +22,7 @@ class arrera_lynx(aTk):
             icon = self.__json_file.getContentJsonFlag("icon_win")
 
         self.__assistant_name = gest.getName()
+        self.__gestUser = gest.getUserConf()
 
         super().__init__(title=f"{self.__assistant_name} : Configuration",
                          width=800,height=500,resizable=False,
@@ -36,10 +37,11 @@ class arrera_lynx(aTk):
         self.__system = self.__system_frame()
         self.__work = self.__work_frame()
         self.__token = self.__token_frame()
+        self.__ia = self.__ia_frame()
 
 
         #self.__welcome.placeCenter()
-        self.__environement.placeCenter()
+        self.__ia.placeCenter()
 
         self.mainloop()
 
@@ -273,4 +275,32 @@ class arrera_lynx(aTk):
         return m
 
     def __ia_frame(self):
-        pass
+        m = aFrame(self,width=775,height=475)
+        lTitle = aLabel(m,police_size=25,text="Parametrage du mode IA")
+
+        fChooseModel = aFrame(m,width=350,height=237)
+        lTModel = aLabel(fChooseModel,police_size=20,text="Choix du modele d'IA")
+        bDModel = aButton(fChooseModel,text="Choisir un modele\na telecharger",size=20)
+
+        fDesc = aFrame(m,width=350,height=200,fg_color=m.cget("fg_color"))
+        lDesc = aLabel(fDesc,text=f"L'assistant {self.__assistant_name} integre des modele d'IA pour améliorer c'est reponse. Vous pouvais choisir le modele que vous voulez utiliser et adpater a votre ordinateur",
+                       wraplength=325,justify="left",police_size=20)
+        self.__bEnableIA = aSwicht(fDesc,text="Activer le mode IA",default_value=True)
+
+        if len(self.__gestUser.get_model_downloaded()) != 0:
+            bDownloadedModel = aButton(fChooseModel,text="Modele telecharger",size=20)
+
+            bDModel.placeCenterOnWidth(y=75)
+            bDownloadedModel.placeCenterOnWidth(y=155)
+        else :
+            bDModel.placeCenter()
+        lTModel.placeTopCenter()
+
+        lTitle.placeTopCenter()
+        fChooseModel.placeRightCenter()
+
+        fDesc.placeLeftCenter()
+        lDesc.placeTopLeft()
+        self.__bEnableIA.placeBottomLeft()
+
+        return m

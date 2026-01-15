@@ -1,6 +1,6 @@
 from lib.arrera_tk import *
 from librairy.travailJSON import *
-from librairy.dectectionOS import OS
+from gestionnaire.gestion import gestionnaire
 """
 Todo :
 - Page Acceuil (Icon de l'assistant + petit texte qui presente l'assistant+ bouton configurer)
@@ -13,15 +13,15 @@ Todo :
 """
 
 class arrera_lynx(aTk):
-    def __init__(self,conf_file:str,theme_file:str):
+    def __init__(self,gest:gestionnaire,conf_file:str,theme_file:str):
         self.__json_file = jsonWork(conf_file)
-        os = OS()
+        os = gest.getOSObjet()
         if os.osLinux() or os.osMac():
             icon = self.__json_file.getContentJsonFlag("icon_unix")
         else :
             icon = self.__json_file.getContentJsonFlag("icon_win")
 
-        self.__assistant_name = self.__json_file.getContentJsonFlag("name_assistant")
+        self.__assistant_name = gest.getName()
 
         super().__init__(title=f"{self.__assistant_name} : Configuration",
                          width=800,height=500,resizable=False,

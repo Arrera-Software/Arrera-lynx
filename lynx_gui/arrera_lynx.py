@@ -274,9 +274,11 @@ class arrera_lynx(aTk):
         fToken = aFrame(m,width=300,height=300)
         lToken = aLabel(fToken,police_size=20,text="Enregistrement du token")
         self.__eToken = aEntryLengend(fToken,text="Token",police_size=15)
-        btnGenerateToken = aButton(fToken,text="Générer un token",size=20)
+        btnGenerateToken = aButton(fToken,text="Générer un token",size=20,
+                                   command=lambda : wb.open("https://github.com/settings/tokens/new"))
 
-        btn = aButton(m,text="Continuer",size=20)
+        btn = aButton(m,text="Continuer",size=20,
+                      command=self.__after_token)
 
         lTitle.placeTopCenter()
 
@@ -471,6 +473,22 @@ class arrera_lynx(aTk):
             self.__token.placeCenter()
         else :
             self.__ia.placeCenter()
+
+    def __after_token(self):
+        token = self.__eToken.getEntry().get()
+
+        if token == "":
+            r = askyesno("Configurateur","Aucun token sera enregistrer voulez-vous continuer?")
+            if not r :
+                self.__token.placeCenter()
+                return
+
+        if not self.__gestUser.setTokenGithub(token):
+            showerror("Configurateur","Une erreur c'est produite")
+
+
+        self.__token.place_forget()
+        self.__ia.placeCenter()
 
     # Action
 

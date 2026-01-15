@@ -2,6 +2,7 @@ from lib.arrera_tk import *
 from tkinter.messagebox import *
 from librairy.travailJSON import *
 from gestionnaire.gestion import gestionnaire
+import threading as th
 
 class arrera_lynx(aTk):
     def __init__(self,gest:gestionnaire,conf_file:str,theme_file:str):
@@ -14,6 +15,7 @@ class arrera_lynx(aTk):
 
         self.__assistant_name = gest.getName()
         self.__gestUser = gest.getUserConf()
+        self.__arrVoice = gest.getArrVoice()
 
         super().__init__(title=f"{self.__assistant_name} : Configuration",
                          width=800,height=500,resizable=False,
@@ -36,6 +38,9 @@ class arrera_lynx(aTk):
         # Var
         self.__nb_soft_add = 0
         self.__nb_web_shortcut_add = 0
+        self.__varOutTriger = 0
+        self.__outTexteMicro = ""
+        self.__thTrigerWord = th.Thread()
 
         # Placement
         self.__welcome.placeCenter()
@@ -193,13 +198,16 @@ class arrera_lynx(aTk):
 
         fSystem = aFrame(m,width=350,height=200)
         lTSysteme = aLabel(fSystem,police_size=20,text="Paramétrage de l'assistant")
-        self.__enableHist = aSwicht(fSystem,text="Activer l'historique",default_value=True)
+        self.__enableHist = aSwicht(fSystem,text="Activer l'historique",default_value=False,
+                                     command=self.__action_btn_enable_hist)
 
         if self.__json_file.getContentJsonFlag("micro_use") == "1":
             fMicro = aFrame(m,width=350,height=200)
             lTMicro = aLabel(fMicro,police_size=20,text="Microphone")
-            self.__enableSound = aSwicht(fMicro,text="Sons au démarrage de l'écoute",default_value=True)
-            btnTriger = aButton(fMicro,text="Ajouter un mot déclencheur",size=20)
+            self.__enableSound = aSwicht(fMicro,text="Sons au démarrage de l'écoute",default_value=False,
+                                         command=self.__action_btn_enable_micro_sound)
+            btnTriger = aButton(fMicro, text="Ajouter un mot déclencheur", size=20,
+                                command=self.__action_launch_record_triger_word)
 
             fMicro.placeLeftCenter()
             fSystem.placeRightCenter()
@@ -479,3 +487,76 @@ class arrera_lynx(aTk):
                 showerror("Configurateur","Une erreur c'est produite")
             else :
                 self.__nb_web_shortcut_add += 1
+
+    # system
+
+    def __action_btn_enable_micro_sound(self):
+        r = askyesno("Configurateur","Voulez-vous activer les sons au démarrage de l'écoute ?")
+        if r :
+            self.__gestUser.setSoundMicro(True)
+            self.__enableSound.setOn()
+        else :
+            self.__gestUser.setSoundMicro(False)
+            self.__enableSound.setOff()
+
+    def __action_btn_enable_hist(self):
+        r = askyesno("Configurateur",f"Voulez-vous activer l'historique de l'assistant {self.__assistant_name} ?")
+        if r :
+            self.__gestUser.setHist(True)
+            self.__enableHist.setOn()
+        else :
+            self.__gestUser.setHist(False)
+            self.__enableHist.setOff()
+
+    def __action_record_tiger_word(self):
+        self.__varOutTriger = 0
+        self.__outTexteMicro = ""
+        self.__varOutTriger =  self.__arrVoice.listen()
+
+        if self.__varOutTriger == 0 :
+            self.__outTexteMicro = self.__arrVoice.getTextMicro()
+
+    def __action_launch_record_triger_word(self):
+        if len(self.__gestUser.getListWord()) < 3:
+            self.__thTrigerWord = th.Thread(target=self.__action_record_tiger_word)
+            self.__thTrigerWord.start()
+            w = aTopLevel(title="Ajout d'un mot déclencheur",width=300,height=150)
+            self.after(100,self.__update_action_record_word,w,True)
+
+    def __action_add_triger_word(self,w:aTopLevel):
+        if self.__outTexteMicro != "":
+            if not self.__gestUser.addWord(self.__outTexteMicro):
+                showerror("Configurateur","Une erreur c'est produite")
+            else :
+                showinfo("Configarateur","Le mot a été enregistrer en tant que mots déclencheur")
+        else :
+            showerror("Configurateur","Aucun mot n'a été enregistrer")
+
+        w.destroy()
+
+    # Update
+
+    def __update_action_record_word(self,w:aTopLevel,state:bool):
+
+        if self.__thTrigerWord.is_alive():
+            if state:
+                for widget in w.winfo_children():
+                    widget.destroy()
+                l = aLabel(w,text="Enregistrement en cours....",police_size=20)
+                l.placeCenter()
+
+            self.after(100,self.__update_action_record_word,w,False)
+        else :
+            del self.__thTrigerWord
+            self.__thTrigerWord = th.Thread()
+            if self.__varOutTriger == 0:
+                for widget in w.winfo_children():
+                    widget.destroy()
+                l = aLabel(w,text=f"Mots enregistrer : {self.__outTexteMicro}",police_size=20)
+                b = aButton(w,text="Sauvegarder",size=15,
+                            command=lambda : self.__action_add_triger_word(w))
+                l.placeTopCenter()
+                b.placeBottomCenter()
+            else :
+                showerror("Configurateur","L'enregistrement c'est mal derouler")
+                w.destroy()

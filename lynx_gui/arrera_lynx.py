@@ -22,6 +22,14 @@ class arrera_lynx(aTk):
                          theme_file=theme_file,
                          icon=icon)
 
+        # Var
+        self.__nb_soft_add = 0
+        self.__nb_web_shortcut_add = 0
+        self.__varOutTriger = 0
+        self.__outTexteMicro = ""
+        self.__thTrigerWord = th.Thread()
+        self.__state_github = self.__json_file.getContentJsonFlag("github_integration")
+
         # Frame
         self.__welcome = self.__welcome_frame()
         self.__user = self.__user_frame()
@@ -30,17 +38,10 @@ class arrera_lynx(aTk):
         self.__search = self.__search_frame()
         self.__system = self.__system_frame()
         self.__work = self.__work_frame()
-        if self.__json_file.getContentJsonFlag("github_integration") == "1":
+        if self.__state_github == "1":
             self.__token = self.__token_frame()
         self.__ia = self.__ia_frame()
         self.__end = self.__end_frame()
-
-        # Var
-        self.__nb_soft_add = 0
-        self.__nb_web_shortcut_add = 0
-        self.__varOutTriger = 0
-        self.__outTexteMicro = ""
-        self.__thTrigerWord = th.Thread()
 
         self.__work_folder_setted = False
         self.__download_folder_setted = False
@@ -466,7 +467,7 @@ class arrera_lynx(aTk):
                     return
 
         self.__work.place_forget()
-        if self.__json_file.getContentJsonFlag("github_integration") == "1":
+        if self.__state_github == "1":
             self.__token.placeCenter()
         else :
             self.__ia.placeCenter()

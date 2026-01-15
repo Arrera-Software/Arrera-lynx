@@ -1,4 +1,5 @@
 from lib.arrera_tk import *
+from tkinter.messagebox import *
 from librairy.travailJSON import *
 from gestionnaire.gestion import gestionnaire
 
@@ -35,6 +36,7 @@ class arrera_lynx(aTk):
 
         self.mainloop()
 
+    # Declaration de la tout les pages
     def __welcome_frame(self):
         m = aFrame(self,width=775,height=475)
 
@@ -44,7 +46,7 @@ class arrera_lynx(aTk):
         lText = aLabel(m,text=self.__json_file.getContentJsonFlag("text_presentation"),police_size=25,
                        wraplength=400,justify="left")
 
-        btn = aButton(m,text=f"Configurer {self.__assistant_name}",size=20)
+        btn = aButton(m,text=f"Configurer {self.__assistant_name}",size=20,command=self.__after_welcome)
 
         licon.placeTopLeft()
         lText.placeTopRight()
@@ -67,7 +69,7 @@ class arrera_lynx(aTk):
         self.__eLastName = aEntryLengend(info,text="Nom",police_size=15)
         self.__mGenre = aOptionMenuLengend(info,text="Genre",values=listGenre,police_size=15)
 
-        btn = aButton(m,text="Continuer",size=20)
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_user)
 
         lTitle.placeTopCenter()
         info.placeRightCenter()
@@ -312,3 +314,26 @@ class arrera_lynx(aTk):
         lEnd.placeRightCenter()
         btn.placeBottomRight()
         return m
+
+    # Partie Fonctionnel
+
+    def __after_welcome(self):
+        self.__welcome.place_forget()
+        self.__user.placeCenter()
+
+    def __after_user(self):
+
+        firtName = self.__eFirstName.getEntry().get()
+        lastName = self.__eLastName.getEntry().get()
+        genre = self.__mGenre.getOptionMenu().getValue()
+
+        if firtName != "" and lastName != "" :
+            if (self.__gestUser.setLastnameUser(lastName) and
+                self.__gestUser.setFirstnameUser(firtName) and
+                self.__gestUser.setGenre(genre)):
+                self.__user.place_forget()
+                self.__mobility.placeCenter()
+            else :
+                showerror("Configurateur","Une erreur c'est produite")
+        else :
+            showerror("Configurateur","Vous avec pas remplis tout les champs")

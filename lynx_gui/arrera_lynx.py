@@ -33,10 +33,12 @@ class arrera_lynx(aTk):
         self.__mobility = self.__mobility_frame()
         self.__environement = self.__environment_frame()
         self.__system = self.__system_frame()
+        self.__work = self.__work_frame()
+        self.__token = self.__token_frame()
 
 
         #self.__welcome.placeCenter()
-        self.__system.placeCenter()
+        self.__token.placeCenter()
 
         self.mainloop()
 
@@ -197,7 +199,62 @@ class arrera_lynx(aTk):
         return m
 
     def __work_frame(self):
-        pass
+        m = aFrame(self,width=775,height=475)
+        lTitle = aLabel(m,text="Parametrage des dossiers",police_size=25)
+
+        fWork = aFrame(m,width=350,height=200)
+        lTWork = aLabel(fWork,police_size=20,text="Dossier de travail")
+        bFWork = aButton(fWork,text="Enregister les dossiers\nde travail",size=20)
+
+        fDownload = aFrame(m,width=350,height=200)
+        lTDownload = aLabel(fDownload,police_size=20,text="Dossier de telechargement")
+        bFDownload = aButton(fDownload,text="Enregister le dossier\nde telechargement",size=20)
+
+        btn = aButton(m,text="Continuer",size=20)
+
+        lTitle.placeTopCenter()
+
+        fWork.placeLeftCenter()
+        fDownload.placeRightCenter()
+
+        lTWork.placeTopCenter()
+        bFWork.placeCenter()
+
+        lTDownload.placeTopCenter()
+        bFDownload.placeCenter()
+
+        btn.placeBottomRight()
+
+        return m
+
+    def __token_frame(self):
+        m = aFrame(self,width=775,height=475)
+
+        lTitle = aLabel(m,police_size=25,text="Token github")
+
+        lDesc = aLabel(m,text="Pour utiliser tout les fonctionnalites de codehelp vous devais enregistrer votre token github.(Stoker entiremenr de locale)",
+                       wraplength=300,justify="left",police_size=20)
+
+        fToken = aFrame(m,width=300,height=300)
+        lToken = aLabel(fToken,police_size=20,text="Enregistrement du token")
+        self.__eToken = aEntryLengend(fToken,text="Token",police_size=15)
+        btnGenerateToken = aButton(fToken,text="Generer un token",size=20)
+
+        btn = aButton(m,text="Continuer",size=20)
+
+        lTitle.placeTopCenter()
+
+        lDesc.placeLeftCenter()
+
+        fToken.placeRightCenter()
+
+        lToken.placeTopCenter()
+        self.__eToken.placeCenter()
+        btnGenerateToken.placeBottomCenter()
+
+        btn.placeBottomRight()
+
+        return m
 
     def __ia_frame(self):
         pass

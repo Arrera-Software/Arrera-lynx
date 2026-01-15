@@ -42,6 +42,9 @@ class arrera_lynx(aTk):
         self.__outTexteMicro = ""
         self.__thTrigerWord = th.Thread()
 
+        self.__work_folder_setted = False
+        self.__download_folder_setted = False
+
         # Placement
         self.__welcome.placeCenter()
 
@@ -217,7 +220,7 @@ class arrera_lynx(aTk):
         else :
             fSystem.placeCenter()
 
-        btn = aButton(m,text="Continuer",size=20)
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_system)
 
         lTitle.placeTopCenter()
 
@@ -429,6 +432,16 @@ class arrera_lynx(aTk):
         self.__search.place_forget()
         self.__system.placeCenter()
 
+    def __after_system(self):
+        r = askyesno("Configurateur",
+                     "L'assistant est bien configurer comme vous voulez ?")
+
+        if r:
+            self.__system.place_forget()
+            self.__work.placeCenter()
+        else :
+            self.__system.placeCenter()
+
     # Action
 
     # Mobility
@@ -533,6 +546,10 @@ class arrera_lynx(aTk):
             showerror("Configurateur","Aucun mot n'a été enregistrer")
 
         w.destroy()
+
+    # Work
+
+
 
     # Update
 

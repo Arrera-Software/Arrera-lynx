@@ -237,13 +237,15 @@ class arrera_lynx(aTk):
 
         fWork = aFrame(m,width=350,height=200)
         lTWork = aLabel(fWork,police_size=20,text="Dossier de travail")
-        bFWork = aButton(fWork,text="Enregistrer les dossiers\nde travail",size=20)
+        bFWork = aButton(fWork,text="Enregistrer les dossiers\nde travail",
+                         size=20,command=self.__action_add_work_folder)
 
         fDownload = aFrame(m,width=350,height=200)
         lTDownload = aLabel(fDownload,police_size=20,text="Dossier de téléchargement")
-        bFDownload = aButton(fDownload,text="Enregistrer le dossier\nde téléchargement",size=20)
+        bFDownload = aButton(fDownload, text="Enregistrer le dossier\nde téléchargement",
+                             size=20, command=self.__action_add_download_folder)
 
-        btn = aButton(m,text="Continuer",size=20)
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_work)
 
         lTitle.placeTopCenter()
 
@@ -442,6 +444,33 @@ class arrera_lynx(aTk):
         else :
             self.__system.placeCenter()
 
+    def __after_work(self):
+        if not self.__work_folder_setted or not self.__download_folder_setted:
+            if not self.__work_folder_setted and self.__download_folder_setted:
+                r = askyesno("Configurateur",
+                             "Vous n'avez pas enregistrer le dossier de travaille voulez-vous continuer ?")
+                if not r:
+                    self.__work.placeCenter()
+                    return
+            elif self.__work_folder_setted and not self.__download_folder_setted:
+                r = askyesno("Configurateur",
+                             "Vous n'avez pas enregistrer le dossier de telechargement voulez-vous continuer ?")
+                if not r:
+                    self.__work.placeCenter()
+                    return
+            elif not self.__work_folder_setted and not self.__download_folder_setted:
+                r = askyesno("Configurateur",
+                             "Vous n'avez pas enregistrer le dossier de telechargement et de travaille voulez-vous continuer ?")
+                if not r:
+                    self.__work.placeCenter()
+                    return
+
+        self.__work.place_forget()
+        if self.__json_file.getContentJsonFlag("github_integration") == "1":
+            self.__token.placeCenter()
+        else :
+            self.__ia.placeCenter()
+
     # Action
 
     # Mobility
@@ -549,6 +578,19 @@ class arrera_lynx(aTk):
 
     # Work
 
+    def __action_add_work_folder(self):
+        if self.__gestUser.setWorkFolder():
+            self.__work_folder_setted = True
+            showinfo("Configurateur","Le dossier de travail a été enregistrer")
+        else :
+            showerror("Configurateur","Une erreur c'est produite")
+
+    def __action_add_download_folder(self):
+        if self.__gestUser.setWorkFolder():
+            self.__download_folder_setted = True
+            showinfo("Configurateur","Le dossier de telechargement a été enregistrer")
+        else :
+            showerror("Configurateur","Une erreur c'est produite")
 
 
     # Update

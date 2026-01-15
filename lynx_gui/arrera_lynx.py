@@ -20,6 +20,7 @@ class arrera_lynx(aTk):
                          theme_file=theme_file,
                          icon=icon)
 
+        # Frame
         self.__welcome = self.__welcome_frame()
         self.__user = self.__user_frame()
         self.__mobility = self.__mobility_frame()
@@ -32,6 +33,11 @@ class arrera_lynx(aTk):
         self.__ia = self.__ia_frame()
         self.__end = self.__end_frame()
 
+        # Var
+        self.__nb_soft_add = 0
+        self.__nb_web_shortcut_add = 0
+
+        # Placement
         self.__welcome.placeCenter()
 
         self.mainloop()
@@ -129,13 +135,14 @@ class arrera_lynx(aTk):
         lTWeb = aLabel(fWeb,police_size=20,text="Raccourci internet")
         self.__eWebName = aEntryLengend(fWeb,text="Nom",police_size=15)
         self.__eWebLink = aEntryLengend(fWeb,text="Lien",police_size=15)
+        btnWeb = aButton(fWeb,text="Ajouter",size=20,command=self.__action_add_web_shortcut)
 
         fSoft = aFrame(m,width=350,height=200)
         lTSoft = aLabel(fSoft,police_size=20,text="Logiciel externe")
         self.__eSoftName = aEntryLengend(fSoft,text="Nom",police_size=15)
-        btnSoft = aButton(fSoft,text="Ajouter",size=20)
+        btnSoft = aButton(fSoft,text="Ajouter",size=20,command=self.__action_add_soft)
 
-        btn = aButton(m,text="Continuer",size=20)
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_environment)
 
         fWeb.placeLeftCenter()
         fSoft.placeRightCenter()
@@ -143,6 +150,7 @@ class arrera_lynx(aTk):
         lTWeb.placeTopCenter()
         self.__eWebName.placeCenterOnWidth(y=75)
         self.__eWebLink.placeCenterOnWidth(y=125)
+        btnWeb.placeBottomCenter()
 
         lTSoft.placeTopCenter()
         self.__eSoftName.placeCenterOnWidth(y=75)
@@ -381,9 +389,32 @@ class arrera_lynx(aTk):
             showerror("Configurateur",
                       "Une erreur c'est produite sur l'enregistrement des parametre de mobiliter")
 
+    def __after_environment(self):
+        if self.__nb_soft_add  == 0 or self.__nb_web_shortcut_add == 0:
+            if self.__nb_soft_add  == 0 and self.__nb_web_shortcut_add == 0:
+                r = askyesno("Configurateur",
+                         "Vous n'avez ajouter aucun logiciel externe et raccourcie internet. Voulez vous continuer ?")
+                if not r:
+                    self.__environement.placeCenter()
+                    return
+            elif self.__nb_soft_add  == 0 and self.__nb_web_shortcut_add != 0:
+                r = askyesno("Configurateur",
+                             "Vous n'avez ajouter aucun logiciel externe. Voulez vous continuer ?")
+                if not r:
+                    self.__environement.placeCenter()
+                    return
+            elif self.__nb_soft_add  != 0 and self.__nb_web_shortcut_add == 0:
+                r = askyesno("Configurateur",
+                             "Vous n'avez ajouter aucun raccourcie internet. Voulez vous continuer ?")
+                if not r:
+                    self.__environement.placeCenter()
+                    return
+
+        self.__environement.place_forget()
+        self.__search.placeCenter()
     # Action
 
-    # BTN btnATown
+    # Mobility
 
     def __action_view_add_town(self):
         w = aTopLevel(title="Ajout de villes",width=300,height=150)
@@ -409,3 +440,33 @@ class arrera_lynx(aTk):
         for widget in w.winfo_children():
             widget.destroy()
         w.destroy()
+
+    # environment
+
+    def __action_add_soft(self):
+        name = self.__eSoftName.getEntry().get()
+
+        self.__eSoftName.getEntry().delete(0,END)
+
+        if name == "":
+            showerror("Configurateur","Aucun logiciel sera enregistrer")
+        else :
+            if not self.__gestUser.setSoft(name):
+                showerror("Configurateur","Une erreur c'est produite")
+            else :
+                self.__nb_soft_add += 1
+
+    def __action_add_web_shortcut(self):
+        name = self.__eWebName.getEntry().get()
+        link = self.__eWebLink.getEntry().get()
+
+        self.__eWebName.getEntry().delete(0,END)
+        self.__eWebLink.getEntry().delete(0,END)
+
+        if name == "" or link == "":
+            showerror("Configurateur","Vous ne pouvez pas ajouter un raccourcie internet sans nom ou lien")
+        else :
+            if not self.__gestUser.setSite(name,link):
+                showerror("Configurateur","Une erreur c'est produite")
+            else :
+                self.__nb_web_shortcut_add += 1

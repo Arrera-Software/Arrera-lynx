@@ -166,6 +166,8 @@ class arrera_lynx(aTk):
 
         lTitle = aLabel(m,text="Paramètres de recherche",police_size=25)
 
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_search)
+
         lDesc = aLabel(m,text=f"L'assistant {self.__assistant_name} vous permet de faire des recherches sur internet. Choisissez le moteur de recherche par défaut que vous voulez utiliser"
                        ,wraplength=300,justify="left",police_size=20)
 
@@ -180,7 +182,6 @@ class arrera_lynx(aTk):
 
         lTSearch.placeTopCenter()
         self.__mSearchEngine.placeCenterOnWidth(y=75)
-        btn = aButton(m,text="Continuer",size=20)
 
         btn.placeBottomRight()
         return m
@@ -412,6 +413,14 @@ class arrera_lynx(aTk):
 
         self.__environement.place_forget()
         self.__search.placeCenter()
+
+    def __after_search(self):
+        if not self.__gestUser.setMoteurRecherche(self.__mSearchEngine.getValue()):
+            showerror("Configurateur","Une erreur c'est produite")
+
+        self.__search.place_forget()
+        self.__system.placeCenter()
+
     # Action
 
     # Mobility

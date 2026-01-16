@@ -483,8 +483,9 @@ class arrera_lynx(aTk):
                 self.__token.placeCenter()
                 return
 
-        if not self.__gestUser.setTokenGithub(token):
-            showerror("Configurateur","Une erreur c'est produite")
+        if token != "":
+            if not self.__gestUser.setTokenGithub(token):
+                showerror("Configurateur","Une erreur c'est produite")
 
 
         self.__token.place_forget()

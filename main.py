@@ -1,10 +1,10 @@
-from arreraLynx import*
+from lynx_gui.arrera_lynx import*
+from src.create_conf import create_conf
 
 def main():
-    lynx = ArreraLynx("configLynx.json",
-                      "FichierNeuron/configUser.json",
-                      "FichierNeuron/configNeuron.json")
-    lynx.active()
+   arrera_lynx(conf_file="json_file/configLynx.json",
+               theme_file="asset/theme/theme_bleu_blanc.json",
+               gest=create_conf())
 
 if __name__ == '__main__':
     main()

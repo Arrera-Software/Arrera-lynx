@@ -366,9 +366,9 @@ class arrera_lynx(aTk):
                 self.__user.place_forget()
                 self.__mobility.placeCenter()
             else :
-                showerror("Configurateur","Une erreur c'est produite")
+                showerror("Configurateur","Une erreur s'est produite")
         else :
-            showerror("Configurateur","Vous avec pas remplis tout les champs")
+            showerror("Configurateur","Vous n'avez pas rempli tous les champs")
 
 
     def __after_mobility(self):
@@ -380,7 +380,7 @@ class arrera_lynx(aTk):
         gWork = self.__eGWork.getEntry().get()
 
         if mDomicile == "" or mWork == "" or gDomicile == "" or gWork == "" :
-            r = askyesno("Configurateur","Vous n'avez remplis tout les champs. Voulez vous continuer ?")
+            r = askyesno("Configurateur","Vous n'avez pas rempli tous les champs. Voulez-vous continuer ?")
             if not r:
                 self.__mobility.placeCenter()
                 return
@@ -410,25 +410,25 @@ class arrera_lynx(aTk):
 
         if not okMDomicile and not okMWork and not okGDomicile and not okGWork:
             showerror("Configurateur",
-                      "Une erreur c'est produite sur l'enregistrement des parametre de mobiliter")
+                      "Une erreur s'est produite sur l'enregistrement des paramètres de mobilité")
 
     def __after_environment(self):
         if self.__nb_soft_add  == 0 or self.__nb_web_shortcut_add == 0:
             if self.__nb_soft_add  == 0 and self.__nb_web_shortcut_add == 0:
                 r = askyesno("Configurateur",
-                         "Vous n'avez ajouter aucun logiciel externe et raccourcie internet. Voulez vous continuer ?")
+                         "Vous n'avez ajouté aucun logiciel externe et raccourci internet. Voulez-vous continuer ?")
                 if not r:
                     self.__environement.placeCenter()
                     return
             elif self.__nb_soft_add  == 0 and self.__nb_web_shortcut_add != 0:
                 r = askyesno("Configurateur",
-                             "Vous n'avez ajouter aucun logiciel externe. Voulez vous continuer ?")
+                             "Vous n'avez ajouté aucun logiciel externe. Voulez-vous continuer ?")
                 if not r:
                     self.__environement.placeCenter()
                     return
             elif self.__nb_soft_add  != 0 and self.__nb_web_shortcut_add == 0:
                 r = askyesno("Configurateur",
-                             "Vous n'avez ajouter aucun raccourcie internet. Voulez vous continuer ?")
+                             "Vous n'avez ajouté aucun raccourci internet. Voulez-vous continuer ?")
                 if not r:
                     self.__environement.placeCenter()
                     return
@@ -438,14 +438,14 @@ class arrera_lynx(aTk):
 
     def __after_search(self):
         if not self.__gestUser.setMoteurRecherche(self.__mSearchEngine.getValue()):
-            showerror("Configurateur","Une erreur c'est produite")
+            showerror("Configurateur","Une erreur s'est produite")
 
         self.__search.place_forget()
         self.__system.placeCenter()
 
     def __after_system(self):
         r = askyesno("Configurateur",
-                     "L'assistant est bien configurer comme vous voulez ?")
+                     "L'assistant est bien configuré comme vous voulez ?")
 
         if r:
             self.__system.place_forget()
@@ -457,19 +457,19 @@ class arrera_lynx(aTk):
         if not self.__work_folder_setted or not self.__download_folder_setted:
             if not self.__work_folder_setted and self.__download_folder_setted:
                 r = askyesno("Configurateur",
-                             "Vous n'avez pas enregistrer le dossier de travaille voulez-vous continuer ?")
+                             "Vous n'avez pas enregistré le dossier de travail voulez-vous continuer ?")
                 if not r:
                     self.__work.placeCenter()
                     return
             elif self.__work_folder_setted and not self.__download_folder_setted:
                 r = askyesno("Configurateur",
-                             "Vous n'avez pas enregistrer le dossier de telechargement voulez-vous continuer ?")
+                             "Vous n'avez pas enregistré le dossier de téléchargement voulez-vous continuer ?")
                 if not r:
                     self.__work.placeCenter()
                     return
             elif not self.__work_folder_setted and not self.__download_folder_setted:
                 r = askyesno("Configurateur",
-                             "Vous n'avez pas enregistrer le dossier de telechargement et de travaille voulez-vous continuer ?")
+                             "Vous n'avez pas enregistré le dossier de téléchargement et de travail voulez-vous continuer ?")
                 if not r:
                     self.__work.placeCenter()
                     return
@@ -484,14 +484,14 @@ class arrera_lynx(aTk):
         token = self.__eToken.getEntry().get()
 
         if token == "":
-            r = askyesno("Configurateur","Aucun token sera enregistrer voulez-vous continuer?")
+            r = askyesno("Configurateur","Aucun token sera enregistré voulez-vous continuer?")
             if not r :
                 self.__token.placeCenter()
                 return
 
         if token != "":
             if not self.__gestUser.setTokenGithub(token):
-                showerror("Configurateur","Une erreur c'est produite")
+                showerror("Configurateur","Une erreur s'est produite")
 
 
         self.__token.place_forget()
@@ -499,7 +499,7 @@ class arrera_lynx(aTk):
 
     def __after_ia(self):
         r = askyesno("Configurateur",
-                     "Le parametre lier a l'inteligence artificiel son configurer comme vous voulez ?")
+                     "Les paramètres liés à l'intelligence artificielle sont configurés comme vous voulez ?")
 
         if r:
             self.__ia.place_forget()
@@ -527,10 +527,10 @@ class arrera_lynx(aTk):
 
         town = entry.getEntry().get()
         if town == "":
-            showerror("Configurateur","Aucun ville sera enregistrer")
+            showerror("Configurateur","Aucune ville sera enregistrée")
         else :
             if not self.__gestUser.addTown(town):
-                showerror("Configurateur","Une erreur c'est produite")
+                showerror("Configurateur","Une erreur s'est produite")
 
         for widget in w.winfo_children():
             widget.destroy()
@@ -544,10 +544,10 @@ class arrera_lynx(aTk):
         self.__eSoftName.getEntry().delete(0,END)
 
         if name == "":
-            showerror("Configurateur","Aucun logiciel sera enregistrer")
+            showerror("Configurateur","Aucun logiciel sera enregistré")
         else :
             if not self.__gestUser.setSoft(name):
-                showerror("Configurateur","Une erreur c'est produite")
+                showerror("Configurateur","Une erreur s'est produite")
             else :
                 self.__nb_soft_add += 1
 
@@ -559,10 +559,10 @@ class arrera_lynx(aTk):
         self.__eWebLink.getEntry().delete(0,END)
 
         if name == "" or link == "":
-            showerror("Configurateur","Vous ne pouvez pas ajouter un raccourcie internet sans nom ou lien")
+            showerror("Configurateur","Vous ne pouvez pas ajouter un raccourci internet sans nom ou lien")
         else :
             if not self.__gestUser.setSite(name,link):
-                showerror("Configurateur","Une erreur c'est produite")
+                showerror("Configurateur","Une erreur s'est produite")
             else :
                 self.__nb_web_shortcut_add += 1
 
@@ -604,11 +604,11 @@ class arrera_lynx(aTk):
     def __action_add_triger_word(self,w:aTopLevel):
         if self.__outTexteMicro != "":
             if not self.__gestUser.addWord(self.__outTexteMicro):
-                showerror("Configurateur","Une erreur c'est produite")
+                showerror("Configurateur","Une erreur s'est produite")
             else :
-                showinfo("Configarateur","Le mot a été enregistrer en tant que mots déclencheur")
+                showinfo("Configarateur","Le mot a été enregistré en tant que mot déclencheur")
         else :
-            showerror("Configurateur","Aucun mot n'a été enregistrer")
+            showerror("Configurateur","Aucun mot n'a été enregistré")
 
         w.destroy()
 
@@ -617,16 +617,16 @@ class arrera_lynx(aTk):
     def __action_add_work_folder(self):
         if self.__gestUser.setWorkFolder():
             self.__work_folder_setted = True
-            showinfo("Configurateur","Le dossier de travail a été enregistrer")
+            showinfo("Configurateur","Le dossier de travail a été enregistré")
         else :
-            showerror("Configurateur","Une erreur c'est produite")
+            showerror("Configurateur","Une erreur s'est produite")
 
     def __action_add_download_folder(self):
         if self.__gestUser.setWorkFolder():
             self.__download_folder_setted = True
-            showinfo("Configurateur","Le dossier de telechargement a été enregistrer")
+            showinfo("Configurateur","Le dossier de téléchargement a été enregistré")
         else :
-            showerror("Configurateur","Une erreur c'est produite")
+            showerror("Configurateur","Une erreur s'est produite")
 
 
     # IA
@@ -641,13 +641,13 @@ class arrera_lynx(aTk):
             self.__bEnableIA.setOff()
 
     def __action_view_choose_model_downloaded(self):
-        w = aTopLevel(title=f"{self.__assistant_name} : Choix du model d'IA",width=500,height=400)
+        w = aTopLevel(title=f"{self.__assistant_name} : Choix du modèle d'IA",width=500,height=400)
 
-        lTitle = aLabel(w,text="Modèle d'IA deja telecharger",police_size=20)
+        lTitle = aLabel(w,text="Modèle d'IA déjà téléchargé",police_size=20)
 
         listModel = self.__gestUser.get_model_downloaded()
 
-        mChooseModelDownloaded = aOptionMenuLengend(w,text="Modele",values=listModel)
+        mChooseModelDownloaded = aOptionMenuLengend(w,text="Modèle",values=listModel)
 
         btnValider = aButton(w,text="Valider",size=20,
                              command=lambda : self.__action_choose_model_downloaded(w,mChooseModelDownloaded))
@@ -662,15 +662,15 @@ class arrera_lynx(aTk):
         name_model = m.getValue()
         if self.__gestUser.set_ia_model(name_model):
             w.destroy()
-            showinfo("Configurateur","Le modèle a été enregistrer")
+            showinfo("Configurateur","Le modèle a été enregistré")
         else :
             w.destroy()
-            showerror("Configurateur","Une erreur c'est produite")
+            showerror("Configurateur","Une erreur s'est produite")
 
     def __action_view_download_model(self):
-        w = aTopLevel(title=f"{self.__assistant_name} : Choix du model d'IA",width=500,height=400)
+        w = aTopLevel(title=f"{self.__assistant_name} : Choix du modèle d'IA",width=500,height=400)
 
-        lTitle = aLabel(w,text="Modèle d'IA a telecharger",police_size=20)
+        lTitle = aLabel(w,text="Modèle d'IA à télécharger",police_size=20)
         fScroll = aScrollableFrame(w,width=400,height=250)
         btnCancel = aButton(w,text="Annuler",size=20,command=w.destroy)
 
@@ -723,7 +723,7 @@ class arrera_lynx(aTk):
             for widget in w.winfo_children():
                 widget.destroy()
             w.destroy()
-            showinfo("Configurateur","Le modèle a été telecharger et enregistrer comme modele par default")
+            showinfo("Configurateur","Le modèle a été téléchargé et enregistré comme modèle par défaut")
             self.__gestUser.set_ia_model(model)
 
     def __update_action_record_word(self,w:aTopLevel,state:bool):
@@ -742,11 +742,11 @@ class arrera_lynx(aTk):
             if self.__varOutTriger == 0:
                 for widget in w.winfo_children():
                     widget.destroy()
-                l = aLabel(w,text=f"Mots enregistrer : {self.__outTexteMicro}",police_size=20)
+                l = aLabel(w,text=f"Mot enregistré : {self.__outTexteMicro}",police_size=20)
                 b = aButton(w,text="Sauvegarder",size=15,
                             command=lambda : self.__action_add_triger_word(w))
                 l.placeTopCenter()
                 b.placeBottomCenter()
             else :
-                showerror("Configurateur","L'enregistrement c'est mal derouler")
+                showerror("Configurateur","L'enregistrement s'est mal déroulé")
                 w.destroy()

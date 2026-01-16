@@ -1,5 +1,7 @@
 # Arrera Lynx
 
+[Read in English](README_en.md)
+
 Arrera Lynx a pour but d'être l'interface de premier démarrage des assistants d'Arrera, qui sont Arrera SIX, Arrera Ryley et Arrera Copilote.
 
 ## Explication des pages

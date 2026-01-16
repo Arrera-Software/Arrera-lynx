@@ -48,8 +48,7 @@ class arrera_lynx(aTk):
         self.__download_folder_setted = False
 
         # Placement
-        self.__ia.placeCenter()
-        #self.__welcome.placeCenter()
+        self.__welcome.placeCenter()
 
         self.mainloop()
 
@@ -299,6 +298,7 @@ class arrera_lynx(aTk):
     def __ia_frame(self):
         m = aFrame(self,width=775,height=475)
         lTitle = aLabel(m,police_size=25,text="Paramétrage du mode IA")
+        btn = aButton(m,text="Continuer",size=20,command=self.__after_ia)
 
         fChooseModel = aFrame(m,width=350,height=237)
         lTModel = aLabel(fChooseModel,police_size=20,text="Choix du modèle d'IA")
@@ -323,6 +323,7 @@ class arrera_lynx(aTk):
 
         lTitle.placeTopCenter()
         fChooseModel.placeRightCenter()
+        btn.placeBottomRight()
 
         fDesc.placeLeftCenter()
         lDesc.placeTopLeft()
@@ -495,6 +496,16 @@ class arrera_lynx(aTk):
 
         self.__token.place_forget()
         self.__ia.placeCenter()
+
+    def __after_ia(self):
+        r = askyesno("Configurateur",
+                     "Le parametre lier a l'inteligence artificiel son configurer comme vous voulez ?")
+
+        if r:
+            self.__ia.place_forget()
+            self.__end.placeCenter()
+        else :
+            self.__ia.placeCenter()
 
     # Action
 

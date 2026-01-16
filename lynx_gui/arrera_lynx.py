@@ -28,6 +28,7 @@ class arrera_lynx(aTk):
         self.__varOutTriger = 0
         self.__outTexteMicro = ""
         self.__thTrigerWord = th.Thread()
+        self.__thDownloadIA = th.Thread()
         self.__state_github = self.__json_file.getContentJsonFlag("github_integration")
 
         # Frame
@@ -47,7 +48,8 @@ class arrera_lynx(aTk):
         self.__download_folder_setted = False
 
         # Placement
-        self.__welcome.placeCenter()
+        self.__ia.placeCenter()
+        #self.__welcome.placeCenter()
 
         self.mainloop()
 
@@ -300,15 +302,18 @@ class arrera_lynx(aTk):
 
         fChooseModel = aFrame(m,width=350,height=237)
         lTModel = aLabel(fChooseModel,police_size=20,text="Choix du modèle d'IA")
-        bDModel = aButton(fChooseModel,text="Choisir un modèle\nà télécharger",size=20)
+        bDModel = aButton(fChooseModel,text="Choisir un modèle\nà télécharger",size=20,
+                          command=self.__action_view_download_model)
 
         fDesc = aFrame(m,width=350,height=200,fg_color=m.cget("fg_color"))
         lDesc = aLabel(fDesc,text=f"L'assistant {self.__assistant_name} intègre des modèles d'IA pour améliorer ses réponses. Vous pouvez choisir le modèle que vous voulez utiliser et adapté à votre ordinateur",
                        wraplength=325,justify="left",police_size=20)
-        self.__bEnableIA = aSwicht(fDesc,text="Activer le mode IA",default_value=True)
+        self.__bEnableIA = aSwicht(fDesc,text="Activer le mode IA",
+                                   default_value=False,command=self.__action_enable_ia_mode)
 
         if len(self.__gestUser.get_model_downloaded()) != 0:
-            bDownloadedModel = aButton(fChooseModel,text="Modèle téléchargé",size=20)
+            bDownloadedModel = aButton(fChooseModel,text="Modèle téléchargé",size=20,
+                                       command = self.__action_view_choose_model_downloaded)
 
             bDModel.placeCenterOnWidth(y=75)
             bDownloadedModel.placeCenterOnWidth(y=155)
@@ -613,7 +618,102 @@ class arrera_lynx(aTk):
             showerror("Configurateur","Une erreur c'est produite")
 
 
+    # IA
+
+    def __action_enable_ia_mode(self):
+        r = askyesno("Configurateur","Voulez-vous activer le mode IA ?")
+        if r :
+            self.__gestUser.set_use_ia(True)
+            self.__bEnableIA.setOn()
+        else :
+            self.__gestUser.set_use_ia(False)
+            self.__bEnableIA.setOff()
+
+    def __action_view_choose_model_downloaded(self):
+        w = aTopLevel(title=f"{self.__assistant_name} : Choix du model d'IA",width=500,height=400)
+
+        lTitle = aLabel(w,text="Modèle d'IA deja telecharger",police_size=20)
+
+        listModel = self.__gestUser.get_model_downloaded()
+
+        mChooseModelDownloaded = aOptionMenuLengend(w,text="Modele",values=listModel)
+
+        btnValider = aButton(w,text="Valider",size=20,
+                             command=lambda : self.__action_choose_model_downloaded(w,mChooseModelDownloaded))
+        btnCancel = aButton(w,text="Annuler",size=20,command=w.destroy)
+
+        lTitle.placeTopCenter()
+        mChooseModelDownloaded.placeCenter()
+        btnValider.placeBottomLeft()
+        btnCancel.placeBottomRight()
+
+    def __action_choose_model_downloaded(self,w:aTopLevel,m:aOptionMenuLengend):
+        name_model = m.getValue()
+        if self.__gestUser.set_ia_model(name_model):
+            w.destroy()
+            showinfo("Configurateur","Le modèle a été enregistrer")
+        else :
+            w.destroy()
+            showerror("Configurateur","Une erreur c'est produite")
+
+    def __action_view_download_model(self):
+        w = aTopLevel(title=f"{self.__assistant_name} : Choix du model d'IA",width=500,height=400)
+
+        lTitle = aLabel(w,text="Modèle d'IA a telecharger",police_size=20)
+        fScroll = aScrollableFrame(w,width=400,height=250)
+        btnCancel = aButton(w,text="Annuler",size=20,command=w.destroy)
+
+        listModel = []
+        modelAvailable = self.__gestUser.get_list_model_ia_available()
+        modelDownloaded = self.__gestUser.get_model_downloaded()
+
+        for i in modelAvailable:
+            if i not in modelDownloaded:
+                listModel.append(i)
+
+        for i in listModel:
+            dataModel = self.__gestUser.get_data_model_ia_available(i)
+
+            fModel = aFrame(fScroll,width=380,height=200)
+            lTitleModel = aLabel(fModel,text=f"{dataModel[0]}\n({i})",police_size=20,justify="left")
+            lDescModel = aLabel(fModel,text=dataModel[2],police_size=15,
+                                wraplength=250,justify="left")
+            bDownload = aButton(fModel,text="Télécharger",size=15,
+                                command=lambda model=i: self.__action_download_model(w,model))
+
+            lTitleModel.placeTopLeft()
+            lDescModel.placeCenterLeft()
+            bDownload.placeBottomRight()
+
+            fModel.pack(pady=10)
+
+        lTitle.placeTopCenter()
+        fScroll.placeCenter()
+        btnCancel.placeBottomCenter()
+
+    def __action_download_model(self,w:aTopLevel,model:str):
+        self.__thDownloadIA = th.Thread(target=self.__gestUser.download_ia_model,args=(model,))
+        self.__thDownloadIA.start()
+        self.after(100,self.__update_action_download_model,w,True,model)
+
     # Update
+
+    def __update_action_download_model(self,w:aTopLevel,state:bool,model:str):
+        if self.__thDownloadIA.is_alive():
+            if state:
+                for widget in w.winfo_children():
+                    widget.destroy()
+                l = aLabel(w,text="Téléchargement en cours....",police_size=20)
+                l.placeCenter()
+            self.after(100,self.__update_action_download_model,w,False,model)
+        else :
+            del self.__thDownloadIA
+            self.__thDownloadIA = th.Thread()
+            for widget in w.winfo_children():
+                widget.destroy()
+            w.destroy()
+            showinfo("Configurateur","Le modèle a été telecharger et enregistrer comme modele par default")
+            self.__gestUser.set_ia_model(model)
 
     def __update_action_record_word(self,w:aTopLevel,state:bool):
 

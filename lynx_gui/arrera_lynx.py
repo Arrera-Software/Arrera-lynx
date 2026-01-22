@@ -16,6 +16,7 @@ class arrera_lynx(aTk):
         self.__assistant_name = gest.getName()
         self.__gestUser = gest.getUserConf()
         self.__arrVoice = gest.getArrVoice()
+        self.__gestionnaire = gest
 
         super().__init__(title=f"{self.__assistant_name} : Configuration",
                          width=800,height=500,resizable=False,
@@ -30,6 +31,7 @@ class arrera_lynx(aTk):
         self.__thTrigerWord = th.Thread()
         self.__thDownloadIA = th.Thread()
         self.__state_github = self.__json_file.getContentJsonFlag("github_integration")
+        self.__state_lynx = False
 
         # Frame
         self.__welcome = self.__welcome_frame()
@@ -340,7 +342,7 @@ class arrera_lynx(aTk):
         lEnd = aLabel(m,text=self.__json_file.getContentJsonFlag("text_end"),
                       police_size=20,wraplength=300,justify="left")
 
-        btn = aButton(m,text=f"Utiliser {self.__assistant_name}",size=20,command=lambda : self.destroy())
+        btn = aButton(m,text=f"Utiliser {self.__assistant_name}",size=20,command=self.__after_end)
 
         licon.placeTopLeft()
         lEnd.placeRightCenter()
@@ -504,8 +506,13 @@ class arrera_lynx(aTk):
         if r:
             self.__ia.place_forget()
             self.__end.placeCenter()
+            self.__state_lynx = True
         else :
             self.__ia.placeCenter()
+
+    def __after_end(self):
+        self.destroy()
+        self.__gestionnaire.getLanguageObjet().setVarUser()
 
     # Action
 
@@ -750,3 +757,8 @@ class arrera_lynx(aTk):
             else :
                 showerror("Configurateur","L'enregistrement s'est mal déroulé")
                 w.destroy()
+
+    # Return
+
+    def return_state_lynx(self):
+        return self.__state_lynx
